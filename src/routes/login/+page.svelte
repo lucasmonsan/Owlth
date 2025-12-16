@@ -53,13 +53,13 @@
 					</div>
 				{/if}
 
-				<!-- Google Login -->
-				<form method="POST" action="?/google" use:enhance>
-					<Button type="submit" variant="outline" class="w-full flex items-center justify-center gap-2">
-						<Chrome class="w-5 h-5" />
-						Entrar com Google
-					</Button>
-				</form>
+			<!-- Google Login -->
+			<form method="POST" action="?/google&redirect={encodeURIComponent(redirectTo)}" use:enhance>
+				<Button type="submit" variant="outline" class="w-full flex items-center justify-center gap-2">
+					<Chrome class="w-5 h-5" />
+					Entrar com Google
+				</Button>
+			</form>
 
 				<div class="relative">
 					<div class="absolute inset-0 flex items-center">
