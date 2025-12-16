@@ -11,8 +11,7 @@
 	const { form, data }: { form: ActionData; data: PageData } = $props();
 	
 	let loading = $state(false);
-	
-	$: redirectTo = $page.url.searchParams.get('redirect') || data.redirectTo || '/dashboard';
+	let redirectTo = $derived($page.url.searchParams.get('redirect') || data.redirectTo || '/dashboard');
 </script>
 
 <svelte:head>
