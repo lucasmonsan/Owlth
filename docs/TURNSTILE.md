@@ -15,10 +15,12 @@ Cloudflare Turnstile provides CAPTCHA-less bot protection for the registration p
 **Widget name:** `Monsan Auth` (internal reference)
 
 **Domains:**
+
 - Development: `localhost`
 - Production: Add your production domain
 
 **Widget Mode:** `Managed` (recommended)
+
 - Cloudflare automatically decides when to show challenges
 - Best balance between security and user experience
 
@@ -41,16 +43,19 @@ PUBLIC_TURNSTILE_SITE_KEY=0x4AAAAAAA...
 ## Widget Modes
 
 ### Managed (Recommended)
+
 - Cloudflare decides when to show challenges
 - Invisible for most legitimate users
 - Shows challenge when suspicious activity detected
 
 ### Non-Interactive
+
 - Always invisible
 - Only shows challenge for high-risk visitors
 - May increase false negatives
 
 ### Invisible
+
 - Completely invisible validation
 - Runs in background
 - Highest user experience, lower security
@@ -61,11 +66,11 @@ The Turnstile widget is integrated in `/register` page:
 
 ```svelte
 <Turnstile
-  siteKey={PUBLIC_TURNSTILE_SITE_KEY}
-  on:turnstile-callback={(e) => {
-    turnstileVerified = true;
-  }}
-  theme="dark"
+	siteKey={PUBLIC_TURNSTILE_SITE_KEY}
+	on:turnstile-callback={(e) => {
+		turnstileVerified = true;
+	}}
+	theme="dark"
 />
 ```
 
@@ -85,11 +90,13 @@ When deploying to production:
 ### Widget not visible
 
 **Possible causes:**
+
 - Site Key incorrect
 - Domain not in allowed list
 - Browser extensions blocking Cloudflare scripts
 
 **Solutions:**
+
 1. Verify Site Key in `.env`
 2. Check domain is listed in Turnstile dashboard
 3. Test in incognito/private browsing
@@ -98,7 +105,8 @@ When deploying to production:
 
 **Cause:** Wrong key or missing `PUBLIC_` prefix
 
-**Solution:** 
+**Solution:**
+
 - Copy Site Key (not Secret Key)
 - Ensure variable name is `PUBLIC_TURNSTILE_SITE_KEY`
 
@@ -118,6 +126,7 @@ When deploying to production:
 ## Rate Limits
 
 Free tier includes:
+
 - Unlimited verifications
 - Analytics dashboard
 - All widget modes
@@ -126,4 +135,3 @@ Free tier includes:
 
 - [Cloudflare Turnstile Documentation](https://developers.cloudflare.com/turnstile)
 - [svelte-turnstile Package](https://github.com/beynar/svelte-turnstile)
-
