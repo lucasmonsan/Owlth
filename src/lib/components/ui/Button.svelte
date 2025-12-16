@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Motion } from 'svelte-motion';
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib';
 
 	let {
 		variant = 'primary',

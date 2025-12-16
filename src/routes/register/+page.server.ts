@@ -43,7 +43,13 @@ export const actions: Actions = {
 			return fail(400, {
 				fullName,
 				email,
-				errors
+				errors: {
+					fullName: errors.fullName,
+					email: errors.email,
+					password: errors.password,
+					confirmPassword: errors.confirmPassword,
+					turnstileToken: errors.turnstileToken
+				}
 			});
 		}
 
@@ -53,7 +59,11 @@ export const actions: Actions = {
 				fullName,
 				email,
 				errors: {
-					confirmPassword: ['As senhas não coincidem']
+					fullName: undefined,
+					email: undefined,
+					password: undefined,
+					confirmPassword: ['As senhas não coincidem'],
+					turnstileToken: undefined
 				}
 			});
 		}

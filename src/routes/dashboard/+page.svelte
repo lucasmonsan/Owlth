@@ -48,7 +48,7 @@
 		}
 	];
 
-	const userName = data.user?.user_metadata?.full_name || data.user?.email?.split('@')[0] || 'Usuário';
+	const userName = $derived(data.user?.user_metadata?.full_name || data.user?.email?.split('@')[0] || 'Usuário');
 </script>
 
 <svelte:head>
@@ -169,7 +169,7 @@
 												<div
 													class={`w-16 h-16 rounded-2xl bg-gradient-to-br ${app.color} flex items-center justify-center mb-4 shadow-lg`}
 												>
-													<svelte:component this={app.icon} class="w-8 h-8 text-white" />
+													<app.icon class="w-8 h-8 text-white" />
 												</div>
 
 												<!-- Content -->
@@ -192,7 +192,7 @@
 									<GlassCard class="relative overflow-hidden opacity-60 cursor-not-allowed h-full">
 										<!-- Icon -->
 										<div class="w-16 h-16 rounded-2xl glass-effect flex items-center justify-center mb-4 relative">
-											<svelte:component this={app.icon} class="w-8 h-8 text-gray-500" />
+											<app.icon class="w-8 h-8 text-gray-500" />
 											<div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-2xl">
 												<Lock class="w-6 h-6 text-gray-400" />
 											</div>
@@ -253,9 +253,10 @@
 
 <!-- Overlay for mobile sidebar -->
 {#if sidebarOpen}
-	<div
+	<button
 		class="fixed inset-0 bg-black/50 z-30 lg:hidden"
 		onclick={() => (sidebarOpen = false)}
-	></div>
+		aria-label="Fechar menu"
+	></button>
 {/if}
 

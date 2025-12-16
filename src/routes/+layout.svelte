@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import ToastContainer from '$lib/components/ToastContainer.svelte';
+	import ToastContainer from '$lib/components/toast/ToastContainer.svelte';
 
 	let { children } = $props();
 </script>

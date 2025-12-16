@@ -1,4 +1,4 @@
-import { createSupabaseServerClient } from '$lib/supabase';
+import { createSupabaseServerClient } from '$lib';
 import { type Handle, redirect } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
