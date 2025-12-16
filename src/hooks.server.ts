@@ -5,6 +5,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createSupabaseServerClient({
 		get: (name: string) => event.cookies.get(name),
 		set: (name: string, value: string, options: any) => {
+			console.log('[SSO] Setting cookie:', name, 'with domain:', '.monsan.duckdns.org');
 			event.cookies.set(name, value, {
 				...options,
 				path: '/',
@@ -15,6 +16,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			});
 		},
 		remove: (name: string, options: any) => {
+			console.log('[SSO] Removing cookie:', name);
 			event.cookies.delete(name, {
 				...options,
 				path: '/',
