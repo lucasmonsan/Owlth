@@ -40,7 +40,7 @@
 	</div>
 
 	<!-- Hero Section -->
-	<div class="relative flex min-h-screen items-center justify-center px-4">
+	<div class="relative flex min-h-screen items-center justify-center px-4 py-16 sm:py-20">
 		<div class="max-w-5xl text-center">
 			<!-- Animated Icon -->
 			<Motion
@@ -49,17 +49,17 @@
 				transition={{ duration: 1, ease: [0.6, 0.05, 0.01, 0.9] }}
 				let:motion
 			>
-				<div use:motion class="mb-12 flex justify-center">
+				<div use:motion class="mb-8 sm:mb-12 flex justify-center">
 					<div
-						class="rounded-full glass-effect p-6 shadow-2xl shadow-blue-500/20"
+						class="rounded-full glass-effect p-4 sm:p-6 shadow-2xl shadow-blue-500/20"
 					>
-						<Sparkles class="h-16 w-16 text-blue-400" />
+						<Sparkles class="h-12 w-12 sm:h-16 sm:w-16 text-blue-400" />
 					</div>
 				</div>
 			</Motion>
 
 			<!-- Title Lines with Staggered Animation -->
-			<div class="space-y-4">
+			<div class="space-y-2 sm:space-y-4">
 				<Motion
 					custom={0}
 					initial="hidden"
@@ -69,7 +69,7 @@
 				>
 					<h1
 						use:motion
-						class="text-6xl md:text-8xl font-extrabold tracking-tight text-white"
+						class="text-4xl sm:text-6xl md:text-8xl font-extrabold tracking-tight text-white leading-tight"
 					>
 						UMA ÚNICA CONTA
 					</h1>
@@ -84,7 +84,7 @@
 				>
 					<h2
 						use:motion
-						class="text-5xl md:text-7xl italic text-[#3b82f6]"
+						class="text-3xl sm:text-5xl md:text-7xl italic text-[#3b82f6] leading-tight"
 						style="font-family: 'Playfair Display', serif;"
 					>
 						UM UNIVERSO DE
@@ -100,7 +100,7 @@
 				>
 					<h1
 						use:motion
-						class="text-6xl md:text-8xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+						class="text-4xl sm:text-6xl md:text-8xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight"
 					>
 						POSSIBILIDADES
 					</h1>
@@ -114,7 +114,7 @@
 				transition={{ delay: 0.8, duration: 0.8 }}
 				let:motion
 			>
-				<p use:motion class="mt-8 text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto">
+				<p use:motion class="mt-6 sm:mt-8 text-base sm:text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto px-4">
 					Acesse todos os seus aplicativos com uma única identidade. Simples, seguro e elegante.
 				</p>
 			</Motion>
@@ -126,14 +126,14 @@
 				transition={{ delay: 1, duration: 0.8 }}
 				let:motion
 			>
-				<div use:motion class="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
-					<a href="/register">
-						<Button variant="primary" class="min-w-[200px]">
+				<div use:motion class="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+					<a href="/register" class="w-full sm:w-auto">
+						<Button variant="primary" class="w-full sm:min-w-[200px]">
 							Começar Agora
 						</Button>
 					</a>
-					<a href="/login">
-						<Button variant="ghost" class="min-w-[200px]">
+					<a href="/login" class="w-full sm:w-auto">
+						<Button variant="ghost" class="w-full sm:min-w-[200px]">
 							Fazer Login
 						</Button>
 					</a>
@@ -147,15 +147,15 @@
 				transition={{ delay: 1.4, duration: 1 }}
 				let:motion
 			>
-				<div use:motion class="mt-24 grid grid-cols-1 md:grid-cols-3 gap-6">
+				<div use:motion class="mt-16 sm:mt-24 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
 					{#each [
 						{ title: 'Segurança', desc: 'Autenticação de nível empresarial' },
 						{ title: 'Simplicidade', desc: 'Uma conta para tudo' },
 						{ title: 'Velocidade', desc: 'Acesso instantâneo aos apps' }
 					] as feature}
-						<div class="glass-effect glass-hover rounded-xl p-6 text-left">
-							<h3 class="text-xl font-bold text-white mb-2">{feature.title}</h3>
-							<p class="text-gray-400">{feature.desc}</p>
+						<div class="glass-effect glass-hover rounded-xl p-5 sm:p-6 text-left">
+							<h3 class="text-lg sm:text-xl font-bold text-white mb-2">{feature.title}</h3>
+							<p class="text-sm sm:text-base text-gray-400">{feature.desc}</p>
 						</div>
 					{/each}
 				</div>

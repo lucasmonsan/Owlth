@@ -16,7 +16,7 @@
 	<title>Login - Monsan</title>
 </svelte:head>
 
-<div class="relative min-h-screen overflow-hidden bg-[#0a0a0a] flex items-center justify-center px-4">
+<div class="relative min-h-screen overflow-hidden bg-[#0a0a0a] flex items-center justify-center px-4 py-12">
 	<!-- Background Effects -->
 	<div class="absolute inset-0 overflow-hidden">
 		<div
