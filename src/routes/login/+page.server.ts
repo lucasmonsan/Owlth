@@ -7,21 +7,23 @@ const loginSchema = z.object({
 	password: z.string().min(6, 'Senha deve ter no mínimo 6 caracteres')
 });
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, url }) => {
 	const { session } = await locals.safeGetSession();
+	const redirectTo = url.searchParams.get('redirect') || '/dashboard';
 	
 	if (session) {
-		throw redirect(303, '/dashboard');
+		throw redirect(303, redirectTo);
 	}
 
-	return {};
+	return { redirectTo };
 };
 
 export const actions: Actions = {
-	login: async ({ request, locals }) => {
+	login: async ({ request, locals, url }) => {
 		const formData = await request.formData();
 		const email = formData.get('email')?.toString() || '';
 		const password = formData.get('password')?.toString() || '';
+		const redirectTo = url.searchParams.get('redirect') || '/dashboard';
 
 		// Validação
 		const result = loginSchema.safeParse({ email, password });
@@ -47,14 +49,15 @@ export const actions: Actions = {
 			});
 		}
 
-		throw redirect(303, '/dashboard');
+		throw redirect(303, redirectTo);
 	},
 
 	google: async ({ locals, url }) => {
+		const redirectTo = url.searchParams.get('redirect') || '/dashboard';
 		const { data, error } = await locals.supabase.auth.signInWithOAuth({
 			provider: 'google',
 			options: {
-				redirectTo: `${url.origin}/auth/callback?next=/dashboard`
+				redirectTo: `${url.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`
 			}
 		});
 

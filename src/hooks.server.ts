@@ -5,10 +5,21 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createSupabaseServerClient({
 		get: (name: string) => event.cookies.get(name),
 		set: (name: string, value: string, options: any) => {
-			event.cookies.set(name, value, { ...options, path: '/' });
+			event.cookies.set(name, value, {
+				...options,
+				path: '/',
+				domain: '.monsan.duckdns.org',
+				secure: true,
+				httpOnly: true,
+				sameSite: 'lax'
+			});
 		},
 		remove: (name: string, options: any) => {
-			event.cookies.delete(name, { ...options, path: '/' });
+			event.cookies.delete(name, {
+				...options,
+				path: '/',
+				domain: '.monsan.duckdns.org'
+			});
 		}
 	});
 

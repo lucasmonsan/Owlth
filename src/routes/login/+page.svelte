@@ -1,15 +1,18 @@
 <script lang="ts">
 	import { Motion } from 'svelte-motion';
 	import { enhance } from '$app/forms';
+	import { page } from '$app/stores';
 	import GlassCard from '$lib/components/ui/GlassCard.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 	import Input from '$lib/components/ui/Input.svelte';
 	import { LogIn, Mail, Lock, Chrome } from 'lucide-svelte';
-	import type { ActionData } from './$types';
+	import type { ActionData, PageData } from './$types';
 
-	const { form }: { form: ActionData } = $props();
+	const { form, data }: { form: ActionData; data: PageData } = $props();
 	
 	let loading = $state(false);
+	
+	$: redirectTo = $page.url.searchParams.get('redirect') || data.redirectTo || '/dashboard';
 </script>
 
 <svelte:head>
