@@ -5,18 +5,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createSupabaseServerClient({
 		get: (name: string) => event.cookies.get(name),
 		set: (name: string, value: string, options: any) => {
-			console.log('[SSO] Setting cookie:', name, 'with domain:', '.monsan.duckdns.org');
+			console.log('[SSO Owlth] Setting cookie:', name, 'with domain:', '.monsan.duckdns.org', 'options:', JSON.stringify(options));
 			event.cookies.set(name, value, {
 				...options,
 				path: '/',
-				domain: '.monsan.duckdns.org',
-				secure: true,
-				httpOnly: true,
-				sameSite: 'lax'
+				domain: '.monsan.duckdns.org'
 			});
 		},
 		remove: (name: string, options: any) => {
-			console.log('[SSO] Removing cookie:', name);
+			console.log('[SSO Owlth] Removing cookie:', name);
 			event.cookies.delete(name, {
 				...options,
 				path: '/',
