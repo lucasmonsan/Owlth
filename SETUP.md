@@ -1,4 +1,4 @@
-# 🚀 Guia de Setup - Jaci Auth Hub
+# 🚀 Guia de Setup - Monsan
 
 ## Pré-requisitos
 
@@ -162,12 +162,19 @@ Acesse: http://localhost:5173
 - Limpe os cookies do navegador
 - Verifique se o hook do servidor está configurado corretamente
 
-## 📚 Recursos Adicionais
+## 📚 Documentação Técnica
+
+Para configuração detalhada, consulte a pasta `docs/`:
+
+- [Configuração do Supabase](./docs/SUPABASE.md) - Setup completo do Supabase
+- [Google OAuth](./docs/GOOGLE_OAUTH.md) - Configuração do Google OAuth
+- [Cloudflare Turnstile](./docs/TURNSTILE.md) - Setup do Turnstile
+
+### Recursos Externos
 
 - [Documentação do SvelteKit](https://kit.svelte.dev)
 - [Documentação do Supabase](https://supabase.com/docs)
-- [Documentação do Turnstile](https://developers.cloudflare.com/turnstile)
-- [Svelte 5 Runes](https://svelte-5-preview.vercel.app/docs/runes)
+- [Svelte 5 Documentation](https://svelte.dev/docs/svelte/overview)
 
 ## 🎨 Customização
 
@@ -203,5 +210,5 @@ const apps = [
 
 ---
 
-✨ Pronto! Seu Jaci Auth Hub está configurado e funcionando!
+✨ Pronto! Seu Monsan está configurado e funcionando!
 

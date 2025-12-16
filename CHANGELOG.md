@@ -1,124 +1,139 @@
 # Changelog
 
-Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
+All notable changes to this project will be documented in this file.
 
-O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
-e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.0.0] - 2024-12-16
 
-### ✨ Adicionado
+### Added
 
-#### Autenticação
-- Sistema completo de autenticação com Supabase
-- Login com email e senha
-- Login com Google OAuth
-- Cadastro de usuários com validação
-- Proteção de rotas server-side
-- Gerenciamento de sessão com cookies
-- Callback OAuth para provedores externos
+#### Authentication
+
+- Complete authentication system with Supabase
+- Email and password login
+- Google OAuth integration
+- User registration with validation
+- Server-side route protection
+- Session management with cookies
+- OAuth callback handling
+- Password recovery functionality
 
 #### Interface
-- Landing page com animações cinematográficas
-- Página de login com design glassmorphism
-- Página de cadastro com Cloudflare Turnstile
-- Dashboard protegido com launcher de aplicações
-- Página de erro customizada (404, 500, etc)
-- Sidebar responsiva com menu mobile
-- Componentes UI reutilizáveis (GlassCard, Button, Input)
+
+- Landing page with cinematic animations
+- Login page with glassmorphism design
+- Registration page with Cloudflare Turnstile
+- Protected dashboard with application launcher
+- Custom error pages (404, 500)
+- Responsive sidebar with mobile menu
+- Reusable UI components (GlassCard, Button, Input)
+- Toast notification system
 
 #### Design
-- Tema dark mode com glassmorphism
-- Paleta de cores personalizada (Deep Black, Accent Blue)
-- Animações suaves com svelte-motion
-- Efeitos de hover e transições
-- Layout responsivo mobile-first
-- Ícones do lucide-svelte
-- Tipografia com Google Fonts (Inter + Playfair Display)
 
-#### Validação
-- Schemas Zod para todos os formulários
-- Validação em tempo real com sveltekit-superforms
-- Feedback visual de erros
-- Validação de senhas iguais no cadastro
-- Verificação de email válido
+- Deep dark mode with glassmorphism aesthetic
+- Custom color palette (Deep Black, Accent Blue)
+- Smooth animations with svelte-motion
+- Hover effects and transitions
+- Mobile-first responsive layout
+- Lucide icons integration
+- Typography with Google Fonts (Inter + Playfair Display)
 
-#### Segurança
-- Cloudflare Turnstile no cadastro
-- TypeScript strict mode (100% tipado)
-- Proteção CSRF com SvelteKit
-- Cookies seguros com path correto
-- Validação server-side de todas as ações
+#### Validation
+
+- Zod schemas for all forms
+- Real-time validation feedback
+- Visual error states
+- Password confirmation matching
+- Email format validation
+
+#### Security
+
+- Cloudflare Turnstile on registration
+- TypeScript strict mode (100% typed)
+- CSRF protection with SvelteKit
+- Secure cookies with proper configuration
+- Server-side validation for all actions
 
 #### Developer Experience
-- Configuração completa do Bun
+
+- Bun runtime configuration
 - Hot Module Replacement (HMR)
-- TypeScript com tipos completos
-- ESLint + Prettier configurados
-- Script de verificação de ambiente
-- Documentação completa
+- Complete TypeScript types
+- ESLint + Prettier configured
+- Environment variable validation
+- Comprehensive documentation
 
-#### Documentação
-- README.md com visão geral
-- SETUP.md com guia passo a passo
-- QUICK_START.md para início rápido
-- PROJETO_COMPLETO.md com documentação técnica
-- GIT_COMMITS.md com sugestões de commits
-- CHANGELOG.md para histórico de versões
-- Arquivo .env.local.example
+#### Documentation
 
-#### Componentes
+- README.md with project overview
+- SETUP.md with step-by-step guide
+- Technical documentation in docs/ folder:
+  - Supabase configuration
+  - Google OAuth setup
+  - Turnstile integration
+- CHANGELOG.md for version history
+- .env.example template
 
-##### GlassCard
-- Efeito glassmorphism com backdrop-blur
-- Bordas sutis e sombras suaves
-- Props customizáveis
-- Totalmente responsivo
+#### Components
 
-##### Button
-- 3 variantes: Primary, Ghost, Outline
-- Animações de hover e tap
-- Estado de loading integrado
-- Suporte a ícones
-- Totalmente acessível
+**GlassCard**
 
-##### Input
-- Label flutuante animada
-- Validação visual de erro
-- Suporte a ícones
-- Estados de focus e disabled
-- Placeholder customizável
+- Glassmorphism effect with backdrop-blur
+- Subtle borders and shadows
+- Customizable props
+- Fully responsive
+
+**Button**
+
+- 3 variants: Primary, Ghost, Outline
+- Hover and tap animations
+- Integrated loading state
+- Icon support
+- Accessibility compliant
+
+**Input**
+
+- Floating animated label
+- Visual error validation
+- Icon support
+- Focus and disabled states
+- Customizable placeholder
+
+**Toast**
+
+- Three types: success, error, info
+- Auto-dismiss with timer
+- Manual dismiss option
+- Smooth animations
+- Svelte 5 runes-based state management
 
 #### Dashboard
-- Grid de aplicações com launcher
-- Lógica visual para apps ativos/inativos
-- Apps mockados: Financeiro 360, Cloud Manager, Security Hub
-- Seção de estatísticas
-- Avatar com inicial do usuário
-- Botão de logout
 
-### 🔧 Configuração
+- Application grid launcher
+- Visual distinction for active/inactive apps
+- Mock applications: Financeiro 360, Cloud Manager, Security Hub
+- Statistics section
+- User avatar with initials
+- Logout functionality
 
-- TailwindCSS v4 com plugins forms e typography
-- Supabase SSR com hooks personalizados
-- Vite com otimizações para Svelte 5
-- Playwright para testes E2E
-- Vitest para testes unitários
+### Technical Stack
 
-### 📦 Dependências
+#### Production Dependencies
 
-#### Produção
 - @supabase/ssr ^0.8.0
 - @supabase/supabase-js ^2.87.3
 - clsx ^2.1.1
 - lucide-svelte ^0.561.0
 - svelte-motion ^0.12.2
 - svelte-turnstile ^0.11.0
-- sveltekit-superforms ^2.29.1
 - tailwind-merge ^3.4.0
-- zod ^4.2.1
+- zod ^3.22.4
 
-#### Desenvolvimento
+#### Development Dependencies
+
 - @sveltejs/kit ^2.49.1
 - @tailwindcss/forms ^0.5.10
 - @tailwindcss/typography ^0.5.19
@@ -128,71 +143,68 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - typescript ^5.9.3
 - vite ^7.2.6
 
-### 🎯 Funcionalidades
+### Configuration
 
-- ✅ Autenticação completa (Email/Senha + OAuth)
-- ✅ Cadastro com validação e captcha
-- ✅ Dashboard protegido
-- ✅ Launcher de aplicações
-- ✅ Design glassmorphism
-- ✅ Animações suaves
-- ✅ Totalmente responsivo
-- ✅ TypeScript strict
-- ✅ SSR completo
-- ✅ Proteção de rotas
+- TailwindCSS v4 with forms and typography plugins
+- Supabase SSR with custom hooks
+- Vite optimizations for Svelte 5
+- Playwright for E2E testing
+- Vitest for unit testing
 
-### 📝 Scripts
+### Scripts
 
-- `dev`: Inicia servidor de desenvolvimento
-- `build`: Build para produção
-- `preview`: Preview da build
-- `check:env`: Verifica variáveis de ambiente
-- `check`: Type checking
-- `lint`: Verifica código
-- `format`: Formata código
-- `test:unit`: Testes unitários
-- `test:e2e`: Testes E2E
+- `dev`: Start development server
+- `build`: Build for production
+- `preview`: Preview production build
+- `check:env`: Verify environment variables
+- `check`: TypeScript type checking
+- `lint`: Lint code
+- `format`: Format code
+- `test:unit`: Run unit tests
+- `test:e2e`: Run E2E tests
 
 ---
 
 ## [Unreleased]
 
-### 🔜 Planejado
+### Planned Features
 
-#### Curto Prazo
-- Recuperação de senha por email
-- Verificação de email obrigatória
-- Página de perfil do usuário
-- Upload de avatar
-- Edição de dados do perfil
+#### Short Term
 
-#### Médio Prazo
-- Autenticação de 2 fatores (2FA)
-- Gerenciamento de sessões ativas
-- Logs de atividade do usuário
-- Sistema de notificações
-- Mais provedores OAuth (GitHub, Microsoft, etc)
+- Email verification requirement
+- User profile page
+- Avatar upload
+- Profile data editing
+- Additional OAuth providers (GitHub, Microsoft)
 
-#### Longo Prazo
-- API REST para terceiros
-- SDK para integração de apps
-- Dashboard administrativo
-- Gerenciamento de permissões
-- Analytics e métricas
+#### Medium Term
 
----
+- Two-factor authentication (2FA)
+- Active session management
+- User activity logs
+- Notification system
+- More OAuth providers
 
-## Tipos de Mudanças
+#### Long Term
 
-- `✨ Adicionado` para novas funcionalidades
-- `🔧 Modificado` para mudanças em funcionalidades existentes
-- `🗑️ Depreciado` para funcionalidades que serão removidas
-- `🔥 Removido` para funcionalidades removidas
-- `🐛 Corrigido` para correções de bugs
-- `🔒 Segurança` para vulnerabilidades corrigidas
+- REST API for third-party integration
+- SDK for application integration
+- Administrative dashboard
+- Permission management system
+- Analytics and metrics
 
 ---
 
-[1.0.0]: https://github.com/seu-usuario/jaci-auth-hub/releases/tag/v1.0.0
-[Unreleased]: https://github.com/seu-usuario/jaci-auth-hub/compare/v1.0.0...HEAD
+## Change Types
 
+- `Added` for new features
+- `Changed` for changes in existing functionality
+- `Deprecated` for soon-to-be removed features
+- `Removed` for removed features
+- `Fixed` for bug fixes
+- `Security` for vulnerability fixes
+
+---
+
+[1.0.0]: https://github.com/lucasmonsan/monsan/releases/tag/v1.0.0
+[Unreleased]: https://github.com/lucasmonsan/monsan/compare/v1.0.0...HEAD
