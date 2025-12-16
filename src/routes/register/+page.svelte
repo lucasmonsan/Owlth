@@ -1,0 +1,190 @@
+<script lang="ts">
+	import { Motion } from 'svelte-motion';
+	import { enhance } from '$app/forms';
+	import { Turnstile } from 'svelte-turnstile';
+	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
+	import GlassCard from '$lib/components/ui/GlassCard.svelte';
+	import Button from '$lib/components/ui/Button.svelte';
+	import Input from '$lib/components/ui/Input.svelte';
+	import { UserPlus, User, Mail, Lock, Shield, Chrome } from 'lucide-svelte';
+	import type { ActionData } from './$types';
+
+	const { form }: { form: ActionData } = $props();
+	
+	let loading = $state(false);
+	let turnstileVerified = $state(false);
+</script>
+
+<svelte:head>
+	<title>Cadastro - Monsan</title>
+</svelte:head>
+
+<div class="relative min-h-screen overflow-hidden bg-[#0a0a0a] flex items-center justify-center px-4 py-12">
+	<!-- Background Effects -->
+	<div class="absolute inset-0 overflow-hidden">
+		<div
+			class="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"
+		></div>
+		<div
+			class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"
+			style="animation-delay: 1s;"
+		></div>
+	</div>
+
+	<Motion
+		initial={{ opacity: 0, y: 20 }}
+		animate={{ opacity: 1, y: 0 }}
+		transition={{ duration: 0.6 }}
+		let:motion
+	>
+		<div use:motion class="w-full max-w-md relative">
+			<GlassCard class="space-y-6">
+				<!-- Header -->
+				<div class="text-center">
+					<div class="inline-flex items-center justify-center w-16 h-16 rounded-full glass-effect mb-4">
+						<UserPlus class="w-8 h-8 text-blue-400" />
+					</div>
+					<h1 class="text-3xl font-bold text-white mb-2">Crie sua conta</h1>
+					<p class="text-gray-400">Junte-se ao universo Monsan</p>
+				</div>
+
+				{#if form?.message}
+					<div class="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-400 text-sm">
+						{form.message}
+					</div>
+				{/if}
+
+				<!-- Google Register -->
+				<form method="POST" action="?/google" use:enhance>
+					<Button type="submit" variant="outline" class="w-full flex items-center justify-center gap-2">
+						<Chrome class="w-5 h-5" />
+						Cadastrar com Google
+					</Button>
+				</form>
+
+				<div class="relative">
+					<div class="absolute inset-0 flex items-center">
+						<div class="w-full border-t border-white/10"></div>
+					</div>
+					<div class="relative flex justify-center text-sm">
+						<span class="px-4 text-gray-400 bg-[#0a0a0a]">ou continue com email</span>
+					</div>
+				</div>
+
+				<!-- Register Form -->
+				<form 
+					method="POST"
+					action="?/register"
+					use:enhance={() => {
+						loading = true;
+						return async ({ update }) => {
+							await update();
+							loading = false;
+						};
+					}}
+					class="space-y-4"
+				>
+					<div class="relative">
+						<User class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+						<Input
+							type="text"
+							name="fullName"
+							value={form?.fullName || ''}
+							placeholder="Nome Completo"
+							required
+							class="pl-12"
+							error={form?.errors?.fullName?.[0]}
+						/>
+					</div>
+
+					<div class="relative">
+						<Mail class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+						<Input
+							type="email"
+							name="email"
+							value={form?.email || ''}
+							placeholder="seu@email.com"
+							required
+							class="pl-12"
+							error={form?.errors?.email?.[0]}
+						/>
+					</div>
+
+					<div class="relative">
+						<Lock class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+						<Input
+							type="password"
+							name="password"
+							placeholder="Senha (mín. 8 caracteres)"
+							required
+							class="pl-12"
+							error={form?.errors?.password?.[0]}
+						/>
+					</div>
+
+					<div class="relative">
+						<Lock class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+						<Input
+							type="password"
+							name="confirmPassword"
+							placeholder="Confirme sua senha"
+							required
+							class="pl-12"
+							error={form?.errors?.confirmPassword?.[0]}
+						/>
+					</div>
+
+					<!-- Turnstile Captcha -->
+					<div class="flex justify-center">
+						<Turnstile
+							siteKey={PUBLIC_TURNSTILE_SITE_KEY}
+							on:turnstile-callback={(e) => {
+								turnstileVerified = true;
+							}}
+							theme="dark"
+						/>
+					</div>
+					{#if form?.errors?.turnstileToken?.[0]}
+						<p class="text-xs text-red-400 text-center">{form.errors.turnstileToken[0]}</p>
+					{/if}
+
+					<!-- Terms -->
+					<div class="text-xs text-gray-400 text-center">
+						Ao criar uma conta, você concorda com nossos
+						<a href="/terms" class="text-blue-400 hover:text-blue-300">Termos de Serviço</a>
+						e
+						<a href="/privacy" class="text-blue-400 hover:text-blue-300">Política de Privacidade</a>
+					</div>
+
+					<Button 
+						type="submit" 
+						variant="primary" 
+						class="w-full" 
+						loading={loading}
+						disabled={!turnstileVerified}
+					>
+						<div class="flex items-center justify-center gap-2">
+							<Shield class="w-5 h-5" />
+							Criar Conta
+						</div>
+					</Button>
+				</form>
+
+				<!-- Login Link -->
+				<div class="text-center text-sm text-gray-400">
+					Já tem uma conta?
+					<a href="/login" class="text-blue-400 hover:text-blue-300 transition-colors font-semibold">
+						Faça login
+					</a>
+				</div>
+			</GlassCard>
+
+			<!-- Back to Home -->
+			<div class="mt-6 text-center">
+				<a href="/" class="text-gray-400 hover:text-white transition-colors text-sm">
+					← Voltar para o início
+				</a>
+			</div>
+		</div>
+	</Motion>
+</div>
