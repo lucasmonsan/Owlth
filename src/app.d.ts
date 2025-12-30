@@ -3,11 +3,14 @@
 declare global {
 	namespace App {
 		// interface Error {}
-		// interface Locals {}
+		interface Locals {
+			user: import('$lib/server/db/schema').user | null;
+			session: import('$lib/server/db/schema').session | null;
+		}
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}
 	}
 }
 
-export {};
+export { };
