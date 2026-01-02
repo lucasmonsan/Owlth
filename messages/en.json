@@ -1,4 +1,23 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Hello, {name} from en!"
+	"hello_world": "Hello, {name} from en!",
+	"app_name": "Owlth",
+	"register_title": "Create an account",
+	"email_label": "Email address",
+	"password_label": "Password",
+	"confirm_password_label": "Confirm password",
+	"register_button": "Create account",
+	"already_have_account": "Already have an account?",
+	"sign_in_link": "Sign in",
+	"password_mismatch": "Passwords do not match",
+	"email_exists": "Email already registered",
+	"validation_error": "Validation failed",
+	"login_title": "Sign in to Owlth",
+	"login_button": "Sign in",
+	"no_account": "Don't have an account?",
+	"register_link": "Create one",
+	"invalid_credentials": "Invalid email or password",
+	"welcome_back": "Welcome back!",
+	"continue_app": "Continue to Dashboard",
+	"switch_account": "Sign in with another account"
 }

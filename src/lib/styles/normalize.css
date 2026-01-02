@@ -14,6 +14,7 @@ html {
 }
 
 body {
+	overflow: hidden;
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -22,6 +23,20 @@ body {
 	min-height: 100dvh;
 	height: 100dvh;
 	max-height: 100dvh;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: solid 1px red;
+
+	&.w-100 {
+		width: 100%;
+	}
+	&.center {
+		justify-content: center;
+	}
 }
 
 b,

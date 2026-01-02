@@ -1,14 +1,23 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { locales, localizeHref } from '$lib/paraglide/runtime';
+
 	import favicon from '$lib/assets/favicon.svg';
+
+	import '$lib/styles/normalize.css';
+	import '$lib/styles/palette.css';
+	import '$lib/styles/typography.css';
+	import '$lib/styles/variables.css';
 
 	let { children } = $props();
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	<link rel="icon" type="image/svg+xml" href={favicon} />
+</svelte:head>
 
 {@render children()}
+
 <div style="display:none">
 	{#each locales as locale}
 		<a href={localizeHref(page.url.pathname, { locale })}>

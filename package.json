@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "concurrently \"bun run tunnel\" \"vite dev\"",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
@@ -18,7 +18,8 @@
 		"db:push": "drizzle-kit push",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
-		"db:studio": "drizzle-kit studio"
+		"db:studio": "drizzle-kit studio",
+		"tunnel": "ssh -o ServerAliveInterval=60 -L 5432:127.0.0.1:5432 ubuntu@136.248.100.121 -N"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
@@ -30,6 +31,7 @@
 		"@sveltejs/vite-plugin-svelte": "^6.2.1",
 		"@types/node": "^22",
 		"@vitest/browser-playwright": "^4.0.15",
+		"concurrently": "^9.2.1",
 		"drizzle-kit": "^0.31.8",
 		"drizzle-orm": "^0.45.0",
 		"eslint": "^9.39.1",
