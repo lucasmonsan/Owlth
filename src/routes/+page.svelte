@@ -5,7 +5,7 @@
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
 
-<main class="container">
+<main>
 	<header>
 		<h1>{m.app_name()}</h1>
 	</header>
@@ -76,12 +76,6 @@
 </main>
 
 <style>
-	.container {
-		max-width: 400px;
-		margin: 4rem auto;
-		text-align: center;
-		font-family: sans-serif;
-	}
 	.card {
 		border: 1px solid #ddd;
 		padding: 2rem;

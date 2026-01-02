@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/state';
-	import { locales, localizeHref } from '$lib/paraglide/runtime';
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
 
 	import favicon from '$lib/assets/favicon.svg';
 
@@ -8,6 +7,7 @@
 	import '$lib/styles/palette.css';
 	import '$lib/styles/typography.css';
 	import '$lib/styles/variables.css';
+	import Nebula from '$lib/components/Nebula.svelte';
 
 	let { children } = $props();
 </script>
@@ -16,12 +16,8 @@
 	<link rel="icon" type="image/svg+xml" href={favicon} />
 </svelte:head>
 
-{@render children()}
+<Nebula />
 
-<div style="display:none">
-	{#each locales as locale}
-		<a href={localizeHref(page.url.pathname, { locale })}>
-			{locale}
-		</a>
-	{/each}
-</div>
+<LanguageSwitcher />
+
+{@render children()}

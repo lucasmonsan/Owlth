@@ -28,6 +28,7 @@
 	--border-width: 2px;
 	--border: solid var(--border-width);
 
+	--z-bg: 0;
 	--z-map: 1;
 	--z-dock: 10;
 	--z-page: 20;

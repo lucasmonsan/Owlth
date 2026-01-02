@@ -79,3 +79,7 @@ a {
 a:hover {
 	color: var(--brand-secondary);
 }
+
+input {
+	color: var(--text-primary);
+}
