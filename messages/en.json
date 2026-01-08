@@ -12,7 +12,7 @@
 	"password_mismatch": "Passwords do not match",
 	"email_exists": "Email already registered",
 	"validation_error": "Validation failed",
-	"login_title": "Sign in to Owlth",
+	"login_title": "Sign in",
 	"login_button": "Sign in",
 	"no_account": "Don't have an account?",
 	"register_link": "Create one",

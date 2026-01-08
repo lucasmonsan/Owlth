@@ -16,8 +16,7 @@
 	--normal: ease-in-out 0.25s;
 	--slow: ease-in-out 0.375s;
 
-	--radius-out: 1rem;
-	--radius-in: 0.5rem;
+	--radius: 0.125rem;
 
 	--gap-1: var(--xxxs);
 	--gap-2: var(--xxs);

@@ -12,7 +12,7 @@
 	"password_mismatch": "As senhas não coincidem",
 	"email_exists": "E-mail já cadastrado",
 	"validation_error": "Erro de validação",
-	"login_title": "Entrar no Owlth",
+	"login_title": "Entrar",
 	"login_button": "Entrar",
 	"no_account": "Não tem uma conta?",
 	"register_link": "Criar uma",

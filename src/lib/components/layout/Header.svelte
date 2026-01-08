@@ -1,0 +1,55 @@
+<script>
+	import * as m from '$lib/paraglide/messages';
+	import Logo from '$lib/components/icons/Logo.svelte';
+	import LanguageSwitcher from '$lib/components/interface/LanguageSwitcher.svelte';
+</script>
+
+<header>
+	<button>
+		<Logo height="var(--xl)" />
+		<div>
+			<strong>monsan.</strong>
+			<h1>{m.app_name()}</h1>
+		</div>
+	</button>
+	<LanguageSwitcher />
+</header>
+
+<style>
+	header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: var(--z-header);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		padding: var(--xxxs) var(--xxxs) calc(var(--xxs) * 0.75);
+		border: none;
+		border-bottom: solid 1px var(--border-color);
+	}
+
+	button {
+		display: flex;
+		gap: var(--xxxs);
+	}
+
+	div {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: calc(var(--xxxs) * 0.85);
+	}
+
+	strong {
+		padding-left: calc(var(--xxs) * 0.25);
+		font-size: var(--xs);
+		line-height: var(--xxs);
+	}
+
+	h1 {
+		font-size: calc(var(--xxl) * 0.75);
+		line-height: var(--md);
+	}
+</style>
