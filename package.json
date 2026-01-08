@@ -19,7 +19,7 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
-		"tunnel": "ssh -o ServerAliveInterval=60 -L 5432:127.0.0.1:5432 ubuntu@136.248.100.121 -N"
+		"tunnel": "ssh -o ServerAliveInterval=60 -L 5432:127.0.0.1:5432 vps-oracle -N"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",

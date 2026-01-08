@@ -7,7 +7,7 @@
 	import '$lib/styles/palette.css';
 	import '$lib/styles/typography.css';
 	import '$lib/styles/variables.css';
-	import Nebula from '$lib/components/Nebula.svelte';
+	import '$lib/styles/tags.css';
 
 	let { children } = $props();
 </script>
@@ -15,8 +15,6 @@
 <svelte:head>
 	<link rel="icon" type="image/svg+xml" href={favicon} />
 </svelte:head>
-
-<Nebula />
 
 <LanguageSwitcher />
 

@@ -28,9 +28,17 @@
 	"editor.semanticHighlighting.enabled": false,
 	"breadcrumbs.enabled": false,
 	"explorer.fileNesting.enabled": true,
-	"terminal.integrated.defaultProfile.linux": "zsh",
 	"explorer.fileNesting.patterns": {
-		".env": "*"
+		".env": "*",
+		"app.html": "*",
+		"+layout.svelte": "+layout*, layout*",
+		"+page.svelte": "+page*, page*"
+	},
+	"files.exclude": {
+		"**/node_modules": true,
+		"**/project.inlang": true,
+		"**/.svelte-kit": true,
+		"**/src/lib/paraglide": true
 	},
 	"window.confirmSaveUntitledWorkspace": false,
 	"[typescript]": {
