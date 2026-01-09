@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "concurrently \"bun run tunnel\" \"bun run db:studio\" \"vite dev --host\" ",
+		"dev": "concurrently \"bun run tunnel\" \"bun run db:studio\" \"bun x @inlang/paraglide-js compile --project project.inlang --watch\" \"vite dev --host\"",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
@@ -30,6 +30,7 @@
 		"@sveltejs/kit": "^2.49.1",
 		"@sveltejs/vite-plugin-svelte": "^6.2.1",
 		"@types/node": "^22",
+		"@types/nodemailer": "^7.0.4",
 		"@vitest/browser-playwright": "^4.0.15",
 		"concurrently": "^9.2.1",
 		"drizzle-kit": "^0.31.8",
@@ -50,9 +51,11 @@
 		"vitest-browser-svelte": "^2.0.1"
 	},
 	"dependencies": {
+		"@aws-sdk/client-sesv2": "^3.966.0",
 		"@node-rs/argon2": "^2.0.2",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
+		"nodemailer": "^7.0.12",
 		"oslo": "^1.2.1",
 		"postgres": "^3.4.7",
 		"zod": "^4.2.1"

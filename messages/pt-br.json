@@ -18,6 +18,7 @@
 	"register_link": "Criar uma",
 	"invalid_credentials": "E-mail ou senha incorretos",
 	"welcome_back": "Bem-vindo!",
-	"continue_app": "Continuar para o Painel",
-	"switch_account": "Entrar com outra conta"
+	"continue_app": "Continuar para o App",
+	"switch_account": "Entrar com outra conta",
+	"name_label": "Nome completo"
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ActionData } from './$types';
+	import type { PageData, ActionData } from './$types';
 	import { localizeHref } from '$lib/paraglide/runtime';
 	import * as m from '$lib/paraglide/messages';
 
@@ -11,11 +11,13 @@
 	import PasswordIcon from '$lib/components/icons/PasswordIcon.svelte';
 	import GoogleIcon from '$lib/components/icons/GoogleIcon.svelte';
 
-	let { form }: { form: ActionData } = $props();
+	import { enhance } from '$app/forms';
+
+	let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
 
-<Main center fullWidth>
-	<form method="POST">
+<Main fullWidth>
+	<form method="POST" use:enhance>
 		<div>
 			<h2>{m.register_title()}</h2>
 			<Button variant="invisible">
@@ -29,10 +31,27 @@
 
 		<div class="field-group">
 			<Input
+				type="text"
+				name="fullName"
+				id="fullName"
+				value={(form?.data?.fullName as string) ?? ''}
+				required
+				autocomplete="name"
+				placeholder={m.name_label()}
+			>
+				<EmailIcon height="var(--lg)" />
+			</Input>
+			{#if form?.errors?.fullName?.[0]}
+				<span class="error-message">{form.errors.fullName[0]}</span>
+			{/if}
+		</div>
+
+		<div class="field-group">
+			<Input
 				type="email"
 				name="email"
 				id="email"
-				value={form?.data?.email?.toString() ?? ''}
+				value={(form?.data?.email as string) ?? ''}
 				required
 				autocomplete="email"
 				placeholder={m.email_label()}
@@ -84,7 +103,9 @@
 	<div>
 		<p>
 			{m.already_have_account()}
-			<a href={localizeHref('/')}>{m.sign_in_link()}</a>
+			<Button href={'/'} variant="invisible">
+				{m.sign_in_link()}
+			</Button>
 		</p>
 	</div>
 </Main>

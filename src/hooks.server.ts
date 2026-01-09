@@ -1,6 +1,7 @@
 import { sequence } from '@sveltejs/kit/hooks';
 import { validateSessionToken, SESSION_COOKIE_NAME } from '$lib/server/auth/session';
 import { setLocale } from '$lib/paraglide/runtime';
+import { locales, defaultLocale } from '$lib/config/i18n';
 import type { Handle } from '@sveltejs/kit';
 
 const handleI18n: Handle = async ({ event, resolve }) => {
@@ -17,11 +18,12 @@ const handleI18n: Handle = async ({ event, resolve }) => {
 		}
 	}
 
-	const lang = url.pathname.startsWith('/pt-br') ? 'pt-br' : 'en';
+	const [, lang] = url.pathname.split('/');
+	const currentLocale = locales.includes(lang as any) ? (lang as any) : defaultLocale;
 
-	setLocale(lang);
+	setLocale(currentLocale);
 
-	event.cookies.set('PARAGLIDE_LOCALE', lang, {
+	event.cookies.set('PARAGLIDE_LOCALE', currentLocale, {
 		path: '/',
 		maxAge: 60 * 60 * 24 * 365,
 		httpOnly: false,
@@ -30,7 +32,7 @@ const handleI18n: Handle = async ({ event, resolve }) => {
 	});
 
 	return resolve(event, {
-		transformPageChunk: ({ html }) => html.replace('%paraglide.lang%', lang)
+		transformPageChunk: ({ html }) => html.replace('%paraglide.lang%', currentLocale)
 	});
 };
 

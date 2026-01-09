@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, integer, uuid } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, boolean, integer, uuid, index } from 'drizzle-orm/pg-core';
 
 export const loginAttempt = pgTable('login_attempt', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -12,6 +12,7 @@ export const loginAttempt = pgTable('login_attempt', {
 export const user = pgTable('user', {
   id: uuid('id').primaryKey().defaultRandom(),
 
+  fullName: text('full_name').notNull(),
   email: text('email').notNull().unique(),
   passwordHash: text('password_hash').notNull(),
   role: text('role').default('user').notNull(),
@@ -34,7 +35,9 @@ export const session = pgTable('session', {
 
   ipAddress: text('ip_address'),
   userAgent: text('user_agent')
-});
+}, (table) => [
+  index('session_user_id_idx').on(table.userId)
+]);
 
 export const token = pgTable('token', {
   hash: text('hash').primaryKey(),
@@ -43,7 +46,9 @@ export const token = pgTable('token', {
     .references(() => user.id, { onDelete: 'cascade' }),
   type: text('type').notNull(),
   expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull()
-});
+}, (table) => [
+  index('token_user_id_idx').on(table.userId)
+]);
 
 export const passkey = pgTable('passkey', {
   id: text('id').primaryKey(),
@@ -55,4 +60,6 @@ export const passkey = pgTable('passkey', {
   backedUp: boolean('backed_up').default(false).notNull(),
   transports: text('transports'),
   createdAt: timestamp('created_at').defaultNow().notNull()
-});
+}, (table) => [
+  index('passkey_user_id_idx').on(table.userId)
+]);

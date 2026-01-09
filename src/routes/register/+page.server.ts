@@ -5,20 +5,22 @@ import { user } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { hashPassword } from '$lib/server/auth/hashing';
 import { createSession, generateSessionToken, SESSION_COOKIE_NAME } from '$lib/server/auth/session';
+import { createAndSendVerificationToken } from '$lib/server/auth/verification';
 import type { Actions, PageServerLoad } from './$types';
 
 const registerSchema = z.object({
-  email: z.email({ message: "Invalid email address" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters" }).max(100),
+  fullName: z.string().min(2, "Nome deve ter no mínimo 2 caracteres").max(100),
+  email: z.email({ message: "Email inválido" }),
+  password: z.string().min(8, { message: "Senha deve ter no mínimo 8 caracteres" }).max(100),
   confirmPassword: z.string()
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
+  message: "As senhas não coincidem",
   path: ["confirmPassword"]
 });
 
 export const load: PageServerLoad = async (event) => {
   if (event.locals.user) {
-    redirect(302, '/');
+    redirect(302, '/dashboard');
   }
 };
 
@@ -27,44 +29,45 @@ export const actions: Actions = {
     const formData = Object.fromEntries(await event.request.formData());
     const result = registerSchema.safeParse(formData);
 
+    // Helper para retornar erros mantendo os dados preenchidos
     const returnError = (status: number, message: string, fieldErrors: any = {}) => {
       const { password, confirmPassword, ...rest } = formData;
       return fail(status, {
         success: false,
         message,
-        data: rest,
-        errors: {
-          email: fieldErrors.email || [],
-          password: fieldErrors.password || [],
-          confirmPassword: fieldErrors.confirmPassword || [],
-          ...fieldErrors
-        }
+        data: rest, // Devolve fullName e email para o formulário
+        errors: fieldErrors
       });
     };
 
     if (!result.success) {
       const { fieldErrors } = result.error.flatten();
-      return returnError(400, "Validation failed", fieldErrors);
+      // Pega o primeiro erro de cada campo para simplificar
+      const message = Object.values(fieldErrors).flat()[0] || "Erro de validação";
+      return returnError(400, message, fieldErrors);
     }
 
-    const { email, password } = result.data;
+    const { fullName, email, password } = result.data;
 
     try {
       const existingUser = await db.select().from(user).where(eq(user.email, email));
 
       if (existingUser.length > 0) {
-        return returnError(400, "User already exists", {
-          email: ['Email already registered']
-        });
+        return returnError(400, "Este email já está cadastrado");
       }
 
       const passwordHash = await hashPassword(password);
 
+      // Inserção no banco com fullName
       const [newUser] = await db.insert(user).values({
+        fullName,
         email,
         passwordHash,
         isVerified: false
       }).returning();
+
+      // Envia email de verificação
+      await createAndSendVerificationToken(newUser.id, email);
 
       const token = generateSessionToken();
       const session = await createSession(token, newUser.id);
@@ -79,9 +82,9 @@ export const actions: Actions = {
 
     } catch (error) {
       console.error(error);
-      return returnError(500, "Internal Server Error");
+      return returnError(500, "Erro interno do servidor");
     }
 
-    redirect(302, '/');
+    redirect(302, '/dashboard');
   }
 };

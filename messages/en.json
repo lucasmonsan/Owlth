@@ -18,6 +18,7 @@
 	"register_link": "Create one",
 	"invalid_credentials": "Invalid email or password",
 	"welcome_back": "Welcome!",
-	"continue_app": "Continue to Dashboard",
-	"switch_account": "Sign in with another account"
+	"continue_app": "Continue to App",
+	"switch_account": "Sign in with another account",
+	"name_label": "Full name"
 }

@@ -71,17 +71,6 @@ b {
 	font-weight: 700;
 }
 
-a {
-	color: var(--brand-primary);
-	text-decoration: none;
-	font-weight: 600;
-	transition: color var(--fast);
-}
-
-a:hover {
-	color: var(--brand-secondary);
-}
-
 input {
 	color: var(--text-primary);
 }

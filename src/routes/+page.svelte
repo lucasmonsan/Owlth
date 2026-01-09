@@ -13,7 +13,7 @@
 
 <Main fullWidth>
 	{#if data.user}
-		<form action="/dashboard" method="POST">
+		<div class="user">
 			<div>
 				<h2>{m.welcome_back()}</h2>
 				<Button variant="outline" class="avatar">
@@ -21,14 +21,18 @@
 				</Button>
 			</div>
 
-			<h3 class="name">{data.user.full_name}</h3>
+			<h3 class="name">{data.user.fullName}</h3>
 			<p class="email">{data.user.email}</p>
 
-			<Button type="submit">
+			<Button href="/dashboard" fullWidth>
 				{m.continue_app()}
 			</Button>
-		</form>
-		<p><a href="?/logout">{m.switch_account()}</a></p>
+		</div>
+		<p>
+			<Button href="?/logout" variant="invisible">
+				{m.switch_account()}
+			</Button>
+		</p>
 	{:else}
 		<form action="?/login" method="POST">
 			<div>
@@ -70,11 +74,25 @@
 			</Button>
 		</form>
 
-		<p>{m.no_account()} <a href="/register">{m.register_link()}</a></p>
+		<p>
+			{m.no_account()}
+			<Button href="/register" variant="invisible">
+				{m.register_link()}
+			</Button>
+		</p>
 	{/if}
 </Main>
 
 <style>
+	div.user {
+		display: flex;
+		flex-direction: column;
+		align-items: normal;
+		gap: var(--sm);
+		width: 100%;
+		max-width: calc(var(--xxxxl) * 8);
+	}
+
 	form {
 		max-width: calc(var(--xxxxl) * 8);
 	}

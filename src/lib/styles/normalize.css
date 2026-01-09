@@ -134,6 +134,7 @@ summary {
 }
 
 a {
+	text-decoration: none;
 	transition: opacity var(--normal);
 	&:hover {
 		opacity: 0.75;
