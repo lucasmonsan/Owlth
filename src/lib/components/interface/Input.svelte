@@ -27,6 +27,13 @@
 		gap: var(--xxxs);
 		padding: var(--xxxs) 0;
 		cursor: text;
+
+		border-bottom: solid 2px transparent;
+		transition: border-color var(--normal, 0.2s);
+	}
+
+	label:focus-within {
+		border-bottom-color: var(--text-primary);
 	}
 
 	input {
@@ -34,5 +41,9 @@
 		height: var(--lg);
 		padding-top: calc(var(--xxxs) * 0.5);
 		font-size: calc(var(--sm) * 1.125);
+
+		border: none;
+		outline: none;
+		background: transparent;
 	}
 </style>

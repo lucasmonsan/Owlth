@@ -3,8 +3,8 @@
 
 	interface Props extends HTMLAttributes<HTMLElement> {
 		children?: import('svelte').Snippet;
-		center?: boolean; // Ativa a classe .center (justify-content: center)
-		fullWidth?: boolean; // Ativa a classe .w-100 (width: 100%)
+		center?: boolean;
+		fullWidth?: boolean;
 	}
 
 	let {

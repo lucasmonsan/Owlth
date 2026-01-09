@@ -6,38 +6,32 @@
 	import GoogleIcon from '$lib/components/icons/GoogleIcon.svelte';
 	import Button from '$lib/components/interface/Button.svelte';
 	import Input from '$lib/components/interface/Input.svelte';
-	import Main from '$lib/components/interface/Main.svelte';
+	import Main from '$lib/components/layout/Main.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
 
 <Main fullWidth>
 	{#if data.user}
-		<form action=""></form>
-
-		<div>
-			<h2>{m.welcome_back()}</h2>
-
+		<form action="/dashboard" method="POST">
 			<div>
-				<div>{data.user.email[0].toUpperCase()}</div>
-				<p>{data.user.email}</p>
+				<h2>{m.welcome_back()}</h2>
+				<Button variant="outline" class="avatar">
+					{data.user.email[0].toUpperCase()}
+				</Button>
 			</div>
 
-			<div>
-				<a href="/dashboard">
-					{m.continue_app()}
-				</a>
+			<h3 class="name">{data.user.full_name}</h3>
+			<p class="email">{data.user.email}</p>
 
-				<form action="?/logout" method="POST">
-					<Button type="submit">
-						{m.switch_account()}
-					</Button>
-				</form>
-			</div>
-		</div>
+			<Button type="submit">
+				{m.continue_app()}
+			</Button>
+		</form>
+		<p><a href="?/logout">{m.switch_account()}</a></p>
 	{:else}
 		<form action="?/login" method="POST">
-			<div class="title">
+			<div>
 				<h2>{m.login_title()}</h2>
 				<Button variant="invisible">
 					<GoogleIcon height="var(--lg)" />
@@ -92,5 +86,14 @@
 	p {
 		margin-top: var(--xs);
 		font-size: var(--sm);
+
+		&.email {
+			text-align: center;
+		}
+	}
+
+	:global(.avatar) {
+		width: var(--xxxxl);
+		height: var(--xxxxl);
 	}
 </style>

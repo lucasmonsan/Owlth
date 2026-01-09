@@ -26,7 +26,7 @@
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
-		padding: var(--xxxs) var(--xxxs) calc(var(--xxs) * 0.75);
+		padding: var(--xxs) var(--xs);
 		border: none;
 		border-bottom: solid 1px var(--border-color);
 	}

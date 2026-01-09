@@ -2,7 +2,7 @@
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"hello_world": "Hello, {name} from pt-br!",
 	"app_name": "Owlth",
-	"register_title": "Criar uma conta",
+	"register_title": "Cadastro",
 	"email_label": "Endereço de e-mail",
 	"password_label": "Senha",
 	"confirm_password_label": "Confirmar senha",
@@ -17,7 +17,7 @@
 	"no_account": "Não tem uma conta?",
 	"register_link": "Criar uma",
 	"invalid_credentials": "E-mail ou senha incorretos",
-	"welcome_back": "Bem-vindo de volta!",
+	"welcome_back": "Bem-vindo!",
 	"continue_app": "Continuar para o Painel",
 	"switch_account": "Entrar com outra conta"
 }
