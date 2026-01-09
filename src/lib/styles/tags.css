@@ -1,54 +1,18 @@
-main {
-	z-index: var(--z-page);
+form {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	gap: var(--sm);
+	width: 100%;
+}
 
-	&.w-100 {
-		width: 100%;
-	}
-	&.center {
-		justify-content: center;
+a {
+	transition: opacity var(--normal);
+	&:hover {
+		opacity: 0.75;
 	}
 }
 
-button {
-	padding: var(--xxs);
-	border-radius: var(--radius);
-	border: var(--border) var(--text-primary);
-	transition: background-color var(--normal);
-
-	color: var(--bg);
-	fill: var(--bg);
-	background-color: var(--text-primary);
-
-	&:hover {
-		color: var(--text-primary);
-		fill: var(--text-primary);
-		background-color: var(--bg);
-	}
-
-	&.outline {
-		color: var(--text-primary);
-		fill: var(--text-primary);
-		background-color: var(--bg);
-
-		&:hover {
-			color: var(--bg);
-			fill: var(--bg);
-			background-color: var(--text-primary);
-		}
-	}
-
-	&.invisible {
-		background-color: transparent;
-		color: var(--text-primary);
-		fill: var(--text-primary);
-		padding: 0;
-	}
-
-	&:focus {
-		outline: var(--border) var(--text-primary);
-		outline-offset: 2px;
-	}
+div {
+	display: flex;
+	align-items: center;
 }

@@ -2,16 +2,17 @@
 	import * as m from '$lib/paraglide/messages';
 	import Logo from '$lib/components/icons/Logo.svelte';
 	import LanguageSwitcher from '$lib/components/interface/LanguageSwitcher.svelte';
+	import Button from '$lib/components/interface/Button.svelte';
 </script>
 
 <header>
-	<button>
+	<Button variant="invisible" class="logo">
 		<Logo height="var(--xl)" />
 		<div>
 			<strong>monsan.</strong>
 			<h1>{m.app_name()}</h1>
 		</div>
-	</button>
+	</Button>
 	<LanguageSwitcher />
 </header>
 
@@ -30,13 +31,13 @@
 		border-bottom: solid 1px var(--border-color);
 	}
 
-	button {
-		display: flex;
+	header :global(.logo) {
 		gap: var(--xxxs);
+		text-transform: none;
+		letter-spacing: normal;
 	}
 
 	div {
-		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 		gap: calc(var(--xxxs) * 0.85);

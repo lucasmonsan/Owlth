@@ -42,6 +42,7 @@
 	}
 
 	a {
+		display: flex;
 		opacity: 0.25;
 		transition: opacity var(--fast);
 
