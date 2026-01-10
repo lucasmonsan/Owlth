@@ -8,6 +8,8 @@
 	import Header from '$lib/components/layout/Header.svelte';
 
 	import { getLocale, setLocale } from '$lib/paraglide/runtime';
+	import BG from '$lib/components/layout/BG.svelte';
+	import Toast from '$lib/components/interface/Toast.svelte';
 
 	let { children } = $props();
 
@@ -26,6 +28,10 @@
 	<link rel="icon" type="image/svg+xml" href={favicon} />
 </svelte:head>
 
+<BG />
+
 <Header />
 
 {@render children()}
+
+<Toast />

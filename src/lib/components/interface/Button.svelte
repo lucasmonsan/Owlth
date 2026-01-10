@@ -5,22 +5,39 @@
 	} from 'svelte/elements';
 
 	type Variant = 'primary' | 'outline' | 'invisible';
+	type Size = 'xs' | 'sm' | 'md' | 'lg';
 
 	interface Props extends HTMLButtonAttributes {
 		variant?: Variant;
+		size?: Size;
 		fullWidth?: boolean;
+		loading?: boolean;
 		href?: string;
 		children?: import('svelte').Snippet;
 	}
 
 	let {
 		variant = 'primary',
+		size = 'md',
 		fullWidth = false,
+		loading = false,
 		href = undefined,
+		disabled = false,
 		class: className = '',
 		children,
+		onclick,
 		...rest
 	}: Props = $props();
+
+	// Handler para links se comportarem como botões no teclado (Space + Enter)
+	const handleKeydown = (e: KeyboardEvent) => {
+		if (href && e.key === ' ') {
+			e.preventDefault();
+			if (!disabled && !loading) {
+				(e.target as HTMLElement).click();
+			}
+		}
+	};
 </script>
 
 {#if href}
@@ -29,9 +46,14 @@
 		class:outline={variant === 'outline'}
 		class:invisible={variant === 'invisible'}
 		class:w-100={fullWidth}
+		class:loading
 		class={className}
+		data-size={size}
 		{...rest as HTMLAnchorAttributes}
 		role="button"
+		tabindex={disabled || loading ? -1 : 0}
+		aria-disabled={disabled || loading}
+		onkeydown={handleKeydown}
 	>
 		{@render children?.()}
 	</a>
@@ -40,7 +62,11 @@
 		class:outline={variant === 'outline'}
 		class:invisible={variant === 'invisible'}
 		class:w-100={fullWidth}
+		class:loading
 		class={className}
+		data-size={size}
+		disabled={disabled || loading}
+		{onclick}
 		{...rest}
 	>
 		{@render children?.()}
@@ -53,19 +79,43 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		gap: var(--xxs);
 		cursor: pointer;
 
-		padding: var(--sm) var(--xxs);
+		padding: var(--xs) var(--md);
 		border-radius: var(--radius);
 		border: var(--border) var(--text-primary);
-		transition: opacity var(--normal);
+		transition:
+			opacity var(--normal),
+			transform var(--fast);
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 1px;
+		font-size: var(--sm);
 
 		color: var(--bg);
 		fill: var(--bg);
 		background-color: var(--text-primary);
+
+		&[data-size='xs'] {
+			padding: var(--xxxs) var(--xs);
+			font-size: var(--xs);
+		}
+
+		&[data-size='sm'] {
+			padding: var(--xxs) var(--sm);
+			font-size: var(--sm);
+		}
+
+		&[data-size='md'] {
+			padding: var(--xs) var(--md);
+			font-size: var(--sm);
+		}
+
+		&[data-size='lg'] {
+			padding: var(--sm) var(--lg);
+			font-size: var(--md);
+		}
 
 		&.w-100 {
 			width: 100%;
@@ -85,18 +135,52 @@
 			border: none;
 		}
 
-		&:hover:not(:disabled) {
+		&:hover:not(:disabled):not(.loading) {
 			opacity: 0.75;
 		}
 
-		&:focus:not(:disabled) {
+		&:active:not(:disabled):not(.loading) {
+			transform: scale(0.98);
+		}
+
+		&:focus-visible {
 			outline: var(--border) var(--text-primary);
 			outline-offset: 2px;
 		}
 
-		&:disabled {
+		&:disabled,
+		&[aria-disabled='true'],
+		&.loading {
 			opacity: 0.5;
 			cursor: not-allowed;
+		}
+
+		&.loading {
+			position: relative;
+			color: transparent;
+			fill: transparent;
+		}
+
+		&.loading::after {
+			content: '';
+			position: absolute;
+			width: var(--md);
+			height: var(--md);
+			border: 2px solid var(--bg);
+			border-top-color: transparent;
+			border-radius: 50%;
+			animation: spin 0.6s linear infinite;
+		}
+
+		&.loading.outline::after {
+			border-color: var(--text-primary);
+			border-top-color: transparent;
+		}
+	}
+
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
 		}
 	}
 </style>

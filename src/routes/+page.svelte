@@ -7,44 +7,84 @@
 	import Button from '$lib/components/interface/Button.svelte';
 	import Input from '$lib/components/interface/Input.svelte';
 	import Main from '$lib/components/layout/Main.svelte';
+	import Div from '$lib/components/layout/Div.svelte';
+	import Text from '$lib/components/interface/Text.svelte';
+	import HR from '$lib/components/interface/HR.svelte';
+	import Heading from '$lib/components/interface/Heading.svelte';
+	import Space from '$lib/components/interface/Space.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
+
+	let errorMessage = $derived(form?.message || '');
+
+	const handleInvalidEmail = (
+		e: Event & { currentTarget: HTMLInputElement }
+	) => {
+		const input = e.currentTarget;
+		if (input.validity.valueMissing) {
+			input.setCustomValidity(m.field_required());
+		} else if (input.validity.typeMismatch) {
+			input.setCustomValidity(m.invalid_email());
+		}
+	};
+
+	const handleInvalidPassword = (
+		e: Event & { currentTarget: HTMLInputElement }
+	) => {
+		const input = e.currentTarget;
+		if (input.validity.valueMissing) {
+			input.setCustomValidity(m.field_required());
+		}
+	};
+
+	const handleInput = (e: Event & { currentTarget: HTMLInputElement }) => {
+		e.currentTarget.setCustomValidity('');
+	};
 </script>
 
-<Main fullWidth>
+<Main fullWidth maxWidth="content">
 	{#if data.user}
-		<div class="user">
-			<div>
-				<h2>{m.welcome_back()}</h2>
+		<Div column gap="var(--sm)" fullWidth center class="user">
+			<Div fullWidth justify="between">
+				<Heading level={2}>{m.welcome_back()}</Heading>
 				<Button variant="outline" class="avatar">
 					{data.user.email[0].toUpperCase()}
 				</Button>
-			</div>
+			</Div>
 
-			<h3 class="name">{data.user.fullName}</h3>
-			<p class="email">{data.user.email}</p>
+			<HR />
+
+			<Div column center>
+				<Heading level={5}>{data.user.fullName}</Heading>
+				<Text align="center" size="sm">{data.user.email}</Text>
+
+				{#if !data.user.isVerified}
+					<Text align="center" size="sm" variant="error">
+						{m.not_verified()}
+					</Text>
+				{/if}
+			</Div>
 
 			<Button href="/dashboard" fullWidth>
 				{m.continue_app()}
 			</Button>
-		</div>
-		<p>
-			<Button href="?/logout" variant="invisible">
+		</Div>
+
+		<Space size="xs" />
+
+		<form action="?/logout" method="POST">
+			<Button type="submit" variant="invisible" size="sm">
 				{m.switch_account()}
 			</Button>
-		</p>
+		</form>
 	{:else}
 		<form action="?/login" method="POST">
-			<div>
-				<h2>{m.login_title()}</h2>
-				<Button variant="invisible">
+			<Div justify="between" align="center">
+				<Heading level={2}>{m.login_title()}</Heading>
+				<Button variant="invisible" type="button" disabled>
 					<GoogleIcon height="var(--lg)" />
 				</Button>
-			</div>
-
-			{#if form?.message}
-				<span>{form.message}</span>
-			{/if}
+			</Div>
 
 			<Input
 				type="email"
@@ -54,6 +94,8 @@
 				required
 				autocomplete="email"
 				placeholder={m.email_label()}
+				oninvalid={handleInvalidEmail}
+				oninput={handleInput}
 			>
 				<EmailIcon height="var(--lg)" />
 			</Input>
@@ -65,49 +107,39 @@
 				required
 				autocomplete="current-password"
 				placeholder={m.password_label()}
+				oninvalid={handleInvalidPassword}
+				oninput={handleInput}
 			>
 				<PasswordIcon height="var(--lg)" />
 			</Input>
 
+			{#if errorMessage}
+				<Text variant="error" size="sm" align="center">
+					{errorMessage}
+				</Text>
+			{/if}
+
 			<Button type="submit">
 				{m.login_button()}
 			</Button>
-		</form>
 
-		<p>
-			{m.no_account()}
-			<Button href="/register" variant="invisible">
-				{m.register_link()}
-			</Button>
-		</p>
+			<Text size="sm" align="center">
+				{m.no_account()}
+				<Button href="/register" variant="invisible">
+					{m.register_link()}
+				</Button>
+			</Text>
+		</form>
 	{/if}
 </Main>
 
 <style>
-	div.user {
-		display: flex;
-		flex-direction: column;
-		align-items: normal;
-		gap: var(--sm);
-		width: 100%;
+	:global(.user) {
 		max-width: calc(var(--xxxxl) * 8);
 	}
 
 	form {
 		max-width: calc(var(--xxxxl) * 8);
-	}
-
-	h2 {
-		flex: 1;
-	}
-
-	p {
-		margin-top: var(--xs);
-		font-size: var(--sm);
-
-		&.email {
-			text-align: center;
-		}
 	}
 
 	:global(.avatar) {

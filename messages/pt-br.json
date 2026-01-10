@@ -20,5 +20,8 @@
 	"welcome_back": "Bem-vindo!",
 	"continue_app": "Continuar para o App",
 	"switch_account": "Entrar com outra conta",
-	"name_label": "Nome completo"
+	"name_label": "Nome completo",
+	"field_required": "Este campo é obrigatório",
+	"invalid_email": "Por favor, insira um endereço de e-mail válido",
+	"not_verified": "Conta não verificada! Verifique seu email."
 }

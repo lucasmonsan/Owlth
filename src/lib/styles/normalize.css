@@ -140,8 +140,3 @@ a {
 		opacity: 0.75;
 	}
 }
-
-div {
-	display: flex;
-	align-items: center;
-}

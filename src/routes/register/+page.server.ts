@@ -25,7 +25,7 @@ export const load: PageServerLoad = async (event) => {
 };
 
 export const actions: Actions = {
-  default: async (event) => {
+  register: async (event) => {
     const formData = Object.fromEntries(await event.request.formData());
     const result = registerSchema.safeParse(formData);
 

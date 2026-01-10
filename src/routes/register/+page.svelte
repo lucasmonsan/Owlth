@@ -1,126 +1,127 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
-	import { localizeHref } from '$lib/paraglide/runtime';
 	import * as m from '$lib/paraglide/messages';
-
 	import Main from '$lib/components/layout/Main.svelte';
+	import Div from '$lib/components/layout/Div.svelte';
+	import Heading from '$lib/components/interface/Heading.svelte';
+	import Text from '$lib/components/interface/Text.svelte';
 	import Button from '$lib/components/interface/Button.svelte';
 	import Input from '$lib/components/interface/Input.svelte';
-
 	import EmailIcon from '$lib/components/icons/EmailIcon.svelte';
 	import PasswordIcon from '$lib/components/icons/PasswordIcon.svelte';
 	import GoogleIcon from '$lib/components/icons/GoogleIcon.svelte';
-
-	import { enhance } from '$app/forms';
+	import ProfileIcon from '$lib/components/icons/ProfileIcon.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
+
+	// Handlers para validação HTML5 traduzida
+	const handleInvalidRequired = (
+		e: Event & { currentTarget: HTMLInputElement }
+	) => {
+		const input = e.currentTarget;
+		if (input.validity.valueMissing) {
+			input.setCustomValidity(m.field_required());
+		}
+	};
+
+	const handleInvalidEmail = (
+		e: Event & { currentTarget: HTMLInputElement }
+	) => {
+		const input = e.currentTarget;
+		if (input.validity.valueMissing) {
+			input.setCustomValidity(m.field_required());
+		} else if (input.validity.typeMismatch) {
+			input.setCustomValidity(m.invalid_email());
+		}
+	};
+
+	const handleInput = (e: Event & { currentTarget: HTMLInputElement }) => {
+		e.currentTarget.setCustomValidity('');
+	};
 </script>
 
-<Main fullWidth>
-	<form method="POST" use:enhance>
-		<div>
-			<h2>{m.register_title()}</h2>
-			<Button variant="invisible">
+<Main fullWidth maxWidth="content">
+	<form action="?/register" method="POST">
+		<Div justify="between" align="center">
+			<Heading level={2}>{m.register_title()}</Heading>
+			<Button variant="invisible" type="button" disabled>
 				<GoogleIcon height="var(--lg)" />
 			</Button>
-		</div>
+		</Div>
+
+		<Input
+			type="text"
+			name="fullName"
+			id="fullName"
+			value={(form?.data?.fullName as string) ?? ''}
+			error={form?.errors?.fullName?.[0]}
+			required
+			autocomplete="name"
+			placeholder={m.name_label()}
+			oninvalid={handleInvalidRequired}
+			oninput={handleInput}
+		>
+			<ProfileIcon height="var(--lg)" />
+		</Input>
+
+		<Input
+			type="email"
+			name="email"
+			id="email"
+			value={(form?.data?.email as string) ?? ''}
+			error={form?.errors?.email?.[0]}
+			required
+			autocomplete="email"
+			placeholder={m.email_label()}
+			oninvalid={handleInvalidEmail}
+			oninput={handleInput}
+		>
+			<EmailIcon height="var(--lg)" />
+		</Input>
+
+		<Input
+			type="password"
+			name="password"
+			id="password"
+			error={form?.errors?.password?.[0]}
+			required
+			autocomplete="new-password"
+			placeholder={m.password_label()}
+			oninvalid={handleInvalidRequired}
+			oninput={handleInput}
+		>
+			<PasswordIcon height="var(--lg)" />
+		</Input>
+
+		<Input
+			type="password"
+			name="confirmPassword"
+			id="confirmPassword"
+			error={form?.errors?.confirmPassword?.[0]}
+			required
+			autocomplete="new-password"
+			placeholder={m.confirm_password_label()}
+			oninvalid={handleInvalidRequired}
+			oninput={handleInput}
+		>
+			<PasswordIcon height="var(--lg)" />
+		</Input>
 
 		{#if form?.message}
-			<span class="error-message">{form.message}</span>
+			<Text variant="error" size="sm" align="center">
+				{form.message}
+			</Text>
 		{/if}
 
-		<div class="field-group">
-			<Input
-				type="text"
-				name="fullName"
-				id="fullName"
-				value={(form?.data?.fullName as string) ?? ''}
-				required
-				autocomplete="name"
-				placeholder={m.name_label()}
-			>
-				<EmailIcon height="var(--lg)" />
-			</Input>
-			{#if form?.errors?.fullName?.[0]}
-				<span class="error-message">{form.errors.fullName[0]}</span>
-			{/if}
-		</div>
-
-		<div class="field-group">
-			<Input
-				type="email"
-				name="email"
-				id="email"
-				value={(form?.data?.email as string) ?? ''}
-				required
-				autocomplete="email"
-				placeholder={m.email_label()}
-			>
-				<EmailIcon height="var(--lg)" />
-			</Input>
-			{#if form?.errors?.email?.[0]}
-				<span class="error-message">{form.errors.email[0]}</span>
-			{/if}
-		</div>
-
-		<div class="field-group">
-			<Input
-				type="password"
-				name="password"
-				id="password"
-				required
-				autocomplete="new-password"
-				placeholder={m.password_label()}
-			>
-				<PasswordIcon height="var(--lg)" />
-			</Input>
-			{#if form?.errors?.password?.[0]}
-				<span class="error-message">{form.errors.password[0]}</span>
-			{/if}
-		</div>
-
-		<div class="field-group">
-			<Input
-				type="password"
-				name="confirmPassword"
-				id="confirmPassword"
-				required
-				autocomplete="new-password"
-				placeholder={m.confirm_password_label()}
-			>
-				<PasswordIcon height="var(--lg)" />
-			</Input>
-			{#if form?.errors?.confirmPassword?.[0]}
-				<span class="error-message">{form.errors.confirmPassword[0]}</span>
-			{/if}
-		</div>
-
-		<Button type="submit">
+		<Button type="submit" fullWidth>
 			{m.register_button()}
 		</Button>
-	</form>
 
-	<div>
-		<p>
+		<Text size="sm" align="center">
 			{m.already_have_account()}
-			<Button href={'/'} variant="invisible">
+			<Button href="/" variant="invisible">
 				{m.sign_in_link()}
 			</Button>
-		</p>
-	</div>
+		</Text>
+	</form>
 </Main>
-
-<style>
-	form {
-		max-width: calc(var(--xxxxl) * 8);
-	}
-
-	h2 {
-		flex: 1;
-	}
-
-	p {
-		margin-top: var(--xs);
-		font-size: var(--sm);
-	}
-</style>

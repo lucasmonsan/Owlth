@@ -17,6 +17,7 @@ export const user = pgTable('user', {
   passwordHash: text('password_hash').notNull(),
   role: text('role').default('user').notNull(),
   isVerified: boolean('is_verified').default(false).notNull(),
+  profilePicture: text('profile_picture'),
 
   twoFactorSecret: text('two_factor_secret'),
   twoFactorEnabled: boolean('two_factor_enabled').default(false).notNull(),

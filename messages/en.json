@@ -20,5 +20,8 @@
 	"welcome_back": "Welcome!",
 	"continue_app": "Continue to App",
 	"switch_account": "Sign in with another account",
-	"name_label": "Full name"
+	"name_label": "Full name",
+	"field_required": "This field is required",
+	"invalid_email": "Please enter a valid email address",
+	"not_verified": "Account not verified! Check your email."
 }
