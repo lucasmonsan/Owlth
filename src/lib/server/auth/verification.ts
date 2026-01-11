@@ -6,7 +6,7 @@ import { sendVerificationEmail } from '../email/client'; // Import ajustado para
 
 const EXPIRES_IN_MS = 1000 * 60 * 15; // 15 Minutos
 
-export async function createAndSendVerificationToken(userId: string, email: string) {
+export async function createAndSendVerificationToken(userId: string, email: string, locale: 'en' | 'pt-br') {
   await db.delete(tokenTable).where(eq(tokenTable.userId, userId));
 
   const token = generateEmailVerificationToken();
@@ -20,7 +20,7 @@ export async function createAndSendVerificationToken(userId: string, email: stri
     expiresAt: expiresAt
   });
 
-  await sendVerificationEmail(email, token);
+  await sendVerificationEmail(email, token, locale);
 }
 
 export async function verifyUserToken(token: string) {

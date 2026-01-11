@@ -1,6 +1,8 @@
 import nodemailer from 'nodemailer';
 import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2';
 import { env } from '$env/dynamic/private';
+import { setLocale, getLocale } from '$lib/paraglide/runtime';
+import * as m from '$lib/paraglide/messages';
 
 if (!env.AWS_ACCESS_KEY_ID || !env.AWS_SECRET_ACCESS_KEY || !env.AWS_REGION) {
   throw new Error('AWS Credentials not found in .env');
@@ -20,24 +22,37 @@ const transporter = nodemailer.createTransport({
   buffer: true
 });
 
-export async function sendVerificationEmail(email: string, token: string) {
+export async function sendVerificationEmail(email: string, token: string, locale: 'en' | 'pt-br') {
+  // Temporariamente muda locale para gerar mensagens
+  const originalLocale = getLocale();
+  setLocale(locale);
+
   const baseUrl = env.ORIGIN.replace(/\/$/, '');
-  const verifyUrl = `${baseUrl}/verify-email?token=${token}`;
+  const verifyUrl = `${baseUrl}/${locale}/verify-email?token=${token}`;
 
   const mailOptions = {
     from: env.FROM_EMAIL,
     to: email,
-    subject: 'Verifique sua conta',
+    subject: m.email_verify_subject(),
     html: `
-            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                <h1>Verificação de Segurança</h1>
-                <p>Clique no link abaixo para ativar sua conta:</p>
-                <a href="${verifyUrl}" style="display: inline-block; padding: 10px 20px; background-color: #000; color: #fff; text-decoration: none; border-radius: 5px;">Verificar Conta</a>
-                <p style="margin-top: 20px; color: #666; font-size: 12px;">Este link expira em 15 minutos.</p>
-                <p style="font-size: 10px; color: #aaa;">Se você não solicitou este e-mail, ignore-o.</p>
-            </div>
-        `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1>${m.email_verify_heading()}</h1>
+        <p>${m.email_verify_body()}</p>
+        <a href="${verifyUrl}" style="display: inline-block; padding: 10px 20px; background-color: #000; color: #fff; text-decoration: none; border-radius: 5px;">
+          ${m.email_verify_button()}
+        </a>
+        <p style="margin-top: 20px; color: #666; font-size: 12px;">
+          ${m.email_verify_expires()}
+        </p>
+        <p style="font-size: 10px; color: #aaa;">
+          ${m.email_verify_ignore()}
+        </p>
+      </div>
+    `
   };
+
+  // Restaura locale original
+  setLocale(originalLocale);
 
   const info = await transporter.sendMail(mailOptions);
 

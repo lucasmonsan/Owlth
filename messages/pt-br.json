@@ -29,5 +29,19 @@
 	"email_sent": "Email de verificação enviado com sucesso!",
 	"email_rate_limit": "Aguarde {seconds} segundos antes de solicitar outro email.",
 	"email_limit_reached": "Muitas solicitações. Tente novamente em {minutes} minutos.",
-	"verify_email_first": "Por favor, verifique seu email antes de acessar o dashboard."
+	"verify_email_first": "Por favor, verifique seu email antes de acessar o dashboard.",
+	"email_verify_subject": "Verifique sua conta",
+	"email_verify_heading": "Verificação de Segurança",
+	"email_verify_body": "Clique no link abaixo para ativar sua conta:",
+	"email_verify_button": "Verificar Conta",
+	"email_verify_expires": "Este link expira em 15 minutos.",
+	"email_verify_ignore": "Se você não solicitou este e-mail, ignore-o.",
+	"rate_limit_account_blocked": "Conta bloqueada temporariamente. Tente em 15 minutos.",
+	"rate_limit_too_many": "Muitas tentativas. Aguarde 5 minutos.",
+	"rate_limit_wait": "Aguarde 30 segundos antes de tentar novamente.",
+	"dashboard_title": "Painel",
+	"validation_name_min": "Nome deve ter no mínimo 2 caracteres",
+	"validation_email_invalid": "Email inválido",
+	"validation_password_min": "Senha deve ter no mínimo 8 caracteres",
+	"validation_password_mismatch": "As senhas não coincidem"
 }

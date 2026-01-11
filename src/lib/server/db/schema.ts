@@ -9,6 +9,14 @@ export const loginAttempt = pgTable('login_attempt', {
   expiresAt: timestamp('expires_at').notNull()
 });
 
+export const emailAttempt = pgTable('email_attempt', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  email: text('email').notNull(),
+  purpose: text('purpose').notNull(),
+  sentAt: timestamp('sent_at').defaultNow().notNull(),
+  expiresAt: timestamp('expires_at').notNull()
+});
+
 export const user = pgTable('user', {
   id: uuid('id').primaryKey().defaultRandom(),
 

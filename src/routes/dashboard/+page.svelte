@@ -19,7 +19,7 @@
 				size="lg"
 			/>
 			<Div column>
-				<Heading level={1}>Dashboard</Heading>
+				<Heading level={1}>{m.dashboard_title()}</Heading>
 				<Text variant="muted">
 					{m.welcome_back()}
 					<Text as="span" weight="semibold">{data.user?.email}</Text>

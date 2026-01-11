@@ -50,7 +50,7 @@ export async function validateSessionToken(token: string) {
     return { session: null, user: null };
   }
 
-  const renewalThreshold = Date.now() - DAY_IN_MS * (SESSION_EXPIRATION_DAYS - RENEWAL_THRESHOLD_DAYS);
+  const renewalThreshold = Date.now() + DAY_IN_MS * RENEWAL_THRESHOLD_DAYS;
   if (currentSession.expiresAt.getTime() <= renewalThreshold) {
     currentSession.expiresAt = new Date(Date.now() + DAY_IN_MS * SESSION_EXPIRATION_DAYS);
     await db

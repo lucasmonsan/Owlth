@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db/client';
-import { loginAttempt } from '$lib/server/db/schema';
+import { emailAttempt } from '$lib/server/db/schema';
 import { eq, and, gte } from 'drizzle-orm';
 
 const RATE_LIMIT_SECONDS = 60;
@@ -20,8 +20,8 @@ export async function checkEmailRateLimit(email: string): Promise<RateLimitResul
   // Busca tentativas na última hora
   const attempts = await db
     .select()
-    .from(loginAttempt)
-    .where(and(eq(loginAttempt.email, email), gte(loginAttempt.lastAttemptAt, oneHourAgo)));
+    .from(emailAttempt)
+    .where(and(eq(emailAttempt.email, email), gte(emailAttempt.sentAt, oneHourAgo)));
 
   if (attempts.length === 0) {
     return { allowed: true, remainingEmails: MAX_EMAILS_PER_HOUR };
@@ -30,11 +30,11 @@ export async function checkEmailRateLimit(email: string): Promise<RateLimitResul
   // Checa se ultrapassou limite de emails por hora
   if (attempts.length >= MAX_EMAILS_PER_HOUR) {
     const oldestAttempt = attempts.reduce((oldest, current) =>
-      current.lastAttemptAt < oldest.lastAttemptAt ? current : oldest
+      current.sentAt < oldest.sentAt ? current : oldest
     );
 
     const retryAfter = Math.ceil(
-      (oldestAttempt.lastAttemptAt.getTime() + ONE_HOUR_MS - now.getTime()) / 1000
+      (oldestAttempt.sentAt.getTime() + ONE_HOUR_MS - now.getTime()) / 1000
     );
 
     return {
@@ -46,12 +46,12 @@ export async function checkEmailRateLimit(email: string): Promise<RateLimitResul
 
   // Checa se passou tempo mínimo desde último envio
   const lastAttempt = attempts.reduce((latest, current) =>
-    current.lastAttemptAt > latest.lastAttemptAt ? current : latest
+    current.sentAt > latest.sentAt ? current : latest
   );
 
-  if (lastAttempt.lastAttemptAt >= rateLimitSeconds) {
+  if (lastAttempt.sentAt >= rateLimitSeconds) {
     const retryAfter = Math.ceil(
-      (lastAttempt.lastAttemptAt.getTime() + RATE_LIMIT_SECONDS * 1000 - now.getTime()) / 1000
+      (lastAttempt.sentAt.getTime() + RATE_LIMIT_SECONDS * 1000 - now.getTime()) / 1000
     );
 
     return {
@@ -71,16 +71,15 @@ export async function recordEmailSent(email: string): Promise<void> {
   const now = new Date();
   const expiresAt = new Date(now.getTime() + ONE_HOUR_MS);
 
-  await db.insert(loginAttempt).values({
+  await db.insert(emailAttempt).values({
     email,
-    ipAddress: 'email-verification', // Marcador especial
-    attempts: 1,
-    lastAttemptAt: now,
+    purpose: 'verification',
+    sentAt: now,
     expiresAt
   });
 }
 
 export async function cleanupExpiredEmailAttempts(): Promise<void> {
   const now = new Date();
-  await db.delete(loginAttempt).where(gte(loginAttempt.expiresAt, now));
+  await db.delete(emailAttempt).where(gte(emailAttempt.expiresAt, now));
 }
