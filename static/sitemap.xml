@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- English -->
+  <url>
+    <loc>https://owlth.com/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://owlth.com/pt-br/" />
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://owlth.com/register</loc>
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://owlth.com/pt-br/register" />
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://owlth.com/dashboard</loc>
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://owlth.com/pt-br/dashboard" />
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  
+  <!-- Portuguese -->
+  <url>
+    <loc>https://owlth.com/pt-br/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://owlth.com/" />
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://owlth.com/pt-br/register</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://owlth.com/register" />
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://owlth.com/pt-br/dashboard</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://owlth.com/dashboard" />
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+</urlset>

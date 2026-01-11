@@ -15,6 +15,7 @@
 	import Space from '$lib/components/interface/Space.svelte';
 	import Avatar from '$lib/components/interface/Avatar.svelte';
 	import Form from '$lib/components/layout/Form.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
@@ -75,6 +76,8 @@
 		e.currentTarget.setCustomValidity('');
 	};
 </script>
+
+<SEO title={m.login_title()} description={m.seo_login_description()} />
 
 <Main fullWidth maxWidth="content">
 	{#if data.user}

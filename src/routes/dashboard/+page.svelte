@@ -6,9 +6,13 @@
 	import Heading from '$lib/components/interface/Heading.svelte';
 	import Text from '$lib/components/interface/Text.svelte';
 	import Avatar from '$lib/components/interface/Avatar.svelte';
+	import Button from '$lib/components/interface/Button.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 
 	let { data }: { data: PageData } = $props();
 </script>
+
+<SEO title={m.dashboard_title()} description={m.seo_dashboard_description()} />
 
 <Main fullWidth maxWidth="content">
 	<Div column gap="var(--md)" fullWidth>

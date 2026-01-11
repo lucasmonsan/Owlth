@@ -13,9 +13,10 @@
 		ogImage = '/og-image.png'
 	}: Props = $props();
 
-	const fullTitle = `${title} | Owlth`;
-	const url =
-		canonical || (typeof window !== 'undefined' ? window.location.href : '');
+	const fullTitle = $derived(`${title} | Owlth`);
+	const url = $derived(
+		canonical || (typeof window !== 'undefined' ? window.location.href : '')
+	);
 </script>
 
 <svelte:head>
