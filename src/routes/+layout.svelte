@@ -4,7 +4,6 @@
 	import '$lib/styles/typography.css';
 	import '$lib/styles/variables.css';
 
-	import favicon from '$lib/assets/favicon.svg';
 	import Header from '$lib/components/layout/Header.svelte';
 
 	import { getLocale, setLocale } from '$lib/paraglide/runtime';
@@ -25,7 +24,12 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" type="image/svg+xml" href={favicon} />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Owlth" />
+	<link rel="manifest" href="/site.webmanifest" />
 </svelte:head>
 
 <BG />

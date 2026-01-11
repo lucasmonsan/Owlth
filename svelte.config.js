@@ -11,9 +11,6 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$routes: 'src/routes'
-		},
-		csrf: {
-			checkOrigin: true
 		}
 	}
 };
