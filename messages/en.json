@@ -23,5 +23,11 @@
 	"name_label": "Full name",
 	"field_required": "This field is required",
 	"invalid_email": "Please enter a valid email address",
-	"not_verified": "Account not verified! Check your email."
+	"not_verified": "Account not verified! Check your email.",
+	"resend_email": "Resend verification email",
+	"resend_in": "Resend in {seconds}s",
+	"email_sent": "Verification email sent successfully!",
+	"email_rate_limit": "Please wait {seconds} seconds before requesting another email.",
+	"email_limit_reached": "Too many requests. Try again in {minutes} minutes.",
+	"verify_email_first": "Please verify your email before accessing the dashboard."
 }

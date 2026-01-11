@@ -4,14 +4,14 @@
 	type Size = 'sm' | 'md' | 'lg' | 'xl';
 
 	interface Props extends HTMLAttributes<HTMLDivElement> {
-		src?: string;
+		src?: string | null;
 		alt: string;
 		size?: Size;
 		fallback?: string;
 	}
 
 	let {
-		src = undefined,
+		src = null,
 		alt,
 		size = 'md',
 		fallback = undefined,
@@ -42,7 +42,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border-radius: 50%;
+		border-radius: var(--radius);
 		background-color: var(--text-primary);
 		color: var(--bg);
 		font-weight: 700;

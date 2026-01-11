@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
 
-	type Element = 'p' | 'span' | 'div' | 'label';
+	type Element = 'p' | 'span' | 'div' | 'label' | 'strong';
 	type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 	type Weight = 'normal' | 'medium' | 'semibold' | 'bold';
 	type Variant = 'default' | 'muted' | 'error' | 'success' | 'warning';

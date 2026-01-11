@@ -23,5 +23,11 @@
 	"name_label": "Nome completo",
 	"field_required": "Este campo é obrigatório",
 	"invalid_email": "Por favor, insira um endereço de e-mail válido",
-	"not_verified": "Conta não verificada! Verifique seu email."
+	"not_verified": "Conta não verificada! Verifique seu email.",
+	"resend_email": "Reenviar email de verificação",
+	"resend_in": "Reenviar em {seconds}s",
+	"email_sent": "Email de verificação enviado com sucesso!",
+	"email_rate_limit": "Aguarde {seconds} segundos antes de solicitar outro email.",
+	"email_limit_reached": "Muitas solicitações. Tente novamente em {minutes} minutos.",
+	"verify_email_first": "Por favor, verifique seu email antes de acessar o dashboard."
 }

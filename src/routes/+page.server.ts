@@ -6,10 +6,13 @@ import { eq } from 'drizzle-orm';
 import { verifyPassword } from '$lib/server/auth/hashing';
 import { createSession, generateSessionToken, SESSION_COOKIE_NAME } from '$lib/server/auth/session';
 import { checkRateLimit, incrementRateLimit, clearRateLimit } from '$lib/server/security/ratelimit';
+import { checkEmailRateLimit, recordEmailSent } from '$lib/server/security/email-ratelimit';
+import { createAndSendVerificationToken } from '$lib/server/auth/verification';
 import * as m from '$lib/paraglide/messages';
 import type { Actions, PageServerLoad } from './$types';
 
-const DUMMY_ARGON2_HASH = "$argon2id$v=19$m=19456,t=2,p=1$oHgO+ynJ9iKEzGr3znmt1A$Qn/coTVMMphOPOtyCc/WVs38NOHTvr+VMIZKk5shexI";
+const DUMMY_ARGON2_HASH =
+  '$argon2id$v=19$m=19456,t=2,p=1$oHgO+ynJ9iKEzGr3znmt1A$Qn/coTVMMphOPOtyCc/WVs38NOHTvr+VMIZKk5shexI';
 
 const loginSchema = z.object({
   email: z.email(),
@@ -46,16 +49,14 @@ export const actions: Actions = {
     try {
       const rateLimit = await checkRateLimit(email, clientIp);
       if (rateLimit.blocked) {
-        return returnFailure(429, rateLimit.message || "Too many attempts");
+        return returnFailure(429, rateLimit.message || 'Too many attempts');
       }
 
       const existingUser = await db.select().from(user).where(eq(user.email, email)).limit(1);
 
       if (existingUser.length === 0) {
         await verifyPassword(DUMMY_ARGON2_HASH, password);
-
         await incrementRateLimit(email, clientIp);
-
         return returnFailure(400, m.invalid_credentials());
       }
 
@@ -78,13 +79,72 @@ export const actions: Actions = {
         sameSite: 'lax',
         expires: session.expiresAt
       });
-
     } catch (error) {
       console.error(error);
-      return returnFailure(500, "Internal Server Error");
+      return returnFailure(500, 'Internal Server Error');
     }
 
     redirect(302, '/dashboard');
+  },
+
+  resend: async (event) => {
+    // Verifica se usuário está logado
+    if (!event.locals.user) {
+      return fail(401, {
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    // Verifica se já está verificado
+    if (event.locals.user.isVerified) {
+      return fail(400, {
+        success: false,
+        message: 'Email already verified'
+      });
+    }
+
+    const email = event.locals.user.email;
+
+    try {
+      // Checa rate limit
+      const rateLimit = await checkEmailRateLimit(email);
+
+      if (!rateLimit.allowed) {
+        const seconds = rateLimit.retryAfter || 60;
+        const minutes = Math.ceil(seconds / 60);
+
+        return fail(429, {
+          success: false,
+          message:
+            seconds > 60
+              ? m.email_limit_reached({ minutes })
+              : m.email_rate_limit({ seconds }),
+          retryAfter: seconds,
+          action: 'resend'
+        });
+      }
+
+      // Envia email
+      await createAndSendVerificationToken(event.locals.user.id, email);
+
+      // Registra envio
+      await recordEmailSent(email);
+
+      return {
+        success: true,
+        message: m.email_sent(),
+        retryAfter: 60,
+        action: 'resend'
+      };
+    } catch (error) {
+      console.error('Resend email error:', error);
+      return fail(500, {
+        success: false,
+        message: 'Internal Server Error',
+        action: 'resend'
+      });
+    }
   },
 
   logout: async (event) => {

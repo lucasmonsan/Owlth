@@ -14,7 +14,7 @@
 	<Div column gap="var(--md)" fullWidth>
 		<Div gap="var(--sm)" align="center">
 			<Avatar
-				src={data.user?.profilePicture ?? undefined}
+				src={data.user?.profilePicture}
 				alt={data.user?.fullName || data.user?.email || 'User'}
 				size="lg"
 			/>

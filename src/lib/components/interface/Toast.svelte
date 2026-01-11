@@ -70,7 +70,7 @@
 		min-width: 16rem;
 		max-width: 24rem;
 		padding: var(--sm) var(--md);
-		border-radius: calc(var(--radius) * 2);
+		border-radius: var(--radius);
 		background-color: var(--surface);
 		border: var(--border) var(--border-color);
 		box-shadow: var(--shadow-lg);

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
 	import * as m from '$lib/paraglide/messages';
+	import { addToast } from '$lib/stores/toast.svelte';
 	import EmailIcon from '$lib/components/icons/EmailIcon.svelte';
 	import PasswordIcon from '$lib/components/icons/PasswordIcon.svelte';
 	import GoogleIcon from '$lib/components/icons/GoogleIcon.svelte';
@@ -12,10 +13,42 @@
 	import HR from '$lib/components/interface/HR.svelte';
 	import Heading from '$lib/components/interface/Heading.svelte';
 	import Space from '$lib/components/interface/Space.svelte';
+	import Avatar from '$lib/components/interface/Avatar.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
 	let errorMessage = $derived(form?.message || '');
+
+	// Countdown para reenvio de email
+	let countdown = $state(0);
+
+	// Inicia countdown se servidor retornar retryAfter
+	$effect(() => {
+		if (form?.retryAfter && form.retryAfter > 0) {
+			countdown = form.retryAfter;
+		}
+	});
+
+	// Decrementa countdown a cada segundo
+	$effect(() => {
+		if (countdown > 0) {
+			const timer = setInterval(() => {
+				countdown = Math.max(0, countdown - 1);
+			}, 1000);
+			return () => clearInterval(timer);
+		}
+	});
+
+	// Toast de sucesso ao enviar email
+	$effect(() => {
+		if (form?.success && form.action === 'resend') {
+			addToast({
+				message: m.email_sent(),
+				variant: 'success',
+				duration: 5000
+			});
+		}
+	});
 
 	const handleInvalidEmail = (
 		e: Event & { currentTarget: HTMLInputElement }
@@ -44,12 +77,14 @@
 
 <Main fullWidth maxWidth="content">
 	{#if data.user}
-		<Div column gap="var(--sm)" fullWidth center class="user">
+		<Div column gap="var(--sm)" fullWidth center maxWidth="content">
 			<Div fullWidth justify="between">
 				<Heading level={2}>{m.welcome_back()}</Heading>
-				<Button variant="outline" class="avatar">
-					{data.user.email[0].toUpperCase()}
-				</Button>
+				<Avatar
+					src={data.user.profilePicture}
+					alt={data.user.fullName}
+					size="xl"
+				/>
 			</Div>
 
 			<HR />
@@ -59,13 +94,29 @@
 				<Text align="center" size="sm">{data.user.email}</Text>
 
 				{#if !data.user.isVerified}
+					<Space size="xs" />
 					<Text align="center" size="sm" variant="error">
 						{m.not_verified()}
 					</Text>
+
+					<Space size="sm" />
+
+					<!-- Botão de reenviar email -->
+					<form action="?/resend" method="POST">
+						{#if countdown > 0}
+							<Button type="button" variant="outline" disabled fullWidth>
+								{m.resend_in({ seconds: countdown })}
+							</Button>
+						{:else}
+							<Button type="submit" variant="outline" fullWidth>
+								{m.resend_email()}
+							</Button>
+						{/if}
+					</form>
 				{/if}
 			</Div>
 
-			<Button href="/dashboard" fullWidth>
+			<Button href="/dashboard" fullWidth disabled={!data.user.isVerified}>
 				{m.continue_app()}
 			</Button>
 		</Div>
@@ -119,7 +170,7 @@
 				</Text>
 			{/if}
 
-			<Button type="submit">
+			<Button type="submit" fullWidth>
 				{m.login_button()}
 			</Button>
 
@@ -134,16 +185,7 @@
 </Main>
 
 <style>
-	:global(.user) {
-		max-width: calc(var(--xxxxl) * 8);
-	}
-
 	form {
-		max-width: calc(var(--xxxxl) * 8);
-	}
-
-	:global(.avatar) {
-		width: var(--xxxxl);
-		height: var(--xxxxl);
+		max-width: var(--max-width-content);
 	}
 </style>
