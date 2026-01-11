@@ -1,38 +1,99 @@
-# sv
+# Owlth
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Plataforma moderna de gestão financeira construída com SvelteKit 5, TypeScript e PostgreSQL.
 
-## Creating a project
+## 🚀 Tecnologias
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Framework**: SvelteKit 5 (Svelte Runes)
+- **Linguagem**: TypeScript (strict mode)
+- **Banco de Dados**: PostgreSQL + Drizzle ORM
+- **Autenticação**: Session-based com Argon2
+- **i18n**: Paraglide (EN + PT-BR)
+- **Estilização**: CSS Modules + Design System
+- **Testes**: Vitest + Playwright
+- **Deploy**: Node adapter (Coolify/VPS)
 
-```sh
-# create a new project in the current directory
-npx sv create
+## ✨ Funcionalidades
 
-# create a new project in my-app
-npx sv create my-app
+- ✅ Autenticação segura com sessões
+- ✅ Verificação de email
+- ✅ Rate limiting (login + email)
+- ✅ Internacionalização (EN/PT-BR)
+- ✅ SEO otimizado (meta tags + sitemap)
+- ✅ Proteção CSRF automática
+- ✅ Verificação de senhas vazadas (HIBP)
+- ✅ Proteção HPP (HTTP Parameter Pollution)
+- ✅ PWA-ready (manifest + favicons)
+
+## 🛠️ Desenvolvimento
+
+```bash
+# Instalar dependências
+bun install
+
+# Rodar dev server
+bun run dev
+
+# Build para produção
+bun run build
+
+# Preview da build
+bun run preview
 ```
 
-## Developing
+## 🗄️ Banco de Dados
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+```bash
+# Gerar migration
+bun run db:generate
 
-```sh
-npm run dev
+# Aplicar migration
+bun run db:push
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# Abrir Drizzle Studio
+bun run db:studio
 ```
 
-## Building
+## 🔒 Segurança
 
-To create a production version of your app:
+- Argon2 para hashing de senhas
+- Session tokens com SHA-256
+- Rate limiting em login e emails
+- CSRF protection habilitado
+- HPP protection
+- Verificação HIBP de senhas vazadas
+- Email verification obrigatória
 
-```sh
-npm run build
-```
+## 🌍 i18n
 
-You can preview the production build with `npm run preview`.
+Suporta EN e PT-BR com detecção automática de idioma do browser.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Rotas:
+
+- `/` - Inglês (padrão)
+- `/pt-br/` - Português
+
+## 📦 Scripts Disponíveis
+
+- `dev` - Dev server + tunnel + db studio + paraglide watch
+- `build` - Build para produção
+- `preview` - Preview da build
+- `test` - Rodar testes
+- `lint` - ESLint
+- `format` - Prettier
+
+## 🚀 Deploy
+
+O projeto usa `@sveltejs/adapter-node` e está pronto para deploy em:
+
+- Coolify
+- VPS com Node.js
+- Qualquer plataforma que suporte Node
+
+## 📄 Licença
+
+Ver arquivo [LICENSE](LICENSE)
+
+## 🔐 Segurança
+
+Para reportar vulnerabilidades, veja [/.well-known/security.txt](static/.well-known/security.txt)
