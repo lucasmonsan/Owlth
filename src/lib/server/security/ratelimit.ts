@@ -4,7 +4,7 @@ import { eq, and, gt, lt } from 'drizzle-orm';
 
 const WINDOW_MINUTES = 15;
 
-export async function checkRateLimit(email: string, ip: string): Promise<{ blocked: boolean; message?: string }> {
+export async function checkRateLimit(email: string, ip: string): Promise<{ blocked: boolean; code?: string }> {
   await db.delete(loginAttempt)
     .where(and(
       eq(loginAttempt.email, email),
@@ -26,17 +26,17 @@ export async function checkRateLimit(email: string, ip: string): Promise<{ block
 
   const record = attempts[0];
 
-  if (record.attempts >= 15) return { blocked: true, message: 'Conta bloqueada temporariamente. Tente em 15 minutos.' };
+  if (record.attempts >= 15) return { blocked: true, code: 'ACCOUNT_BLOCKED_15MIN' };
 
   if (record.attempts >= 10) {
     if (Date.now() - record.lastAttemptAt.getTime() < 1000 * 60 * 5) {
-      return { blocked: true, message: 'Muitas tentativas. Aguarde 5 minutos.' };
+      return { blocked: true, code: 'TOO_MANY_WAIT_5MIN' };
     }
   }
 
   if (record.attempts >= 5) {
     if (Date.now() - record.lastAttemptAt.getTime() < 1000 * 30) {
-      return { blocked: true, message: 'Aguarde 30 segundos antes de tentar novamente.' };
+      return { blocked: true, code: 'WAIT_30_SECONDS' };
     }
   }
 

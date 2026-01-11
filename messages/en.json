@@ -12,7 +12,8 @@
 	"password_mismatch": "Passwords do not match",
 	"email_exists": "Email already registered",
 	"validation_error": "Validation failed",
-	"login_title": "Sign in",
+	"login_title": "Sign In",
+	"logout": "Logout",
 	"login_button": "Sign in",
 	"no_account": "Don't have an account?",
 	"register_link": "Create one",
@@ -43,5 +44,8 @@
 	"validation_name_min": "Name must be at least 2 characters",
 	"validation_email_invalid": "Invalid email",
 	"validation_password_min": "Password must be at least 8 characters",
-	"validation_password_mismatch": "Passwords do not match"
+	"validation_password_mismatch": "Passwords do not match",
+	"seo_login_description": "Sign in to your Owlth account to manage your finances",
+	"seo_register_description": "Create your free Owlth account and start managing your finances today",
+	"seo_dashboard_description": "Manage your Owlth account and track your financial goals"
 }

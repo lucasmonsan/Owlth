@@ -37,10 +37,13 @@
 	main {
 		z-index: var(--z-page);
 		position: absolute;
+		inset: 0;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		padding: var(--md);
+		overflow-y: auto;
+		overflow-x: hidden;
 
 		&.w-100 {
 			width: 100%;

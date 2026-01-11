@@ -64,13 +64,6 @@ table {
 	border-color: currentcolor;
 }
 
-form {
-	display: flex;
-	flex-direction: column;
-	gap: var(--sm);
-	width: 100%;
-}
-
 input {
 	border: none;
 	background: none;

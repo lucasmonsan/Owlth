@@ -25,40 +25,12 @@ body {
 	font-size: var(--md);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
 strong {
 	font-weight: 800;
 	line-height: 1.2;
 	margin: 0;
 	color: inherit;
 	transition: color var(--fast);
-}
-
-h1 {
-	font-size: var(--xxxxl);
-}
-h2 {
-	font-size: var(--xxxl);
-}
-h3 {
-	font-size: var(--xxl);
-}
-h4 {
-	font-size: var(--xl);
-}
-h5 {
-	font-size: var(--lg);
-}
-h6 {
-	font-size: var(--md);
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	font-weight: 700;
 }
 
 small {

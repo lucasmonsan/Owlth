@@ -3,6 +3,7 @@
 	import * as m from '$lib/paraglide/messages';
 	import Main from '$lib/components/layout/Main.svelte';
 	import Div from '$lib/components/layout/Div.svelte';
+	import Form from '$lib/components/layout/Form.svelte';
 	import Heading from '$lib/components/interface/Heading.svelte';
 	import Text from '$lib/components/interface/Text.svelte';
 	import Button from '$lib/components/interface/Button.svelte';
@@ -41,7 +42,7 @@
 </script>
 
 <Main fullWidth maxWidth="content">
-	<form action="?/register" method="POST">
+	<Form action="?/register" method="POST">
 		<Div justify="between" align="center">
 			<Heading level={2}>{m.register_title()}</Heading>
 			<Button variant="invisible" type="button" disabled>
@@ -123,5 +124,5 @@
 				{m.sign_in_link()}
 			</Button>
 		</Text>
-	</form>
+	</Form>
 </Main>

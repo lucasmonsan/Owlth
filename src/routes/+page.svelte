@@ -14,6 +14,7 @@
 	import Heading from '$lib/components/interface/Heading.svelte';
 	import Space from '$lib/components/interface/Space.svelte';
 	import Avatar from '$lib/components/interface/Avatar.svelte';
+	import Form from '$lib/components/layout/Form.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
@@ -102,7 +103,7 @@
 					<Space size="sm" />
 
 					<!-- Botão de reenviar email -->
-					<form action="?/resend" method="POST">
+					<Form action="?/resend" method="POST">
 						{#if countdown > 0}
 							<Button type="button" variant="outline" disabled fullWidth>
 								{m.resend_in({ seconds: countdown })}
@@ -112,7 +113,7 @@
 								{m.resend_email()}
 							</Button>
 						{/if}
-					</form>
+					</Form>
 				{/if}
 			</Div>
 
@@ -123,13 +124,13 @@
 
 		<Space size="xs" />
 
-		<form action="?/logout" method="POST">
-			<Button type="submit" variant="invisible" size="sm">
-				{m.switch_account()}
+		<Form action="?/logout" method="POST">
+			<Button type="submit" variant="outline" fullWidth>
+				{m.logout()}
 			</Button>
-		</form>
+		</Form>
 	{:else}
-		<form action="?/login" method="POST">
+		<Form action="?/login" method="POST">
 			<Div justify="between" align="center">
 				<Heading level={2}>{m.login_title()}</Heading>
 				<Button variant="invisible" type="button" disabled>
@@ -180,12 +181,6 @@
 					{m.register_link()}
 				</Button>
 			</Text>
-		</form>
+		</Form>
 	{/if}
 </Main>
-
-<style>
-	form {
-		max-width: var(--max-width-content);
-	}
-</style>

@@ -24,6 +24,7 @@
 <svelte:element
 	this={tag}
 	class="heading {className}"
+	data-level={level}
 	data-align={align}
 	{...rest}
 >
@@ -37,6 +38,28 @@
 		margin: 0;
 		color: inherit;
 		transition: color var(--fast);
+	}
+
+	.heading[data-level='1'] {
+		font-size: var(--xxxxl);
+	}
+	.heading[data-level='2'] {
+		font-size: var(--xxxl);
+	}
+	.heading[data-level='3'] {
+		font-size: var(--xxl);
+	}
+	.heading[data-level='4'] {
+		font-size: var(--xl);
+	}
+	.heading[data-level='5'] {
+		font-size: var(--lg);
+	}
+	.heading[data-level='6'] {
+		font-size: var(--md);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		font-weight: 700;
 	}
 
 	.heading[data-align='left'] {

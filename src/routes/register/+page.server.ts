@@ -67,7 +67,8 @@ export const actions: Actions = {
       }).returning();
 
       // Envia email de verificação
-      await createAndSendVerificationToken(newUser.id, email);
+      const currentLocale = event.url.pathname.startsWith('/pt-br') ? 'pt-br' : 'en';
+      await createAndSendVerificationToken(newUser.id, email, currentLocale as 'en' | 'pt-br');
 
       const token = generateSessionToken();
       const session = await createSession(token, newUser.id);

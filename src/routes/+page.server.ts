@@ -49,7 +49,17 @@ export const actions: Actions = {
     try {
       const rateLimit = await checkRateLimit(email, clientIp);
       if (rateLimit.blocked) {
-        return returnFailure(429, rateLimit.message || 'Too many attempts');
+        let message = m.invalid_credentials();
+
+        if (rateLimit.code === 'ACCOUNT_BLOCKED_15MIN') {
+          message = m.rate_limit_account_blocked();
+        } else if (rateLimit.code === 'TOO_MANY_WAIT_5MIN') {
+          message = m.rate_limit_too_many();
+        } else if (rateLimit.code === 'WAIT_30_SECONDS') {
+          message = m.rate_limit_wait();
+        }
+
+        return returnFailure(429, message);
       }
 
       const existingUser = await db.select().from(user).where(eq(user.email, email)).limit(1);
@@ -126,7 +136,8 @@ export const actions: Actions = {
       }
 
       // Envia email
-      await createAndSendVerificationToken(event.locals.user.id, email);
+      const currentLocale = event.url.pathname.startsWith('/pt-br') ? 'pt-br' : 'en';
+      await createAndSendVerificationToken(event.locals.user.id, email, currentLocale as 'en' | 'pt-br');
 
       // Registra envio
       await recordEmailSent(email);
