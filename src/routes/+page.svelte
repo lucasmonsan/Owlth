@@ -15,7 +15,7 @@
 	import Space from '$lib/components/interface/Space.svelte';
 	import Avatar from '$lib/components/interface/Avatar.svelte';
 	import Form from '$lib/components/layout/Form.svelte';
-	import SEO from '$lib/components/SEO.svelte';
+	import SEO from '$lib/components/layout/SEO.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 

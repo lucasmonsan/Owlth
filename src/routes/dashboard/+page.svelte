@@ -7,7 +7,7 @@
 	import Text from '$lib/components/interface/Text.svelte';
 	import Avatar from '$lib/components/interface/Avatar.svelte';
 	import Button from '$lib/components/interface/Button.svelte';
-	import SEO from '$lib/components/SEO.svelte';
+	import SEO from '$lib/components/layout/SEO.svelte';
 
 	let { data }: { data: PageData } = $props();
 </script>

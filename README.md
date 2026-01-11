@@ -1,6 +1,6 @@
 # Owlth
 
-Plataforma moderna de gestão financeira construída com SvelteKit 5, TypeScript e PostgreSQL.
+Aplicação web moderna construída com SvelteKit 5, TypeScript e PostgreSQL.
 
 ## 🚀 Tecnologias
 

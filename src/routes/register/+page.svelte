@@ -10,7 +10,7 @@
 	import Input from '$lib/components/interface/Input.svelte';
 	import EmailIcon from '$lib/components/icons/EmailIcon.svelte';
 	import PasswordIcon from '$lib/components/icons/PasswordIcon.svelte';
-	import SEO from '$lib/components/SEO.svelte';
+	import SEO from '$lib/components/layout/SEO.svelte';
 	import GoogleIcon from '$lib/components/icons/GoogleIcon.svelte';
 	import ProfileIcon from '$lib/components/icons/ProfileIcon.svelte';
 
