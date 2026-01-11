@@ -6,6 +6,7 @@ import { eq } from 'drizzle-orm';
 import { hashPassword } from '$lib/server/auth/hashing';
 import { createSession, generateSessionToken, SESSION_COOKIE_NAME } from '$lib/server/auth/session';
 import { createAndSendVerificationToken } from '$lib/server/auth/verification';
+import * as m from '$lib/paraglide/messages';
 import type { Actions, PageServerLoad } from './$types';
 
 const registerSchema = z.object({
@@ -54,6 +55,13 @@ export const actions: Actions = {
 
       if (existingUser.length > 0) {
         return returnError(400, "Este email já está cadastrado");
+      }
+
+      // Check if password has been pwned
+      const { isPasswordPwned } = await import('$lib/server/auth/hibp');
+      const isPwned = await isPasswordPwned(password);
+      if (isPwned) {
+        return returnError(400, m.password_pwned(), { password: [m.password_pwned()] });
       }
 
       const passwordHash = await hashPassword(password);

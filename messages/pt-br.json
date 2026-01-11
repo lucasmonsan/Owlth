@@ -47,5 +47,6 @@
 	"validation_password_mismatch": "As senhas não coincidem",
 	"seo_login_description": "Entre na sua conta Owlth para gerenciar suas finanças",
 	"seo_register_description": "Crie sua conta Owlth gratuita e comece a gerenciar suas finanças hoje",
-	"seo_dashboard_description": "Gerencie sua conta Owlth e acompanhe suas metas financeiras"
+	"seo_dashboard_description": "Gerencie sua conta Owlth e acompanhe suas metas financeiras",
+	"password_pwned": "Esta senha foi exposta em vazamentos de dados. Por favor, escolha outra para sua segurança."
 }

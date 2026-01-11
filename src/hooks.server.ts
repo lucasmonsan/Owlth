@@ -4,6 +4,22 @@ import { setLocale } from '$lib/paraglide/runtime';
 import { locales, defaultLocale } from '$lib/config/i18n';
 import type { Handle } from '@sveltejs/kit';
 
+const handleHPP: Handle = async ({ event, resolve }) => {
+	const url = new URL(event.request.url);
+	const seen = new Set<string>();
+
+	// Check for duplicate query parameters
+	for (const key of url.searchParams.keys()) {
+		if (seen.has(key)) {
+			// Duplicate parameter detected - potential HPP attack
+			return new Response('Bad Request', { status: 400 });
+		}
+		seen.add(key);
+	}
+
+	return resolve(event);
+};
+
 const handleI18n: Handle = async ({ event, resolve }) => {
 	const url = new URL(event.request.url);
 
@@ -65,4 +81,4 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handle = sequence(handleI18n, handleAuth);
+export const handle = sequence(handleHPP, handleI18n, handleAuth);

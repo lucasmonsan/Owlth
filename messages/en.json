@@ -47,5 +47,6 @@
 	"validation_password_mismatch": "Passwords do not match",
 	"seo_login_description": "Sign in to your Owlth account to manage your finances",
 	"seo_register_description": "Create your free Owlth account and start managing your finances today",
-	"seo_dashboard_description": "Manage your Owlth account and track your financial goals"
+	"seo_dashboard_description": "Manage your Owlth account and track your financial goals",
+	"password_pwned": "This password has been exposed in data breaches. Please choose a different one for your security."
 }
