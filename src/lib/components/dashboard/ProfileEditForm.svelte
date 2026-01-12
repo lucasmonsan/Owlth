@@ -9,8 +9,9 @@
 	import { addToast } from '$lib/stores/toast.svelte';
 	import { invalidateAll } from '$app/navigation';
 	import * as m from '$lib/paraglide/messages';
+	import type { PublicUser } from '$lib/types';
 
-	let { user } = $props<{ user: any }>();
+	let { user } = $props<{ user: PublicUser }>();
 
 	let isSubmitting = $state(false);
 	let fullName = $state('');

@@ -1,36 +1,38 @@
+const UAParser = require('ua-parser-js');
+
+export interface ParsedUserAgent {
+  device: string;
+  browser: string;
+  os: string;
+}
+
 /**
  * Extrai informações de device, browser e OS do user-agent
  * Usado para login history e session tracking
  */
-export function parseUserAgent(userAgent: string | undefined): {
-  device: string;
-  browser: string;
-  os: string;
-} {
+export function parseUserAgent(userAgent: string | undefined): ParsedUserAgent {
   if (!userAgent) {
     return { device: 'Unknown', browser: 'Unknown', os: 'Unknown' };
   }
 
-  // Device detection
+  const parser = new UAParser(userAgent);
+  const result = parser.getResult();
+
+  // Device
+  const deviceType = result.device.type;
   let device = 'Desktop';
-  if (/mobile/i.test(userAgent)) device = 'Mobile';
-  if (/tablet|ipad/i.test(userAgent)) device = 'Tablet';
+  if (deviceType === 'mobile') device = 'Mobile';
+  else if (deviceType === 'tablet') device = 'Tablet';
 
-  // Browser detection
-  let browser = 'Unknown';
-  if (/edg/i.test(userAgent)) browser = 'Edge';
-  else if (/chrome/i.test(userAgent)) browser = 'Chrome';
-  else if (/firefox/i.test(userAgent)) browser = 'Firefox';
-  else if (/safari/i.test(userAgent)) browser = 'Safari';
-  else if (/opera|opr/i.test(userAgent)) browser = 'Opera';
+  // Browser com versão
+  const browserName = result.browser.name || 'Unknown';
+  const browserVersion = result.browser.version || '';
+  const browser = browserVersion ? `${browserName} ${browserVersion.split('.')[0]}` : browserName;
 
-  // OS detection
-  let os = 'Unknown';
-  if (/windows/i.test(userAgent)) os = 'Windows';
-  else if (/mac os/i.test(userAgent)) os = 'macOS';
-  else if (/linux/i.test(userAgent)) os = 'Linux';
-  else if (/android/i.test(userAgent)) os = 'Android';
-  else if (/ios|iphone|ipad/i.test(userAgent)) os = 'iOS';
+  // OS com versão
+  const osName = result.os.name || 'Unknown';
+  const osVersion = result.os.version || '';
+  const os = osVersion ? `${osName} ${osVersion.split('.')[0]}` : osName;
 
   return { device, browser, os };
 }
