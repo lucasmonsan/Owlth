@@ -1,6 +1,6 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import sharp from 'sharp';
-import { env } from '$lib/server/env';
+import { env } from '$lib/server/config/env';
 
 const r2 = new S3Client({
   region: 'auto',

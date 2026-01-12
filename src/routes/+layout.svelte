@@ -10,6 +10,8 @@
 	import BG from '$lib/components/layout/BG.svelte';
 	import Toast from '$lib/components/interface/Toast.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import { browser } from '$app/environment';
+	import { env } from '$env/dynamic/public';
 
 	let { children } = $props();
 
@@ -25,6 +27,14 @@
 </script>
 
 <svelte:head>
+	{#if browser && env.PUBLIC_UMAMI_WEBSITE_ID}
+		<script
+			async
+			src="{env.PUBLIC_UMAMI_URL}/script.js"
+			data-website-id={env.PUBLIC_UMAMI_WEBSITE_ID}
+		></script>
+	{/if}
+
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 	<link rel="shortcut icon" href="/favicon.ico" />

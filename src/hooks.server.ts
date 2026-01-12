@@ -3,6 +3,13 @@ import { validateSessionToken, SESSION_COOKIE_NAME, setSessionCookie, deleteSess
 import { setLocale } from '$lib/paraglide/runtime';
 import { locales, defaultLocale } from '$lib/config/i18n';
 import type { Handle } from '@sveltejs/kit';
+import * as Sentry from '@sentry/sveltekit';
+import { monitoringConfig } from '$lib/server/config/monitoring';
+
+// Inicializar monitoring
+Sentry.init(monitoringConfig);
+
+export const handleError = Sentry.handleErrorWithSentry();
 
 const handleHPP: Handle = async ({ event, resolve }) => {
 	const url = new URL(event.request.url);

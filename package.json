@@ -57,6 +57,7 @@
 		"@node-rs/argon2": "^2.0.2",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
+		"@sentry/sveltekit": "^10.33.0",
 		"nodemailer": "^7.0.12",
 		"oslo": "^1.2.1",
 		"postgres": "^3.4.7",
