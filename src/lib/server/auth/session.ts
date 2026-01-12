@@ -65,3 +65,29 @@ export async function validateSessionToken(token: string) {
 export async function invalidateSession(sessionId: string) {
   await db.delete(session).where(eq(session.id, sessionId));
 }
+
+export function setSessionCookie(
+  event: { cookies: { set: Function } },
+  token: string,
+  expiresAt: Date
+) {
+  const isProduction = import.meta.env.PROD;
+
+  event.cookies.set(SESSION_COOKIE_NAME, token, {
+    path: '/',
+    domain: isProduction ? '.monsan.dev.br' : undefined,
+    secure: isProduction,
+    httpOnly: true,
+    sameSite: 'lax',
+    expires: expiresAt
+  });
+}
+
+export function deleteSessionCookie(event: { cookies: { delete: Function } }) {
+  const isProduction = import.meta.env.PROD;
+
+  event.cookies.delete(SESSION_COOKIE_NAME, {
+    path: '/',
+    domain: isProduction ? '.monsan.dev.br' : undefined
+  });
+}

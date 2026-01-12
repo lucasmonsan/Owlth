@@ -1,5 +1,5 @@
 import { sequence } from '@sveltejs/kit/hooks';
-import { validateSessionToken, SESSION_COOKIE_NAME } from '$lib/server/auth/session';
+import { validateSessionToken, SESSION_COOKIE_NAME, setSessionCookie, deleteSessionCookie } from '$lib/server/auth/session';
 import { setLocale } from '$lib/paraglide/runtime';
 import { locales, defaultLocale } from '$lib/config/i18n';
 import type { Handle } from '@sveltejs/kit';
@@ -64,15 +64,9 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	const { session, user } = await validateSessionToken(token);
 
 	if (session !== null) {
-		event.cookies.set(SESSION_COOKIE_NAME, token, {
-			path: '/',
-			secure: import.meta.env.PROD,
-			httpOnly: true,
-			sameSite: 'lax',
-			expires: session.expiresAt
-		});
+		setSessionCookie(event, token, session.expiresAt);
 	} else {
-		event.cookies.delete(SESSION_COOKIE_NAME, { path: '/' });
+		deleteSessionCookie(event);
 	}
 
 	event.locals.session = session;

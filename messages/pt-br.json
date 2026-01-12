@@ -48,5 +48,14 @@
 	"seo_login_description": "Entre na sua conta Owlth para gerenciar suas finanças",
 	"seo_register_description": "Crie sua conta Owlth gratuita e comece a gerenciar suas finanças hoje",
 	"seo_dashboard_description": "Gerencie sua conta Owlth e acompanhe suas metas financeiras",
-	"password_pwned": "Esta senha foi exposta em vazamentos de dados. Por favor, escolha outra para sua segurança."
+	"password_pwned": "Esta senha foi exposta em vazamentos de dados. Por favor, escolha outra para sua segurança.",
+	"my_apps": "Meus Apps",
+	"other_apps": "Outros Apps",
+	"profile": "Perfil",
+	"login_history": "Histórico de Login",
+	"active_sessions": "Sessões Ativas",
+	"notification_preferences": "Preferências de Notificação",
+	"edit_profile": "Editar Perfil",
+	"save_changes": "Salvar Alterações",
+	"current_session": "Sessão Atual"
 }

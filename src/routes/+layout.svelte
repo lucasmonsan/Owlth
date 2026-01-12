@@ -32,7 +32,7 @@
 	<link rel="manifest" href="/site.webmanifest" />
 </svelte:head>
 
-<BG />
+<!-- <BG /> -->
 
 <Header />
 

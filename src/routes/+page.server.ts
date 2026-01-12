@@ -4,7 +4,7 @@ import { db } from '$lib/server/db/client';
 import { user } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { verifyPassword } from '$lib/server/auth/hashing';
-import { createSession, generateSessionToken, SESSION_COOKIE_NAME } from '$lib/server/auth/session';
+import { createSession, generateSessionToken, SESSION_COOKIE_NAME, setSessionCookie } from '$lib/server/auth/session';
 import { checkRateLimit, incrementRateLimit, clearRateLimit } from '$lib/server/security/ratelimit';
 import { checkEmailRateLimit, recordEmailSent } from '$lib/server/security/email-ratelimit';
 import { createAndSendVerificationToken } from '$lib/server/auth/verification';
@@ -82,13 +82,7 @@ export const actions: Actions = {
       const token = generateSessionToken();
       const session = await createSession(token, existingUser[0].id);
 
-      event.cookies.set(SESSION_COOKIE_NAME, token, {
-        path: '/',
-        secure: import.meta.env.PROD,
-        httpOnly: true,
-        sameSite: 'lax',
-        expires: session.expiresAt
-      });
+      setSessionCookie(event, token, session.expiresAt);
     } catch (error) {
       console.error(error);
       return returnFailure(500, 'Internal Server Error');

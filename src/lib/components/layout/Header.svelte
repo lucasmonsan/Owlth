@@ -2,6 +2,7 @@
 	import * as m from '$lib/paraglide/messages';
 	import Logo from '$lib/components/icons/Logo.svelte';
 	import LanguageSwitcher from '$lib/components/interface/LanguageSwitcher.svelte';
+	import ThemeToggle from '$lib/components/interface/ThemeToggle.svelte';
 	import Button from '$lib/components/interface/Button.svelte';
 	import Div from '$lib/components/layout/Div.svelte';
 </script>
@@ -14,7 +15,10 @@
 			<h1>{m.app_name()}</h1>
 		</Div>
 	</Button>
-	<LanguageSwitcher />
+	<Div gap="var(--xs)">
+		<ThemeToggle />
+		<LanguageSwitcher />
+	</Div>
 </header>
 
 <style>

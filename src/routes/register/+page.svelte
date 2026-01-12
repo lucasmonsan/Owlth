@@ -48,7 +48,7 @@
 	<Form action="?/register" method="POST">
 		<Div justify="between" align="center">
 			<Heading level={2}>{m.register_title()}</Heading>
-			<Button variant="invisible" type="button" disabled>
+			<Button variant="invisible" href="/api/auth/google/login">
 				<GoogleIcon height="var(--lg)" />
 			</Button>
 		</Div>

@@ -17,6 +17,17 @@ export const emailAttempt = pgTable('email_attempt', {
   expiresAt: timestamp('expires_at').notNull()
 });
 
+export const oauthAccount = pgTable('oauth_account', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  provider: text('provider').notNull(), // 'google', 'github', etc
+  providerId: text('provider_id').notNull(), // ID do usuário no provider
+  email: text('email').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull()
+});
+
 export const user = pgTable('user', {
   id: uuid('id').primaryKey().defaultRandom(),
 
@@ -47,6 +58,69 @@ export const session = pgTable('session', {
 }, (table) => [
   index('session_user_id_idx').on(table.userId)
 ]);
+
+export const verificationToken = pgTable('verification_token', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  token: text('token').notNull().unique(),
+  expiresAt: timestamp('expires_at').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull()
+});
+
+// App Suite Management
+export const app = pgTable('app', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: text('name').notNull(),
+  slug: text('slug').notNull().unique(),
+  description: text('description'),
+  url: text('url').notNull(),
+  icon: text('icon'), // Emoji ou URL
+  color: text('color').notNull(),
+  isActive: boolean('is_active').default(true).notNull(),
+  order: integer('order').default(0).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull()
+});
+
+export const userApp = pgTable('user_app', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  appId: uuid('app_id')
+    .notNull()
+    .references(() => app.id, { onDelete: 'cascade' }),
+  lastAccessedAt: timestamp('last_accessed_at')
+});
+
+// Login History & Security
+export const loginHistory = pgTable('login_history', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  ip: text('ip').notNull(),
+  userAgent: text('user_agent'),
+  country: text('country'),
+  city: text('city'),
+  device: text('device'), // 'desktop', 'mobile', 'tablet'
+  browser: text('browser'),
+  success: boolean('success').notNull(),
+  riskLevel: text('risk_level'), // 'low', 'medium', 'high'
+  createdAt: timestamp('created_at').defaultNow().notNull()
+});
+
+// Notification Preferences
+export const notificationPreference = pgTable('notification_preference', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  type: text('type').notNull(), // 'security', 'login', 'app_notification'
+  email: boolean('email').default(true).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull()
+});
 
 export const token = pgTable('token', {
   hash: text('hash').primaryKey(),

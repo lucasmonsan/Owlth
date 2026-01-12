@@ -79,7 +79,7 @@
 
 <SEO title={m.login_title()} description={m.seo_login_description()} />
 
-<Main fullWidth maxWidth="content">
+<Main fullWidth maxWidth="content" center>
 	{#if data.user}
 		<Div column gap="var(--sm)" fullWidth center maxWidth="content">
 			<Div fullWidth justify="between">
@@ -136,7 +136,7 @@
 		<Form action="?/login" method="POST">
 			<Div justify="between" align="center">
 				<Heading level={2}>{m.login_title()}</Heading>
-				<Button variant="invisible" type="button" disabled>
+				<Button variant="invisible" href="/api/auth/google/login">
 					<GoogleIcon height="var(--lg)" />
 				</Button>
 			</Div>

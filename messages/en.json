@@ -48,5 +48,14 @@
 	"seo_login_description": "Sign in to your Owlth account to manage your finances",
 	"seo_register_description": "Create your free Owlth account and start managing your finances today",
 	"seo_dashboard_description": "Manage your Owlth account and track your financial goals",
-	"password_pwned": "This password has been exposed in data breaches. Please choose a different one for your security."
+	"password_pwned": "This password has been exposed in data breaches. Please choose a different one for your security.",
+	"my_apps": "My Apps",
+	"other_apps": "Other Apps",
+	"profile": "Profile",
+	"login_history": "Login History",
+	"active_sessions": "Active Sessions",
+	"notification_preferences": "Notification Preferences",
+	"edit_profile": "Edit Profile",
+	"save_changes": "Save Changes",
+	"current_session": "Current Session"
 }

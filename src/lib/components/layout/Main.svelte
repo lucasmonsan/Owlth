@@ -37,7 +37,7 @@
 	main {
 		z-index: var(--z-page);
 		position: absolute;
-		inset: 0;
+		inset: 1;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

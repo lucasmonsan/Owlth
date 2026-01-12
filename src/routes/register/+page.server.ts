@@ -4,7 +4,7 @@ import { db } from '$lib/server/db/client';
 import { user } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { hashPassword } from '$lib/server/auth/hashing';
-import { createSession, generateSessionToken, SESSION_COOKIE_NAME } from '$lib/server/auth/session';
+import { createSession, generateSessionToken, SESSION_COOKIE_NAME, setSessionCookie } from '$lib/server/auth/session';
 import { createAndSendVerificationToken } from '$lib/server/auth/verification';
 import * as m from '$lib/paraglide/messages';
 import type { Actions, PageServerLoad } from './$types';
@@ -81,13 +81,7 @@ export const actions: Actions = {
       const token = generateSessionToken();
       const session = await createSession(token, newUser.id);
 
-      event.cookies.set(SESSION_COOKIE_NAME, token, {
-        path: '/',
-        secure: import.meta.env.PROD,
-        httpOnly: true,
-        sameSite: 'lax',
-        expires: session.expiresAt
-      });
+      setSessionCookie(event, token, session.expiresAt);
 
     } catch (error) {
       console.error(error);
