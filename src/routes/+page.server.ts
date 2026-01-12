@@ -70,6 +70,13 @@ export const actions: Actions = {
         return returnFailure(400, m.invalid_credentials());
       }
 
+      // Verificar se é conta OAuth (sem senha)
+      if (!existingUser[0].passwordHash || existingUser[0].passwordHash === '') {
+        await verifyPassword(DUMMY_ARGON2_HASH, password); // Timing attack protection
+        await incrementRateLimit(email, clientIp);
+        return returnFailure(400, m.invalid_credentials());
+      }
+
       const validPassword = await verifyPassword(existingUser[0].passwordHash, password);
 
       if (!validPassword) {
