@@ -28,6 +28,9 @@ const config = {
 				'frame-ancestors': ['none'] // Previne clickjacking
 			},
 			mode: 'auto'
+		},
+		csrf: {
+			checkOrigin: true
 		}
 	}
 };
