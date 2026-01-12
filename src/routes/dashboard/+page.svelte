@@ -12,6 +12,7 @@
 	import { addToast } from '$lib/stores/toast.svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { invalidateAll } from '$app/navigation';
 
 	let { data }: { data: PageData } = $props();
 
@@ -38,14 +39,17 @@
 						label: 'Atualizar',
 						variant: 'primary',
 						onClick: async () => {
-							await fetch('/api/user/sync-picture', {
+							const response = await fetch('/api/user/sync-picture', {
 								method: 'POST',
 								headers: { 'Content-Type': 'application/json' },
 								body: JSON.stringify({
 									pictureUrl: decodeURIComponent(pendingPicture)
 								})
 							});
-							window.location.reload();
+
+							if (response.ok) {
+								await invalidateAll();
+							}
 						}
 					},
 					{
@@ -69,7 +73,11 @@
 		<!-- User Info -->
 		<Div justify="between" align="center" fullWidth>
 			<Div gap="var(--sm)" align="center">
-				<Avatar size="lg" alt={data.user?.fullName || 'User'} />
+				<Avatar
+					size="lg"
+					src={data.user?.profilePicture}
+					alt={data.user?.fullName || 'User'}
+				/>
 				<Div column gap="var(--xxxs)">
 					<Heading level={2}>{data.user?.fullName}</Heading>
 					<Text size="sm" color="muted">{data.user?.email}</Text>
