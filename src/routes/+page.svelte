@@ -192,7 +192,7 @@
 				</Text>
 			{/if}
 
-			<Button type="submit" fullWidth>
+			<Button type="submit" fullWidth loading={isSubmitting}>
 				{m.login_button()}
 			</Button>
 

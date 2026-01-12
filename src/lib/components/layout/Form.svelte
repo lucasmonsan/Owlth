@@ -1,20 +1,8 @@
 <script lang="ts">
-	import type { HTMLFormAttributes } from 'svelte/elements';
-
-	interface Props extends HTMLFormAttributes {
-		children?: import('svelte').Snippet;
-		gap?: string;
-	}
-
-	let {
-		children,
-		gap = 'var(--sm)',
-		class: className = '',
-		...rest
-	}: Props = $props();
+	let { children, gap = 'var(--sm)', ...rest }: any = $props();
 </script>
 
-<form class={className} style="gap: {gap}" {...rest}>
+<form style="gap: {gap}" {...rest}>
 	{@render children?.()}
 </form>
 

@@ -48,7 +48,17 @@
 <SEO title={m.register_title()} description={m.seo_register_description()} />
 
 <Main fullWidth maxWidth="content">
-	<Form action="?/register" method="POST">
+	<Form
+		action="?/register"
+		method="POST"
+		use:enhance={() => {
+			isSubmitting = true;
+			return async ({ update }) => {
+				await update();
+				isSubmitting = false;
+			};
+		}}
+	>
 		<Div justify="between" align="center">
 			<Heading level={2}>{m.register_title()}</Heading>
 			<Button
@@ -124,7 +134,7 @@
 			</Text>
 		{/if}
 
-		<Button type="submit" fullWidth>
+		<Button type="submit" fullWidth loading={isSubmitting}>
 			{m.register_button()}
 		</Button>
 
