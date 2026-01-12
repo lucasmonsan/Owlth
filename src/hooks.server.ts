@@ -75,4 +75,37 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handle = sequence(handleHPP, handleI18n, handleAuth);
+const handleSecurityHeaders: Handle = async ({ event, resolve }) => {
+	const response = await resolve(event);
+
+	// Adiciona headers de segurança apenas em produção
+	if (import.meta.env.PROD) {
+		// Previne clickjacking
+		response.headers.set('X-Frame-Options', 'DENY');
+
+		// Previne MIME sniffing
+		response.headers.set('X-Content-Type-Options', 'nosniff');
+
+		// Força HTTPS por 1 ano (apenas em produção)
+		response.headers.set(
+			'Strict-Transport-Security',
+			'max-age=31536000; includeSubDomains; preload'
+		);
+
+		// Previne XSS (redundante com CSP, mas boa prática)
+		response.headers.set('X-XSS-Protection', '1; mode=block');
+
+		// Controla informações do Referrer
+		response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+
+		// Permissions Policy (controla features do browser)
+		response.headers.set(
+			'Permissions-Policy',
+			'geolocation=(), microphone=(), camera=()'
+		);
+	}
+
+	return response;
+};
+
+export const handle = sequence(handleHPP, handleI18n, handleAuth, handleSecurityHeaders);
