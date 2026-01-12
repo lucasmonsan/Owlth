@@ -17,7 +17,6 @@
 	import Form from '$lib/components/layout/Form.svelte';
 	import SEO from '$lib/components/layout/SEO.svelte';
 	import { browser } from '$app/environment';
-	import { enhance } from '$app/forms';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
@@ -140,12 +139,8 @@
 		<Form
 			action="?/login"
 			method="POST"
-			use:enhance={() => {
+			onsubmit={() => {
 				isSubmitting = true;
-				return async ({ update }) => {
-					await update();
-					isSubmitting = false;
-				};
 			}}
 		>
 			<Div justify="between" align="center">

@@ -13,7 +13,6 @@
 	import SEO from '$lib/components/layout/SEO.svelte';
 	import GoogleIcon from '$lib/components/icons/GoogleIcon.svelte';
 	import ProfileIcon from '$lib/components/icons/ProfileIcon.svelte';
-	import { enhance } from '$app/forms';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
@@ -51,12 +50,8 @@
 	<Form
 		action="?/register"
 		method="POST"
-		use:enhance={() => {
+		onsubmit={() => {
 			isSubmitting = true;
-			return async ({ update }) => {
-				await update();
-				isSubmitting = false;
-			};
 		}}
 	>
 		<Div justify="between" align="center">
