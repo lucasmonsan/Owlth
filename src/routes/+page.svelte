@@ -137,7 +137,17 @@
 			</Button>
 		</Form>
 	{:else}
-		<Form action="?/login" method="POST">
+		<Form
+			action="?/login"
+			method="POST"
+			use:enhance={() => {
+				isSubmitting = true;
+				return async ({ update }) => {
+					await update();
+					isSubmitting = false;
+				};
+			}}
+		>
 			<Div justify="between" align="center">
 				<Heading level={2}>{m.login_title()}</Heading>
 				<Button
