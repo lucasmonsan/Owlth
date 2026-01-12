@@ -60,6 +60,7 @@
 		"nodemailer": "^7.0.12",
 		"oslo": "^1.2.1",
 		"postgres": "^3.4.7",
+		"sharp": "^0.34.5",
 		"ua-parser-js": "^2.0.7",
 		"zod": "^4.2.1"
 	}

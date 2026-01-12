@@ -1,4 +1,5 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import sharp from 'sharp';
 import { env } from '$lib/server/env';
 
 const r2 = new S3Client({
@@ -11,26 +12,39 @@ const r2 = new S3Client({
 });
 
 /**
- * Faz upload de avatar para Cloudflare R2
- * @param userId - ID do usuário
- * @param file - Arquivo de imagem
- * @returns URL pública do avatar
+ * Faz upload de avatar otimizado para Cloudflare R2
+ * - Redimensiona para 200x200px
+ * - Converte para WebP (qualidade 80%)
+ * - Tamanho final: ~20-30KB
  */
 export async function uploadAvatar(
   userId: string,
   file: File
 ): Promise<string> {
-  const ext = file.name.split('.').pop();
-  const key = `avatars/${userId}-${Date.now()}.${ext}`;
+  const buffer = Buffer.from(await file.arrayBuffer());
 
-  const buffer = await file.arrayBuffer();
+  // Otimizar imagem com Sharp
+  const optimized = await sharp(buffer)
+    .resize(200, 200, {
+      fit: 'cover',
+      position: 'attention' // Detecta rosto/foco automaticamente
+    })
+    .sharpen() // Melhora nitidez após resize
+    .webp({
+      quality: 80,
+      effort: 6 // Melhor compressão (0-6)
+    })
+    .toBuffer();
+
+  const key = `avatars/${userId}.webp`;
 
   await r2.send(
     new PutObjectCommand({
       Bucket: env.R2_BUCKET_NAME,
       Key: key,
-      Body: Buffer.from(buffer),
-      ContentType: file.type
+      Body: optimized,
+      ContentType: 'image/webp',
+      CacheControl: 'public, max-age=31536000' // Cache 1 ano
     })
   );
 

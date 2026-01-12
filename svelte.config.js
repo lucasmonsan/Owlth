@@ -30,7 +30,6 @@ const config = {
 			mode: 'auto'
 		},
 		csrf: {
-			checkOrigin: true,
 			trustedOrigins: []
 		}
 	}

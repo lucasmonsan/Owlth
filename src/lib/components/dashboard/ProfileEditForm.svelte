@@ -61,9 +61,35 @@
 
 	function handleFileChange(e: Event) {
 		const input = e.target as HTMLInputElement;
-		if (input.files && input.files[0]) {
-			photoFile = input.files[0];
+		if (!input.files || !input.files[0]) return;
+
+		const file = input.files[0];
+
+		// Validar tamanho (max 5MB)
+		const MAX_SIZE = 5 * 1024 * 1024;
+		if (file.size > MAX_SIZE) {
+			addToast({
+				message: 'Imagem muito grande (máximo 5MB)',
+				variant: 'error',
+				duration: 3000
+			});
+			input.value = '';
+			return;
 		}
+
+		// Validar tipo
+		const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+		if (!validTypes.includes(file.type)) {
+			addToast({
+				message: 'Formato inválido. Use JPEG, PNG, WebP ou GIF',
+				variant: 'error',
+				duration: 3000
+			});
+			input.value = '';
+			return;
+		}
+
+		photoFile = file;
 	}
 </script>
 
