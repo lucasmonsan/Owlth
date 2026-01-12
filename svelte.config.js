@@ -16,7 +16,7 @@ const config = {
 			directives: {
 				'default-src': ['self'],
 				'script-src': ['self'],
-				'style-src': ['self', 'unsafe-inline'], // Svelte precisa de inline styles
+				'style-src': ['self', 'unsafe-inline'],
 				'img-src': ['self', 'data:', 'https:'],
 				'font-src': ['self'],
 				'connect-src': [
@@ -25,7 +25,7 @@ const config = {
 					'https://oauth2.googleapis.com',
 					'https://www.googleapis.com'
 				],
-				'frame-ancestors': ['none'] // Previne clickjacking
+				'frame-ancestors': ['none']
 			},
 			mode: 'auto'
 		},
