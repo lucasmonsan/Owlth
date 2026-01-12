@@ -62,6 +62,33 @@ export const GET: RequestHandler = async (event) => {
     if (existingOAuth.length > 0) {
       // Usuário já existe via Google
       userId = existingOAuth[0].userId;
+
+      // Buscar usuário atual para verificar foto
+      const [currentUser] = await db
+        .select()
+        .from(user)
+        .where(eq(user.id, userId))
+        .limit(1);
+
+      // Se não tem foto, atualizar silenciosamente
+      if (!currentUser.profilePicture && googleUser.picture) {
+        await db
+          .update(user)
+          .set({ profilePicture: googleUser.picture })
+          .where(eq(user.id, userId));
+      }
+      // Se foto mudou, salvar em cookie para mostrar toast
+      else if (
+        currentUser.profilePicture &&
+        googleUser.picture &&
+        currentUser.profilePicture !== googleUser.picture
+      ) {
+        event.cookies.set('pending_picture_sync', googleUser.picture, {
+          path: '/',
+          maxAge: 60 * 60 * 24 * 7, // 7 dias
+          httpOnly: false // Precisa ser acessível no client para o toast
+        });
+      }
     } else {
       // Verificar se já existe usuário com esse email
       const existingUser = await db
@@ -81,7 +108,8 @@ export const GET: RequestHandler = async (event) => {
             fullName: googleUser.name,
             email: googleUser.email,
             passwordHash: '', // OAuth não usa senha
-            isVerified: googleUser.verified_email
+            isVerified: googleUser.verified_email,
+            profilePicture: googleUser.picture || null // Foto do Google
           })
           .returning();
 

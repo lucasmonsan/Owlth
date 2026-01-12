@@ -2,12 +2,19 @@ import { writable } from 'svelte/store';
 
 export type ToastVariant = 'info' | 'success' | 'warning' | 'error';
 
+export interface ToastAction {
+  label: string;
+  onClick: () => void;
+  variant?: 'primary' | 'secondary';
+}
+
 export interface Toast {
   id: string;
   message: string;
   variant: ToastVariant;
   duration: number;
   persistent?: boolean;
+  actions?: ToastAction[];
 }
 
 interface ToastOptions {
@@ -15,6 +22,7 @@ interface ToastOptions {
   variant?: ToastVariant;
   duration?: number;
   persistent?: boolean;
+  actions?: ToastAction[];
 }
 
 function createToastStore() {
@@ -28,7 +36,8 @@ function createToastStore() {
         message: options.message,
         variant: options.variant || 'info',
         duration: options.duration ?? 3000,
-        persistent: options.persistent || false
+        persistent: options.persistent || false,
+        actions: options.actions
       };
 
       update((toasts) => [...toasts, toast]);

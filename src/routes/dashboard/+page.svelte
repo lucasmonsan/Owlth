@@ -9,12 +9,57 @@
 	import SEO from '$lib/components/layout/SEO.svelte';
 	import AppCard from '$lib/components/interface/AppCard.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import { addToast } from '$lib/stores/toast.svelte';
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 
 	let { data }: { data: PageData } = $props();
 
 	// Usar $derived para reatividade
 	const myApps = $derived(data.apps.filter((app) => app.isUsed));
 	const otherApps = $derived(data.apps.filter((app) => !app.isUsed));
+
+	// Verificar se há foto do Google pendente de sincronização
+	onMount(() => {
+		if (!browser) return;
+
+		const pendingPicture = document.cookie
+			.split('; ')
+			.find((row) => row.startsWith('pending_picture_sync='))
+			?.split('=')[1];
+
+		if (pendingPicture) {
+			addToast({
+				message: '📸 Sua foto do Google mudou',
+				variant: 'info',
+				persistent: true,
+				actions: [
+					{
+						label: 'Atualizar',
+						variant: 'primary',
+						onClick: async () => {
+							await fetch('/api/user/sync-picture', {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/json' },
+								body: JSON.stringify({
+									pictureUrl: decodeURIComponent(pendingPicture)
+								})
+							});
+							window.location.reload();
+						}
+					},
+					{
+						label: 'Agora não',
+						variant: 'secondary',
+						onClick: () => {
+							// Remove cookie
+							document.cookie = 'pending_picture_sync=; path=/; max-age=0';
+						}
+					}
+				]
+			});
+		}
+	});
 </script>
 
 <SEO title={m.dashboard_title()} description={m.seo_dashboard_description()} />

@@ -3,7 +3,8 @@
 	import {
 		toastStore,
 		removeToast,
-		type ToastVariant
+		type ToastVariant,
+		type ToastAction
 	} from '$lib/stores/toast.svelte';
 
 	interface ToastItem {
@@ -12,6 +13,7 @@
 		variant: ToastVariant;
 		duration: number;
 		persistent?: boolean;
+		actions?: ToastAction[];
 	}
 
 	let toasts = $state<ToastItem[]>([]);
@@ -23,6 +25,11 @@
 	function handleClose(id: string) {
 		removeToast(id);
 	}
+
+	function handleAction(action: ToastAction, toastId: string) {
+		action.onClick();
+		removeToast(toastId);
+	}
 </script>
 
 <div class="toast-container">
@@ -30,11 +37,25 @@
 		<div
 			class="toast {toast.variant}"
 			class:persistent={toast.persistent}
+			class:has-actions={toast.actions && toast.actions.length > 0}
 			role="alert"
 			aria-live="polite"
 			transition:fly={{ y: 20, duration: 200 }}
 		>
 			<p class="toast-message">{toast.message}</p>
+
+			{#if toast.actions && toast.actions.length > 0}
+				<div class="toast-actions">
+					{#each toast.actions as action}
+						<button
+							class="toast-action {action.variant || 'secondary'}"
+							onclick={() => handleAction(action, toast.id)}
+						>
+							{action.label}
+						</button>
+					{/each}
+				</div>
+			{/if}
 
 			{#if toast.persistent || toast.duration === 0}
 				<button
@@ -77,6 +98,12 @@
 		color: var(--text-primary);
 	}
 
+	.toast.has-actions {
+		flex-direction: column;
+		align-items: stretch;
+		max-width: 28rem;
+	}
+
 	.toast.info {
 		border-color: var(--info);
 		background-color: var(--info);
@@ -108,6 +135,41 @@
 		line-height: 1.4;
 	}
 
+	.toast-actions {
+		display: flex;
+		gap: var(--xs);
+		margin-top: var(--xs);
+	}
+
+	.toast-action {
+		flex: 1;
+		padding: var(--xxs) var(--sm);
+		border: none;
+		border-radius: var(--radius-sm);
+		font-size: var(--sm);
+		font-weight: 600;
+		cursor: pointer;
+		transition: all var(--fast);
+	}
+
+	.toast-action.primary {
+		background: white;
+		color: var(--brand);
+	}
+
+	.toast-action.primary:hover {
+		background: rgba(255, 255, 255, 0.9);
+	}
+
+	.toast-action.secondary {
+		background: rgba(255, 255, 255, 0.2);
+		color: white;
+	}
+
+	.toast-action.secondary:hover {
+		background: rgba(255, 255, 255, 0.3);
+	}
+
 	.toast-close {
 		display: flex;
 		align-items: center;
@@ -123,6 +185,15 @@
 		cursor: pointer;
 		opacity: 0.7;
 		transition: opacity var(--fast);
+		position: absolute;
+		top: var(--xs);
+		right: var(--xs);
+	}
+
+	.toast.has-actions .toast-close {
+		position: static;
+		align-self: flex-end;
+		margin-top: calc(var(--xs) * -1);
 	}
 
 	.toast-close:hover {
@@ -141,6 +212,10 @@
 			right: var(--md);
 			bottom: var(--md);
 			align-items: center;
+		}
+
+		.toast {
+			max-width: 100%;
 		}
 	}
 </style>
