@@ -27,11 +27,11 @@
 </script>
 
 <svelte:head>
-	{#if browser && env.PUBLIC_UMAMI_WEBSITE_ID}
+	{#if browser && env.PUBLIC_ANALYTICS_WEBSITE_ID}
 		<script
 			async
-			src="{env.PUBLIC_UMAMI_URL}/script.js"
-			data-website-id={env.PUBLIC_UMAMI_WEBSITE_ID}
+			src="{env.PUBLIC_ANALYTICS_URL}/script.js"
+			data-website-id={env.PUBLIC_ANALYTICS_WEBSITE_ID}
 		></script>
 	{/if}
 

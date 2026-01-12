@@ -23,7 +23,7 @@ const envSchema = z.object({
   GOOGLE_REDIRECT_URI: z.string().url(),
 
   // Monitoring
-  GLITCHTIP_DSN: z.string().url().optional()
+  MONITOR_DSN: z.string().url().optional()
 });
 
 export type Env = z.infer<typeof envSchema>;

@@ -1,7 +1,7 @@
 import { env } from './env';
 
 export const monitoringConfig = {
-  dsn: env.GLITCHTIP_DSN,
+  dsn: env.MONITOR_DSN,
   environment: import.meta.env.PROD ? 'production' : 'development',
   tracesSampleRate: 1.0,
   // Não enviar dados sensíveis
