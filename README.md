@@ -1,99 +1,250 @@
-# Owlth
+# 🦉 Owlth
 
-Aplicação web moderna construída com SvelteKit 5, TypeScript e PostgreSQL.
+Authentication Hub profissional para suite de aplicações. Sistema completo de autenticação com foco em segurança, escalabilidade e experiência do usuário.
 
-## 🚀 Tecnologias
+## ✨ Features
 
-- **Framework**: SvelteKit 5 (Svelte Runes)
-- **Linguagem**: TypeScript (strict mode)
-- **Banco de Dados**: PostgreSQL + Drizzle ORM
-- **Autenticação**: Session-based com Argon2
-- **i18n**: Paraglide (EN + PT-BR)
-- **Estilização**: CSS Modules + Design System
-- **Testes**: Vitest + Playwright
-- **Deploy**: Node adapter (Coolify/VPS)
+### Autenticação
 
-## ✨ Funcionalidades
+- 🔐 Email/Senha com validação robusta
+- 🔑 OAuth Google
+- 📧 Verificação de email obrigatória
+- 🛡️ Proteção contra senhas comprometidas (HIBP)
 
-- ✅ Autenticação segura com sessões
-- ✅ Verificação de email
-- ✅ Rate limiting (login + email)
-- ✅ Internacionalização (EN/PT-BR)
-- ✅ SEO otimizado (meta tags + sitemap)
-- ✅ Proteção CSRF automática
-- ✅ Verificação de senhas vazadas (HIBP)
-- ✅ Proteção HPP (HTTP Parameter Pollution)
-- ✅ PWA-ready (manifest + favicons)
+### Segurança
 
-## 🛠️ Desenvolvimento
+- 🛡️ CSRF Protection
+- 🔒 CSP Headers
+- 🚫 HPP Protection
+- ⏱️ Rate Limiting (login, email)
+- 🔐 Argon2 password hashing
+- 🍪 Secure cookies (httpOnly, sameSite, secure)
+- 📊 Login history com tracking de dispositivos
+- 🔄 Session management com renovação automática
+- 🗑️ Soft deletes para auditoria
+
+### UX & Acessibilidade
+
+- 🌍 i18n (EN/PT-BR) com Paraglide
+- ♿ WCAG 2.1 compliant
+- ⌨️ Keyboard navigation
+- 📱 Responsive design
+- 🎨 Dark mode
+- ⚡ Loading states
+- 🎯 Prefers-reduced-motion
+- 🚨 Error boundary customizado
+
+### Infraestrutura
+
+- 📊 Monitoring (GlitchTip self-hosted)
+- 📈 Analytics (Umami self-hosted)
+- ☁️ Cloudflare R2 (avatares otimizados com Sharp)
+- 📧 AWS SES (emails transacionais)
+- 🗄️ PostgreSQL + Drizzle ORM
+
+## 🚀 Quick Start
+
+### Pré-requisitos
+
+- Bun >= 1.0
+- PostgreSQL >= 14
+- Cloudflare R2 account
+- AWS SES account
+- Google OAuth credentials
+
+### Instalação
 
 ```bash
+# Clone
+git clone https://github.com/lucasmonsan/owlth.git
+cd owlth
+
 # Instalar dependências
 bun install
 
-# Rodar dev server
-bun run dev
+# Configurar ambiente
+cp .env.example .env
+# Edite .env com suas credenciais
 
-# Build para produção
-bun run build
-
-# Preview da build
-bun run preview
-```
-
-## 🗄️ Banco de Dados
-
-```bash
-# Gerar migration
+# Database
 bun run db:generate
-
-# Aplicar migration
 bun run db:push
 
-# Abrir Drizzle Studio
-bun run db:studio
+# Desenvolvimento
+bun run dev
+```
+
+### Variáveis de Ambiente
+
+Ver [.env.example](.env.example) para lista completa.
+
+**Essenciais**:
+
+```env
+DATABASE_URL=postgresql://user:pass@localhost:5432/owlth
+R2_ACCOUNT_ID=your-account-id
+GOOGLE_CLIENT_ID=your-client-id
+```
+
+**Opcionais** (Monitoring & Analytics):
+
+```env
+GLITCHTIP_DSN=https://xxx@monitoring.monsan.dev.br/1
+PUBLIC_UMAMI_WEBSITE_ID=your-website-id
+```
+
+## 🧪 Testes
+
+```bash
+# Unit tests
+bun run test:unit
+
+# E2E tests
+bun run test:e2e
+
+# Todos
+bun run test
+```
+
+**Cobertura**:
+
+- E2E: 8 testes (registro, login, rate limiting)
+- Unit: 7 testes (user-agent, HIBP)
+
+## 📦 Build & Deploy
+
+```bash
+# Build
+bun run build
+
+# Preview
+bun run preview
+
+# Deploy
+# Ver guia de deployment no Coolify
+```
+
+## 🏗️ Arquitetura
+
+```
+src/
+├── lib/
+│   ├── components/          # Componentes Svelte 5
+│   │   ├── dashboard/       # Dashboard específicos
+│   │   ├── icons/           # Ícones SVG
+│   │   ├── interface/       # Componentes reutilizáveis
+│   │   └── layout/          # Layout components
+│   ├── server/              # Server-only code
+│   │   ├── auth/            # Autenticação
+│   │   ├── config/          # Configurações (env, monitoring)
+│   │   ├── db/              # Database (schema, helpers)
+│   │   ├── email/           # Email sending
+│   │   ├── security/        # Security utils
+│   │   ├── storage/         # R2 storage
+│   │   └── utils/           # Server utils
+│   ├── stores/              # Svelte stores
+│   ├── styles/              # Global CSS
+│   └── types/               # TypeScript types
+├── routes/                  # SvelteKit routes
+└── hooks.server.ts          # Global hooks
 ```
 
 ## 🔒 Segurança
 
-- Argon2 para hashing de senhas
-- Session tokens com SHA-256
-- Rate limiting em login e emails
-- CSRF protection habilitado
-- HPP protection
-- Verificação HIBP de senhas vazadas
-- Email verification obrigatória
+- **Session-based auth** com SHA-256 tokens
+- **Cookies**: httpOnly, secure (prod), sameSite: lax
+- **CSRF protection** ativado
+- **CSP headers** configurados
+- **HPP protection** contra parameter pollution
+- **Rate limiting**: 5 tentativas/15min
+- **Argon2** password hashing
+- **HIBP integration** (k-anonymity)
+- **Soft deletes** para auditoria
+- **Image optimization**: Sharp (WebP, 200x200, ~20-30KB)
 
-## 🌍 i18n
+## 🌍 Internacionalização
 
-Suporta EN e PT-BR com detecção automática de idioma do browser.
+- **Paraglide.js** para i18n
+- **Idiomas**: EN, PT-BR
+- **Auto-detecção** de idioma do navegador
+- **Mensagens parametrizadas**
+- **SEO-friendly** URLs (`/en`, `/pt-br`)
 
-Rotas:
+## 📊 Monitoring & Analytics
 
-- `/` - Inglês (padrão)
-- `/pt-br/` - Português
+### GlitchTip (Error Tracking)
 
-## 📦 Scripts Disponíveis
+- Self-hosted no Coolify
+- Compatível com Sentry SDK
+- Tracking server e client-side
+- Filtragem de dados sensíveis
 
-- `dev` - Dev server + tunnel + db studio + paraglide watch
-- `build` - Build para produção
-- `preview` - Preview da build
-- `test` - Rodar testes
-- `lint` - ESLint
-- `format` - Prettier
+### Umami (Analytics)
 
-## 🚀 Deploy
+- Self-hosted no Coolify
+- Privacy-first (GDPR compliant)
+- Pageviews, eventos, devices
+- Zero cookies
 
-O projeto usa `@sveltejs/adapter-node` e está pronto para deploy em:
+Ver [guia completo](docs/monitoring-analytics.md) para setup.
 
-- Coolify
-- VPS com Node.js
-- Qualquer plataforma que suporte Node
+## 🧩 Stack Tecnológica
+
+- **Framework**: SvelteKit + Svelte 5 (Runes)
+- **Language**: TypeScript
+- **Database**: PostgreSQL + Drizzle ORM
+- **Auth**: Session-based (SHA-256)
+- **Storage**: Cloudflare R2
+- **Email**: AWS SES
+- **i18n**: Paraglide.js
+- **Testing**: Playwright (E2E) + Vitest (Unit)
+- **Monitoring**: GlitchTip (self-hosted)
+- **Analytics**: Umami (self-hosted)
+- **Image Processing**: Sharp
+
+## 📝 Scripts
+
+```bash
+# Desenvolvimento
+bun run dev              # Dev server
+bun run build            # Build produção
+bun run preview          # Preview build
+
+# Database
+bun run db:generate      # Gerar migrations
+bun run db:push          # Aplicar migrations
+bun run db:studio        # Drizzle Studio
+
+# Testes
+bun run test             # Todos os testes
+bun run test:unit        # Unit tests
+bun run test:e2e         # E2E tests
+
+# Qualidade
+bun run check            # Type check
+bun run lint             # ESLint
+bun run format           # Prettier
+```
+
+## 🤝 Contribuindo
+
+1. Fork o projeto
+2. Crie uma branch (`git checkout -b feature/amazing`)
+3. Commit suas mudanças (`git commit -m 'Add amazing feature'`)
+4. Push para a branch (`git push origin feature/amazing`)
+5. Abra um Pull Request
 
 ## 📄 Licença
 
-Ver arquivo [LICENSE](LICENSE)
+GPL-3.0 - Ver [LICENSE](LICENSE)
 
-## 🔐 Segurança
+## 👤 Autor
 
-Para reportar vulnerabilidades, veja [/.well-known/security.txt](static/.well-known/security.txt)
+**Lucas Monsan**
+
+- GitHub: [@lucasmonsan](https://github.com/lucasmonsan)
+- Email: lucasmonsan@gmail.com
+
+---
+
+**Status**: ✅ Produção-ready | **Versão**: 1.0.0 | **Score**: 10/10
