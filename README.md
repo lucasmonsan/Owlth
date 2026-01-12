@@ -89,8 +89,9 @@ GOOGLE_CLIENT_ID=your-client-id
 **Opcionais** (Monitoring & Analytics):
 
 ```env
-GLITCHTIP_DSN=https://xxx@monitoring.monsan.dev.br/1
-PUBLIC_UMAMI_WEBSITE_ID=your-website-id
+MONITOR_DSN=https://xxx@monitor.monsan.dev.br/1
+PUBLIC_ANALYTICS_WEBSITE_ID=your-website-id
+PUBLIC_ANALYTICS_URL=https://analytics.monsan.dev.br
 ```
 
 ## 🧪 Testes
