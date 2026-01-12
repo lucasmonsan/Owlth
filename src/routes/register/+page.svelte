@@ -13,8 +13,11 @@
 	import SEO from '$lib/components/layout/SEO.svelte';
 	import GoogleIcon from '$lib/components/icons/GoogleIcon.svelte';
 	import ProfileIcon from '$lib/components/icons/ProfileIcon.svelte';
+	import { enhance } from '$app/forms';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
+
+	let isSubmitting = $state(false);
 
 	// Handlers para validação HTML5 traduzida
 	const handleInvalidRequired = (

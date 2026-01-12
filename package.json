@@ -51,6 +51,7 @@
 		"vitest-browser-svelte": "^2.0.1"
 	},
 	"dependencies": {
+		"@aws-sdk/client-s3": "^3.966.0",
 		"@aws-sdk/client-sesv2": "^3.966.0",
 		"@node-rs/argon2": "^2.0.2",
 		"@oslojs/crypto": "^1.0.1",

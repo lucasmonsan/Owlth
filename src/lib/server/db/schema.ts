@@ -54,7 +54,10 @@ export const session = pgTable('session', {
   expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull(),
 
   ipAddress: text('ip_address'),
-  userAgent: text('user_agent')
+  userAgent: text('user_agent'),
+  device: text('device'),
+  browser: text('browser'),
+  lastActivityAt: timestamp('last_activity_at').defaultNow().notNull()
 }, (table) => [
   index('session_user_id_idx').on(table.userId)
 ]);
@@ -106,6 +109,7 @@ export const loginHistory = pgTable('login_history', {
   city: text('city'),
   device: text('device'), // 'desktop', 'mobile', 'tablet'
   browser: text('browser'),
+  os: text('os'), // 'Windows', 'macOS', 'Linux', 'Android', 'iOS'
   success: boolean('success').notNull(),
   riskLevel: text('risk_level'), // 'low', 'medium', 'high'
   createdAt: timestamp('created_at').defaultNow().notNull()

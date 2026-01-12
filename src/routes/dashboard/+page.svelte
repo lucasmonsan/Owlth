@@ -8,6 +8,10 @@
 	import Button from '$lib/components/interface/Button.svelte';
 	import SEO from '$lib/components/layout/SEO.svelte';
 	import AppCard from '$lib/components/interface/AppCard.svelte';
+	import ProfileEditForm from '$lib/components/dashboard/ProfileEditForm.svelte';
+	import LoginHistory from '$lib/components/dashboard/LoginHistory.svelte';
+	import ActiveSessions from '$lib/components/dashboard/ActiveSessions.svelte';
+	import NotificationPreferences from '$lib/components/dashboard/NotificationPreferences.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { addToast } from '$lib/stores/toast.svelte';
 	import { onMount } from 'svelte';
@@ -122,14 +126,22 @@
 
 		<!-- Profile Section -->
 		<section>
-			<Heading level={3}>{m.profile()}</Heading>
-			<Text color="muted">Profile editing coming soon...</Text>
+			<ProfileEditForm user={data.user} />
 		</section>
 
 		<!-- Login History -->
 		<section>
-			<Heading level={3}>{m.login_history()}</Heading>
-			<Text color="muted">Login history coming soon...</Text>
+			<LoginHistory />
+		</section>
+
+		<!-- Active Sessions -->
+		<section>
+			<ActiveSessions />
+		</section>
+
+		<!-- Notification Preferences -->
+		<section>
+			<NotificationPreferences />
 		</section>
 	</Div>
 </Main>

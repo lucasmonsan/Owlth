@@ -42,7 +42,8 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: var(--md);
+		height: 100dvh;
+		padding: var(--xxxxl) var(--md);
 		overflow-y: auto;
 		overflow-x: hidden;
 

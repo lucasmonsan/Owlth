@@ -16,8 +16,12 @@
 	import Avatar from '$lib/components/interface/Avatar.svelte';
 	import Form from '$lib/components/layout/Form.svelte';
 	import SEO from '$lib/components/layout/SEO.svelte';
+	import { browser } from '$app/environment';
+	import { enhance } from '$app/forms';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
+
+	let isSubmitting = $state(false);
 
 	let errorMessage = $derived(form?.message || '');
 
