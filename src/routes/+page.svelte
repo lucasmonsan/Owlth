@@ -94,7 +94,7 @@
 			<HR />
 
 			<Div column center>
-				<Heading level={5}>{data.user.fullName}</Heading>
+				<Heading level={5} align="center">{data.user.fullName}</Heading>
 				<Text align="center" size="sm">{data.user.email}</Text>
 
 				{#if !data.user.isVerified}
@@ -136,7 +136,11 @@
 		<Form action="?/login" method="POST">
 			<Div justify="between" align="center">
 				<Heading level={2}>{m.login_title()}</Heading>
-				<Button variant="invisible" href="/api/auth/google/login">
+				<Button
+					variant="invisible"
+					href="/api/auth/google/login"
+					aria-label={m.google_login_aria()}
+				>
 					<GoogleIcon height="var(--lg)" />
 				</Button>
 			</Div>

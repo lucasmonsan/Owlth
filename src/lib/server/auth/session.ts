@@ -3,6 +3,7 @@ import { session, user } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeHexLowerCase } from '@oslojs/encoding';
+import type { RequestEvent } from '@sveltejs/kit';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 const SESSION_EXPIRATION_DAYS = 30;
@@ -67,7 +68,7 @@ export async function invalidateSession(sessionId: string) {
 }
 
 export function setSessionCookie(
-  event: { cookies: { set: Function } },
+  event: RequestEvent,
   token: string,
   expiresAt: Date
 ) {
@@ -83,7 +84,7 @@ export function setSessionCookie(
   });
 }
 
-export function deleteSessionCookie(event: { cookies: { delete: Function } }) {
+export function deleteSessionCookie(event: RequestEvent) {
   const isProduction = import.meta.env.PROD;
 
   event.cookies.delete(SESSION_COOKIE_NAME, {

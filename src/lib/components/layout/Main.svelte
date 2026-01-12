@@ -22,6 +22,7 @@
 </script>
 
 <main
+	id="main"
 	class:center
 	class:w-100={fullWidth}
 	class={className}

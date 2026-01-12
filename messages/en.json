@@ -57,5 +57,8 @@
 	"notification_preferences": "Notification Preferences",
 	"edit_profile": "Edit Profile",
 	"save_changes": "Save Changes",
-	"current_session": "Current Session"
+	"current_session": "Current Session",
+	"google_login_aria": "Sign in with Google",
+	"theme_toggle_aria": "Toggle dark mode",
+	"skip_to_content": "Skip to main content"
 }

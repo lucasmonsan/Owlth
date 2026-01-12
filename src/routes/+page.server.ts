@@ -83,12 +83,13 @@ export const actions: Actions = {
       const session = await createSession(token, existingUser[0].id);
 
       setSessionCookie(event, token, session.expiresAt);
+
+      // Redirecionar para dashboard (limpa query params)
+      throw redirect(302, '/dashboard');
     } catch (error) {
       console.error(error);
       return returnFailure(500, 'Internal Server Error');
     }
-
-    redirect(302, '/dashboard');
   },
 
   resend: async (event) => {

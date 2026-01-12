@@ -57,5 +57,8 @@
 	"notification_preferences": "Preferências de Notificação",
 	"edit_profile": "Editar Perfil",
 	"save_changes": "Salvar Alterações",
-	"current_session": "Sessão Atual"
+	"current_session": "Sessão Atual",
+	"google_login_aria": "Entrar com Google",
+	"theme_toggle_aria": "Alternar modo escuro",
+	"skip_to_content": "Pular para o conteúdo principal"
 }

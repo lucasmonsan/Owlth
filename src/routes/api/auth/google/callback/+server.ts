@@ -104,6 +104,11 @@ export const GET: RequestHandler = async (event) => {
 
     throw redirect(302, '/dashboard');
   } catch (error) {
+    // Se for um redirect do SvelteKit, deixar passar
+    if (error instanceof Response && error.status >= 300 && error.status < 400) {
+      throw error;
+    }
+
     console.error('Google OAuth error:', error);
 
     // Log detalhado do erro

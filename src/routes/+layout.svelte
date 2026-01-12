@@ -9,6 +9,7 @@
 	import { getLocale, setLocale } from '$lib/paraglide/runtime';
 	import BG from '$lib/components/layout/BG.svelte';
 	import Toast from '$lib/components/interface/Toast.svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	let { children } = $props();
 
@@ -32,6 +33,9 @@
 	<link rel="manifest" href="/site.webmanifest" />
 </svelte:head>
 
+<!-- Skip Link para Acessibilidade -->
+<a href="#main" class="skip-link">{m.skip_to_content()}</a>
+
 <!-- <BG /> -->
 
 <Header />
@@ -39,3 +43,22 @@
 {@render children()}
 
 <Toast />
+
+<style>
+	.skip-link {
+		position: fixed;
+		top: -100px;
+		left: 0;
+		background: var(--brand);
+		color: white;
+		padding: var(--xs) var(--sm);
+		text-decoration: none;
+		z-index: 1000;
+		border-radius: 0 0 var(--radius-sm) 0;
+		font-weight: 600;
+	}
+
+	.skip-link:focus {
+		top: 0;
+	}
+</style>

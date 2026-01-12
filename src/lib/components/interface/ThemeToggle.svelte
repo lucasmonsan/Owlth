@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	let currentTheme = $state<'light' | 'dark'>('light');
 
@@ -16,7 +17,11 @@
 	}
 </script>
 
-<button onclick={toggleTheme} class="theme-toggle" aria-label="Toggle theme">
+<button
+	onclick={toggleTheme}
+	class="theme-toggle"
+	aria-label={m.theme_toggle_aria()}
+>
 	{#if currentTheme === 'light'}
 		🌙
 	{:else}

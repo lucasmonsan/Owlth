@@ -48,7 +48,11 @@
 	<Form action="?/register" method="POST">
 		<Div justify="between" align="center">
 			<Heading level={2}>{m.register_title()}</Heading>
-			<Button variant="invisible" href="/api/auth/google/login">
+			<Button
+				variant="invisible"
+				href="/api/auth/google/login"
+				aria-label={m.google_login_aria()}
+			>
 				<GoogleIcon height="var(--lg)" />
 			</Button>
 		</Div>
