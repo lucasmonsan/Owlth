@@ -43,7 +43,8 @@ export const user = pgTable('user', {
   recoveryCode: text('recovery_code'),
 
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull()
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  deletedAt: timestamp('deleted_at')
 });
 
 export const session = pgTable('session', {
@@ -57,7 +58,8 @@ export const session = pgTable('session', {
   userAgent: text('user_agent'),
   device: text('device'),
   browser: text('browser'),
-  lastActivityAt: timestamp('last_activity_at').defaultNow().notNull()
+  lastActivityAt: timestamp('last_activity_at').defaultNow().notNull(),
+  deletedAt: timestamp('deleted_at')
 }, (table) => [
   index('session_user_id_idx').on(table.userId)
 ]);
