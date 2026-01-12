@@ -71,7 +71,6 @@
 			flex-wrap: wrap;
 		}
 
-		/* Justify */
 		&[data-justify='start'] {
 			justify-content: flex-start;
 		}
@@ -91,7 +90,6 @@
 			justify-content: space-evenly;
 		}
 
-		/* Align */
 		&[data-align='start'] {
 			align-items: flex-start;
 		}
@@ -105,7 +103,6 @@
 			align-items: stretch;
 		}
 
-		/* Max Width */
 		&[data-max-width='xs'] {
 			max-width: var(--max-width-xs);
 		}

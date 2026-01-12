@@ -1,3 +1,7 @@
+/**
+ * Extrai informações de device, browser e OS do user-agent
+ * Usado para login history e session tracking
+ */
 export function parseUserAgent(userAgent: string | undefined): {
   device: string;
   browser: string;

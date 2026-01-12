@@ -54,7 +54,6 @@
 		transition: color var(--normal);
 	}
 
-	/* Sizes */
 	.text[data-size='xs'] {
 		font-size: var(--xs);
 	}
@@ -71,7 +70,6 @@
 		font-size: var(--xl);
 	}
 
-	/* Weights */
 	.text[data-weight='normal'] {
 		font-weight: 400;
 	}
@@ -85,7 +83,6 @@
 		font-weight: 700;
 	}
 
-	/* Align */
 	.text[data-align='left'] {
 		text-align: left;
 	}
@@ -99,7 +96,6 @@
 		text-align: justify;
 	}
 
-	/* Variants */
 	.text.muted {
 		color: var(--text-secondary);
 	}

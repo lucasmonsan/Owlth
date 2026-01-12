@@ -9,6 +9,12 @@ const r2 = new S3Client({
   }
 });
 
+/**
+ * Faz upload de avatar para Cloudflare R2
+ * @param userId - ID do usuário
+ * @param file - Arquivo de imagem
+ * @returns URL pública do avatar
+ */
 export async function uploadAvatar(
   userId: string,
   file: File

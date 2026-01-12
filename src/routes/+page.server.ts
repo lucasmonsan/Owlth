@@ -70,9 +70,9 @@ export const actions: Actions = {
         return returnFailure(400, m.invalid_credentials());
       }
 
-      // Verificar se é conta OAuth (sem senha)
+      // Proteção contra timing attack: delay mesmo para contas OAuth-only
       if (!existingUser[0].passwordHash || existingUser[0].passwordHash === '') {
-        await verifyPassword(DUMMY_ARGON2_HASH, password); // Timing attack protection
+        await verifyPassword(DUMMY_ARGON2_HASH, password);
         await incrementRateLimit(email, clientIp);
         return returnFailure(400, m.invalid_credentials());
       }

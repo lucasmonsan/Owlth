@@ -51,6 +51,7 @@ export async function validateSessionToken(token: string) {
     return { session: null, user: null };
   }
 
+  // Renova sessão se faltar menos de 15 dias para expirar
   const renewalThreshold = Date.now() + DAY_IN_MS * RENEWAL_THRESHOLD_DAYS;
   if (currentSession.expiresAt.getTime() <= renewalThreshold) {
     currentSession.expiresAt = new Date(Date.now() + DAY_IN_MS * SESSION_EXPIRATION_DAYS);
