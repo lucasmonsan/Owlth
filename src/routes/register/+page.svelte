@@ -41,7 +41,7 @@
 
 <SEO title={m.register_title()} description={m.seo_register_description()} />
 
-<Main fullWidth maxWidth="content">
+<Main fullWidth maxWidth="content" center>
 	<Form
 		action="?/register"
 		method="POST"

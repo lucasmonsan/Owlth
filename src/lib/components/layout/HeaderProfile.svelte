@@ -104,12 +104,6 @@
 		gap: 2px;
 	}
 
-	.truncate {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
 	.divider {
 		height: 1px;
 		background: var(--border-color, rgba(255, 255, 255, 0.1));

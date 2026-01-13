@@ -27,12 +27,12 @@ test.describe('Registration Flow', () => {
     await page.fill('[name="confirmPassword"]', 'DifferentPass123!');
     await page.click('button[type="submit"]');
 
-    await expect(page.locator('text=/do not match/i')).toBeVisible();
+    await expect(page.locator('#confirmPassword-error')).toBeVisible();
   });
 
   test('rejects pwned password', async ({ page }) => {
     await register(page, 'Test User', generateTestEmail(), 'password123');
 
-    await expect(page.locator('text=/exposed in data breaches/i')).toBeVisible();
+    await expect(page.locator('#password-error')).toBeVisible();
   });
 });

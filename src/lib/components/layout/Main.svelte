@@ -34,7 +34,7 @@
 			width: 100%;
 		}
 		&.center {
-			align-items: center; /* Apenas alinha horizontalmente ao centro */
+			justify-content: center;
 		}
 
 		/* Max Width */

@@ -3,7 +3,7 @@
 	import Logo from '$lib/components/icons/Logo.svelte';
 	import Button from '$lib/components/interface/Button.svelte';
 	import Div from '$lib/components/layout/Div.svelte';
-	import HeaderProfile from './HeaderProfile.svelte';
+	import HeaderProfile from '$lib/components/layout/HeaderProfile.svelte';
 
 	interface Props {
 		user?: any;

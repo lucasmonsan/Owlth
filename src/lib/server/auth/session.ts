@@ -82,8 +82,8 @@ export function setSessionCookie(
 
   event.cookies.set(SESSION_COOKIE_NAME, token, {
     path: '/',
-    domain: isProduction ? '.monsan.dev.br' : undefined,
-    secure: isProduction,
+    domain: isProduction && !event.url.hostname.includes('localhost') ? '.monsan.dev.br' : undefined,
+    secure: isProduction && !event.url.hostname.includes('localhost'),
     httpOnly: true,
     sameSite: 'lax',
     expires: expiresAt
