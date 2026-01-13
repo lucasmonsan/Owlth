@@ -17,17 +17,7 @@
 		children?: import('svelte').Snippet;
 	}
 
-	let {
-		as: element = 'p',
-		size = 'md',
-		weight = 'normal',
-		variant = 'default',
-		align = 'left',
-		truncate = false,
-		class: className = '',
-		children,
-		...rest
-	}: Props = $props();
+	let { as: element = 'p', size = 'md', weight = 'normal', variant = 'default', align = 'left', truncate = false, class: className = '', children, ...rest }: Props = $props();
 </script>
 
 <svelte:element
@@ -59,6 +49,7 @@
 	}
 	.text[data-size='sm'] {
 		font-size: var(--sm);
+		line-height: var(--sm);
 	}
 	.text[data-size='md'] {
 		font-size: var(--md);

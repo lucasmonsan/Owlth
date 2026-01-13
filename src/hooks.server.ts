@@ -1,5 +1,6 @@
 import { sequence } from '@sveltejs/kit/hooks';
 import { validateSessionToken, SESSION_COOKIE_NAME, setSessionCookie, deleteSessionCookie } from '$lib/server/auth/session';
+import { parseUserAgent } from '$lib/server/security/user-agent';
 import { setLocale } from '$lib/paraglide/runtime';
 import { locales, defaultLocale } from '$lib/config/i18n';
 import type { Handle } from '@sveltejs/kit';
@@ -85,24 +86,14 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 const handleSecurityHeaders: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
 
-	// Adiciona headers de segurança apenas em produção
 	if (import.meta.env.PROD) {
-		// Previne clickjacking
 		response.headers.set('X-Frame-Options', 'DENY');
-
-		// Previne MIME sniffing
 		response.headers.set('X-Content-Type-Options', 'nosniff');
-
-		// Força HTTPS por 1 ano (apenas em produção)
 		response.headers.set(
 			'Strict-Transport-Security',
 			'max-age=31536000; includeSubDomains; preload'
 		);
-
-		// Previne XSS (redundante com CSP, mas boa prática)
 		response.headers.set('X-XSS-Protection', '1; mode=block');
-
-		// Controla informações do Referrer
 		response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
 		// Permissions Policy (controla features do browser)

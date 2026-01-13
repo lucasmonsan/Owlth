@@ -11,8 +11,7 @@ export const GET: RequestHandler = async () => {
   authUrl.searchParams.set('redirect_uri', `${env.ORIGIN}/api/auth/google/callback`);
   authUrl.searchParams.set('response_type', 'code');
   authUrl.searchParams.set('scope', 'openid email profile');
-  authUrl.searchParams.set('state', state);
-  authUrl.searchParams.set('prompt', 'select_account'); // Força seleção de conta
+  authUrl.searchParams.set('prompt', 'select_account');
 
   throw redirect(302, authUrl.toString());
 };

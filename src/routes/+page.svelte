@@ -24,29 +24,26 @@
 
 	let errorMessage = $derived(form?.message || '');
 
-	// Countdown para reenvio de email
 	let countdown = $state(0);
+	let canResend = $derived(countdown === 0);
 
-	// Inicia countdown se servidor retornar retryAfter
 	$effect(() => {
-		if (form?.retryAfter && form.retryAfter > 0) {
+		if (form?.retryAfter) {
 			countdown = form.retryAfter;
 		}
 	});
 
-	// Decrementa countdown a cada segundo
 	$effect(() => {
 		if (countdown > 0) {
 			const timer = setInterval(() => {
-				countdown = Math.max(0, countdown - 1);
+				countdown--;
 			}, 1000);
 			return () => clearInterval(timer);
 		}
 	});
 
-	// Toast de sucesso ao enviar email
 	$effect(() => {
-		if (form?.success && form.action === 'resend') {
+		if (form?.success) {
 			addToast({
 				message: m.email_sent(),
 				variant: 'success',
@@ -55,9 +52,7 @@
 		}
 	});
 
-	const handleInvalidEmail = (
-		e: Event & { currentTarget: HTMLInputElement }
-	) => {
+	const handleInvalidEmail = (e: Event & { currentTarget: HTMLInputElement }) => {
 		const input = e.currentTarget;
 		if (input.validity.valueMissing) {
 			input.setCustomValidity(m.field_required());
@@ -66,9 +61,7 @@
 		}
 	};
 
-	const handleInvalidPassword = (
-		e: Event & { currentTarget: HTMLInputElement }
-	) => {
+	const handleInvalidPassword = (e: Event & { currentTarget: HTMLInputElement }) => {
 		const input = e.currentTarget;
 		if (input.validity.valueMissing) {
 			input.setCustomValidity(m.field_required());
@@ -87,11 +80,7 @@
 		<Div column gap="var(--sm)" fullWidth center maxWidth="content">
 			<Div fullWidth justify="between">
 				<Heading level={2}>{m.welcome_back()}</Heading>
-				<Avatar
-					src={data.user.profilePicture}
-					alt={data.user.fullName}
-					size="xl"
-				/>
+				<Avatar src={data.user.profilePicture} alt={data.user.fullName} size="xl" />
 			</Div>
 
 			<HR />
@@ -108,7 +97,6 @@
 
 					<Space size="sm" />
 
-					<!-- Botão de reenviar email -->
 					<Form action="?/resend" method="POST">
 						{#if countdown > 0}
 							<Button type="button" variant="outline" disabled fullWidth>
@@ -145,39 +133,16 @@
 		>
 			<Div justify="between" align="center">
 				<Heading level={2}>{m.login_title()}</Heading>
-				<Button
-					variant="invisible"
-					href="/api/auth/google/login"
-					aria-label={m.google_login_aria()}
-				>
+				<Button variant="invisible" href="/api/auth/google/login" aria-label={m.google_login_aria()}>
 					<GoogleIcon height="var(--lg)" />
 				</Button>
 			</Div>
 
-			<Input
-				type="email"
-				name="email"
-				id="email"
-				value={form?.email ?? ''}
-				required
-				autocomplete="email"
-				placeholder={m.email_label()}
-				oninvalid={handleInvalidEmail}
-				oninput={handleInput}
-			>
+			<Input type="email" name="email" id="email" value={form?.email ?? ''} required autocomplete="email" placeholder={m.email_label()} oninvalid={handleInvalidEmail} oninput={handleInput}>
 				<EmailIcon height="var(--lg)" />
 			</Input>
 
-			<Input
-				type="password"
-				name="password"
-				id="password"
-				required
-				autocomplete="current-password"
-				placeholder={m.password_label()}
-				oninvalid={handleInvalidPassword}
-				oninput={handleInput}
-			>
+			<Input type="password" name="password" id="password" required autocomplete="current-password" placeholder={m.password_label()} oninvalid={handleInvalidPassword} oninput={handleInput}>
 				<PasswordIcon height="var(--lg)" />
 			</Input>
 

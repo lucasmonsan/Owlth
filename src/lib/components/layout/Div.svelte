@@ -17,34 +17,10 @@
 		maxWidth?: MaxWidth;
 	}
 
-	let {
-		children,
-		column = false,
-		center = false,
-		fullWidth = false,
-		wrap = false,
-		gap = undefined,
-		justify = undefined,
-		align = undefined,
-		maxWidth = undefined,
-		class: className = '',
-		style = '',
-		...rest
-	}: Props = $props();
+	let { children, column = false, center = false, fullWidth = false, wrap = false, gap = undefined, justify = undefined, align = undefined, maxWidth = undefined, class: className = '', style = '', ...rest }: Props = $props();
 </script>
 
-<div
-	class:column
-	class:center
-	class:w-100={fullWidth}
-	class:wrap
-	class={className}
-	style={gap ? `${style}; gap: ${gap}` : style}
-	data-justify={justify}
-	data-align={align}
-	data-max-width={maxWidth}
-	{...rest}
->
+<div class:column class:center class:w-100={fullWidth} class:wrap class={className} style={gap ? `${style}; gap: ${gap}` : style} data-justify={justify} data-align={align} data-max-width={maxWidth} {...rest}>
 	{@render children?.()}
 </div>
 

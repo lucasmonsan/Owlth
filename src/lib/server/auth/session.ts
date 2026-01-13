@@ -4,6 +4,7 @@ import { eq } from 'drizzle-orm';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeHexLowerCase } from '@oslojs/encoding';
 import type { RequestEvent } from '@sveltejs/kit';
+import { parseUserAgent } from '../security/user-agent';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 const SESSION_EXPIRATION_DAYS = 30;
@@ -24,7 +25,11 @@ export async function createSession(token: string, userId: string) {
   const newSession = {
     id: sessionId,
     userId,
-    expiresAt
+    expiresAt,
+    ipAddress: null,
+    userAgent: null,
+    device: null,
+    browser: null
   };
 
   await db.insert(session).values(newSession);

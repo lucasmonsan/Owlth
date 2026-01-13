@@ -12,25 +12,9 @@
 		children?: import('svelte').Snippet;
 	}
 
-	let {
-		value = $bindable(),
-		error,
-		success,
-		hint,
-		id,
-		required = false,
-		disabled = false,
-		oninvalid,
-		oninput,
-		children,
-		class: className = '',
-		...rest
-	}: Props = $props();
+	let { value = $bindable(), error, success, hint, id, required = false, disabled = false, oninvalid, oninput, children, class: className = '', ...rest }: Props = $props();
 
-	// Gera ID único se não fornecido
-	const inputId = $derived(
-		id || `input-${Math.random().toString(36).slice(2, 11)}`
-	);
+	const inputId = $derived(id || `input-${Math.random().toString(36).slice(2, 11)}`);
 	const hasError = $derived(!!error);
 	const hasSuccess = $derived(!!success);
 </script>
@@ -44,33 +28,14 @@
 		{/if}
 	</label>
 
-	<div
-		class="input-container"
-		class:error={hasError}
-		class:success={hasSuccess}
-		class:disabled
-	>
+	<div class="input-container" class:error={hasError} class:success={hasSuccess} class:disabled>
 		{#if children}
 			<span class="input-icon" aria-hidden="true">
 				{@render children()}
 			</span>
 		{/if}
 
-		<input
-			bind:value
-			{...rest}
-			id={inputId}
-			{required}
-			{disabled}
-			{oninvalid}
-			{oninput}
-			aria-invalid={hasError}
-			aria-describedby={error
-				? `${inputId}-error`
-				: hint
-					? `${inputId}-hint`
-					: undefined}
-		/>
+		<input bind:value {...rest} id={inputId} {required} {disabled} {oninvalid} {oninput} aria-invalid={hasError} aria-describedby={error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined} />
 
 		{#if required}
 			<span class="required-indicator" aria-hidden="true">*</span>
@@ -78,12 +43,7 @@
 	</div>
 
 	{#if error}
-		<p
-			id="{inputId}-error"
-			class="input-message error"
-			role="alert"
-			transition:slide={{ duration: 200 }}
-		>
+		<p id="{inputId}-error" class="input-message error" role="alert" transition:slide={{ duration: 200 }}>
 			{error}
 		</p>
 	{:else if success}

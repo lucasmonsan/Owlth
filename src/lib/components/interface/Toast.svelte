@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
-	import {
-		toastStore,
-		removeToast,
-		type ToastVariant,
-		type ToastAction
-	} from '$lib/stores/toast.svelte';
+	import { getToasts, removeToast, type ToastVariant, type ToastAction } from '$lib/stores/toast.svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	interface ToastItem {
 		id: string;
@@ -16,11 +12,7 @@
 		actions?: ToastAction[];
 	}
 
-	let toasts = $state<ToastItem[]>([]);
-
-	$effect(() => {
-		toasts = $toastStore;
-	});
+	const toasts = $derived(getToasts());
 
 	function handleClose(id: string) {
 		removeToast(id);
@@ -34,23 +26,13 @@
 
 <div class="toast-container">
 	{#each toasts as toast (toast.id)}
-		<div
-			class="toast {toast.variant}"
-			class:persistent={toast.persistent}
-			class:has-actions={toast.actions && toast.actions.length > 0}
-			role="alert"
-			aria-live="polite"
-			transition:fly={{ y: 20, duration: 200 }}
-		>
+		<div class="toast {toast.variant}" class:persistent={toast.persistent} class:has-actions={toast.actions && toast.actions.length > 0} role="alert" aria-live="polite" transition:fly={{ y: 20, duration: 200 }}>
 			<p class="toast-message">{toast.message}</p>
 
 			{#if toast.actions && toast.actions.length > 0}
 				<div class="toast-actions">
 					{#each toast.actions as action}
-						<button
-							class="toast-action {action.variant || 'secondary'}"
-							onclick={() => handleAction(action, toast.id)}
-						>
+						<button class="toast-action {action.variant || 'secondary'}" onclick={() => handleAction(action, toast.id)}>
 							{action.label}
 						</button>
 					{/each}
@@ -58,13 +40,7 @@
 			{/if}
 
 			{#if toast.persistent || toast.duration === 0}
-				<button
-					class="toast-close"
-					onclick={() => handleClose(toast.id)}
-					aria-label="Fechar notificação"
-				>
-					×
-				</button>
+				<button class="toast-close" onclick={() => handleClose(toast.id)} aria-label={m.close_notification()}> × </button>
 			{/if}
 		</div>
 	{/each}

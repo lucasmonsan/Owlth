@@ -2,7 +2,7 @@
 	import type { HTMLAttributes } from 'svelte/elements';
 	import { fade } from 'svelte/transition';
 
-	type MaxWidth = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'content' | 'full';
+	type MaxWidth = 'content' | 'full';
 
 	interface Props extends HTMLAttributes<HTMLElement> {
 		children?: import('svelte').Snippet;
@@ -11,26 +11,10 @@
 		maxWidth?: MaxWidth;
 	}
 
-	let {
-		children,
-		center = false,
-		fullWidth = false,
-		maxWidth = undefined,
-		class: className = '',
-		...rest
-	}: Props = $props();
+	let { children, center = false, fullWidth = false, maxWidth = undefined, class: className = '', ...rest }: Props = $props();
 </script>
 
-<main
-	id="main"
-	class:center
-	class:w-100={fullWidth}
-	class={className}
-	data-max-width={maxWidth}
-	{...rest}
-	in:fade={{ delay: 400 }}
-	out:fade
->
+<main id="main" class:center class:w-100={fullWidth} class={className} data-max-width={maxWidth} {...rest} in:fade={{ delay: 400 }} out:fade>
 	{@render children?.()}
 </main>
 
@@ -38,12 +22,11 @@
 	main {
 		z-index: var(--z-page);
 		position: absolute;
-		inset: 1;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		height: 100dvh;
-		padding: var(--xxxxl) var(--md);
+		padding: calc(var(--header-height) + var(--xxs)) var(--md);
 		overflow-y: auto;
 		overflow-x: hidden;
 
@@ -51,25 +34,10 @@
 			width: 100%;
 		}
 		&.center {
-			justify-content: center;
+			align-items: center; /* Apenas alinha horizontalmente ao centro */
 		}
 
 		/* Max Width */
-		&[data-max-width='xs'] {
-			max-width: var(--max-width-xs);
-		}
-		&[data-max-width='sm'] {
-			max-width: var(--max-width-sm);
-		}
-		&[data-max-width='md'] {
-			max-width: var(--max-width-md);
-		}
-		&[data-max-width='lg'] {
-			max-width: var(--max-width-lg);
-		}
-		&[data-max-width='xl'] {
-			max-width: var(--max-width-xl);
-		}
 		&[data-max-width='content'] {
 			max-width: var(--max-width-content);
 		}

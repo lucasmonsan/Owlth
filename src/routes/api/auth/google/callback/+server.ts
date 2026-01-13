@@ -16,7 +16,6 @@ export const GET: RequestHandler = async (event) => {
   }
 
   try {
-    // Trocar code por access token
     const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST',
       headers: {
@@ -37,7 +36,6 @@ export const GET: RequestHandler = async (event) => {
 
     const { access_token } = await tokenResponse.json();
 
-    // Buscar dados do usuário
     const userResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
       headers: {
         Authorization: `Bearer ${access_token}`
@@ -50,7 +48,6 @@ export const GET: RequestHandler = async (event) => {
 
     const googleUser = await userResponse.json();
 
-    // Buscar conta OAuth existente
     const existingOAuth = await db
       .select()
       .from(oauthAccount)
@@ -60,33 +57,28 @@ export const GET: RequestHandler = async (event) => {
     let userId: string;
 
     if (existingOAuth.length > 0) {
-      // Usuário já existe via Google
       userId = existingOAuth[0].userId;
 
-      // Buscar usuário atual para verificar foto
       const [currentUser] = await db
         .select()
         .from(user)
         .where(eq(user.id, userId))
         .limit(1);
 
-      // Se não tem foto, atualizar silenciosamente
       if (!currentUser.profilePicture && googleUser.picture) {
         await db
           .update(user)
           .set({ profilePicture: googleUser.picture })
           .where(eq(user.id, userId));
-      }
-      // Se foto mudou, salvar em cookie para mostrar toast
-      else if (
+      } else if (
         currentUser.profilePicture &&
         googleUser.picture &&
         currentUser.profilePicture !== googleUser.picture
       ) {
         event.cookies.set('pending_picture_sync', googleUser.picture, {
           path: '/',
-          maxAge: 60 * 60 * 24 * 7, // 7 dias
-          httpOnly: false // Precisa ser acessível no client para o toast
+          maxAge: 60 * 60 * 24 * 7,
+          httpOnly: false
         });
       }
     } else {
@@ -98,25 +90,22 @@ export const GET: RequestHandler = async (event) => {
         .limit(1);
 
       if (existingUser.length > 0) {
-        // Vincular conta Google ao usuário existente
         userId = existingUser[0].id;
       } else {
-        // Criar novo usuário
         const [newUser] = await db
           .insert(user)
           .values({
             fullName: googleUser.name,
             email: googleUser.email,
-            passwordHash: '', // OAuth não usa senha
+            passwordHash: '',
             isVerified: googleUser.verified_email,
-            profilePicture: googleUser.picture || null // Foto do Google
+            profilePicture: googleUser.picture || null
           })
           .returning();
 
         userId = newUser.id;
       }
 
-      // Criar vínculo OAuth
       await db.insert(oauthAccount).values({
         userId,
         provider: 'google',
@@ -125,21 +114,18 @@ export const GET: RequestHandler = async (event) => {
       });
     }
 
-    // Criar sessão
     const token = generateSessionToken();
     const session = await createSession(token, userId);
     setSessionCookie(event, token, session.expiresAt);
 
     throw redirect(302, '/dashboard');
   } catch (error) {
-    // Se for um redirect do SvelteKit, deixar passar
     if (error instanceof Response && error.status >= 300 && error.status < 400) {
       throw error;
     }
 
     console.error('Google OAuth error:', error);
 
-    // Log detalhado do erro
     if (error instanceof Error) {
       console.error('Error message:', error.message);
       console.error('Error stack:', error.stack);

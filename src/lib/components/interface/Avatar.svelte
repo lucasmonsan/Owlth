@@ -10,16 +10,8 @@
 		fallback?: string;
 	}
 
-	let {
-		src = null,
-		alt,
-		size = 'md',
-		fallback = undefined,
-		class: className = '',
-		...rest
-	}: Props = $props();
+	let { src = null, alt, size = 'md', fallback = undefined, class: className = '', ...rest }: Props = $props();
 
-	// Se não tem src, usa fallback ou primeira letra do alt
 	const initials = $derived(fallback || alt.charAt(0).toUpperCase());
 	let imageError = $state(false);
 

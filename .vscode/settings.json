@@ -15,7 +15,6 @@
 	"editor.fontFamily": "'JetBrains Mono', 'monospace', monospace",
 	"editor.tabSize": 2,
 	"editor.fontSize": 12,
-	"prettier.printWidth": 240,
 	"editor.linkedEditing": true,
 	"javascript.updateImportsOnFileMove.enabled": "always",
 

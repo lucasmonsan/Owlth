@@ -11,6 +11,9 @@ import { createAndSendVerificationToken } from '$lib/server/auth/verification';
 import * as m from '$lib/paraglide/messages';
 import type { Actions, PageServerLoad } from './$types';
 
+import { loginHistory } from '$lib/server/db/schema';
+import { parseUserAgent } from '$lib/server/security/user-agent';
+
 const DUMMY_ARGON2_HASH =
   '$argon2id$v=19$m=19456,t=2,p=1$oHgO+ynJ9iKEzGr3znmt1A$Qn/coTVMMphOPOtyCc/WVs38NOHTvr+VMIZKk5shexI';
 
@@ -70,7 +73,6 @@ export const actions: Actions = {
         return returnFailure(400, m.invalid_credentials());
       }
 
-      // Proteção contra timing attack: delay mesmo para contas OAuth-only
       if (!existingUser[0].passwordHash || existingUser[0].passwordHash === '') {
         await verifyPassword(DUMMY_ARGON2_HASH, password);
         await incrementRateLimit(email, clientIp);
@@ -89,6 +91,24 @@ export const actions: Actions = {
       const token = generateSessionToken();
       const session = await createSession(token, existingUser[0].id);
 
+      const uaString = event.request.headers.get('user-agent');
+      const deviceInfo = parseUserAgent(uaString);
+      const country = event.request.headers.get('cf-ipcountry') || 'Unknown';
+      const city = event.request.headers.get('cf-ipcity') || 'Unknown';
+
+      await db.insert(loginHistory).values({
+        userId: existingUser[0].id,
+        ip: clientIp,
+        userAgent: uaString || 'Unknown',
+        device: deviceInfo.device,
+        browser: deviceInfo.browser,
+        os: deviceInfo.os,
+        country,
+        city,
+        success: true,
+        riskLevel: 'low'
+      });
+
       setSessionCookie(event, token, session.expiresAt);
 
       // Redirecionar para dashboard (limpa query params)
@@ -100,7 +120,6 @@ export const actions: Actions = {
   },
 
   resend: async (event) => {
-    // Verifica se usuário está logado
     if (!event.locals.user) {
       return fail(401, {
         success: false,
@@ -108,7 +127,6 @@ export const actions: Actions = {
       });
     }
 
-    // Verifica se já está verificado
     if (event.locals.user.isVerified) {
       return fail(400, {
         success: false,

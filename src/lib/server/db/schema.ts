@@ -7,7 +7,9 @@ export const loginAttempt = pgTable('login_attempt', {
   attempts: integer('attempts').default(0).notNull(),
   lastAttemptAt: timestamp('last_attempt_at').defaultNow().notNull(),
   expiresAt: timestamp('expires_at').notNull()
-});
+}, (table) => [
+  index('login_attempt_email_idx').on(table.email)
+]);
 
 export const emailAttempt = pgTable('email_attempt', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -15,18 +17,22 @@ export const emailAttempt = pgTable('email_attempt', {
   purpose: text('purpose').notNull(),
   sentAt: timestamp('sent_at').defaultNow().notNull(),
   expiresAt: timestamp('expires_at').notNull()
-});
+}, (table) => [
+  index('email_attempt_email_idx').on(table.email)
+]);
 
 export const oauthAccount = pgTable('oauth_account', {
   id: uuid('id').primaryKey().defaultRandom(),
   userId: uuid('user_id')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
-  provider: text('provider').notNull(), // 'google', 'github', etc
-  providerId: text('provider_id').notNull(), // ID do usuário no provider
+  provider: text('provider').notNull(),
+  providerId: text('provider_id').notNull(),
   email: text('email').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull()
-});
+}, (table) => [
+  index('oauth_account_provider_idx').on(table.provider, table.providerId)
+]);
 
 export const user = pgTable('user', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -58,6 +64,7 @@ export const session = pgTable('session', {
   userAgent: text('user_agent'),
   device: text('device'),
   browser: text('browser'),
+  os: text('os'),
   lastActivityAt: timestamp('last_activity_at').defaultNow().notNull(),
   deletedAt: timestamp('deleted_at')
 }, (table) => [
@@ -97,7 +104,10 @@ export const userApp = pgTable('user_app', {
     .notNull()
     .references(() => app.id, { onDelete: 'cascade' }),
   lastAccessedAt: timestamp('last_accessed_at')
-});
+}, (table) => [
+  index('user_app_user_id_idx').on(table.userId),
+  index('user_app_app_id_idx').on(table.appId)
+]);
 
 // Login History & Security
 export const loginHistory = pgTable('login_history', {
@@ -109,13 +119,15 @@ export const loginHistory = pgTable('login_history', {
   userAgent: text('user_agent'),
   country: text('country'),
   city: text('city'),
-  device: text('device'), // 'desktop', 'mobile', 'tablet'
+  device: text('device'),
   browser: text('browser'),
-  os: text('os'), // 'Windows', 'macOS', 'Linux', 'Android', 'iOS'
+  os: text('os'),
   success: boolean('success').notNull(),
-  riskLevel: text('risk_level'), // 'low', 'medium', 'high'
+  riskLevel: text('risk_level'),
   createdAt: timestamp('created_at').defaultNow().notNull()
-});
+}, (table) => [
+  index('login_history_created_at_idx').on(table.createdAt)
+]);
 
 // Notification Preferences
 export const notificationPreference = pgTable('notification_preference', {

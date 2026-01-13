@@ -65,11 +65,10 @@
 
 		const file = input.files[0];
 
-		// Validar tamanho (max 5MB)
 		const MAX_SIZE = 5 * 1024 * 1024;
 		if (file.size > MAX_SIZE) {
 			addToast({
-				message: 'Imagem muito grande (máximo 5MB)',
+				message: m.file_too_large(),
 				variant: 'error',
 				duration: 3000
 			});
@@ -77,11 +76,10 @@
 			return;
 		}
 
-		// Validar tipo
 		const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 		if (!validTypes.includes(file.type)) {
 			addToast({
-				message: 'Formato inválido. Use JPEG, PNG, WebP ou GIF',
+				message: m.file_invalid_format(),
 				variant: 'error',
 				duration: 3000
 			});
@@ -97,13 +95,7 @@
 	<Heading level={3}>{m.edit_profile()}</Heading>
 
 	<Form onsubmit={handleSubmit}>
-		<Input
-			type="text"
-			name="fullName"
-			bind:value={fullName}
-			placeholder={m.full_name()}
-			required
-		>
+		<Input type="text" name="fullName" bind:value={fullName} placeholder={m.full_name()} required>
 			<ProfileIcon height="var(--lg)" />
 		</Input>
 

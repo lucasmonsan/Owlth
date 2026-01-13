@@ -5,7 +5,6 @@ import { app, userApp } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 
 export const load: PageServerLoad = async ({ locals }) => {
-  // Redirecionar se não estiver autenticado
   if (!locals.user) {
     throw redirect(302, '/');
   }
@@ -13,7 +12,6 @@ export const load: PageServerLoad = async ({ locals }) => {
   // Buscar todos os apps
   const allApps = await db.select().from(app).orderBy(app.order);
 
-  // Buscar apps que o usuário já usou
   const usedApps = await db
     .select()
     .from(userApp)

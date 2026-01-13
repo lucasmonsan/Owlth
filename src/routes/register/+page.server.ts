@@ -10,12 +10,12 @@ import * as m from '$lib/paraglide/messages';
 import type { Actions, PageServerLoad } from './$types';
 
 const registerSchema = z.object({
-  fullName: z.string().min(2, "Nome deve ter no mínimo 2 caracteres").max(100),
-  email: z.email({ message: "Email inválido" }),
-  password: z.string().min(8, { message: "Senha deve ter no mínimo 8 caracteres" }).max(100),
+  fullName: z.string().min(2, m.validation_name_required()).max(100),
+  email: z.email({ message: m.validation_email_required() }),
+  password: z.string().min(8, { message: m.validation_password_required() }).max(100),
   confirmPassword: z.string()
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "As senhas não coincidem",
+  message: m.password_mismatch(),
   path: ["confirmPassword"]
 });
 
@@ -30,21 +30,19 @@ export const actions: Actions = {
     const formData = Object.fromEntries(await event.request.formData());
     const result = registerSchema.safeParse(formData);
 
-    // Helper para retornar erros mantendo os dados preenchidos
     const returnError = (status: number, message: string, fieldErrors: any = {}) => {
       const { password, confirmPassword, ...rest } = formData;
       return fail(status, {
         success: false,
         message,
-        data: rest, // Devolve fullName e email para o formulário
+        data: rest,
         errors: fieldErrors
       });
     };
 
     if (!result.success) {
       const { fieldErrors } = result.error.flatten();
-      // Pega o primeiro erro de cada campo para simplificar
-      const message = Object.values(fieldErrors).flat()[0] || "Erro de validação";
+      const message = Object.values(fieldErrors).flat()[0] || m.validation_generic_error();
       return returnError(400, message, fieldErrors);
     }
 
@@ -54,10 +52,9 @@ export const actions: Actions = {
       const existingUser = await db.select().from(user).where(eq(user.email, email));
 
       if (existingUser.length > 0) {
-        return returnError(400, "Este email já está cadastrado");
+        return returnError(400, m.email_already_registered());
       }
 
-      // Check if password has been pwned
       const { isPasswordPwned } = await import('$lib/server/auth/hibp');
       const isPwned = await isPasswordPwned(password);
       if (isPwned) {
@@ -66,7 +63,6 @@ export const actions: Actions = {
 
       const passwordHash = await hashPassword(password);
 
-      // Inserção no banco com fullName
       const [newUser] = await db.insert(user).values({
         fullName,
         email,
@@ -74,7 +70,6 @@ export const actions: Actions = {
         isVerified: false
       }).returning();
 
-      // Envia email de verificação
       const currentLocale = event.url.pathname.startsWith('/pt-br') ? 'pt-br' : 'en';
       await createAndSendVerificationToken(newUser.id, email, currentLocale as 'en' | 'pt-br');
 
@@ -85,7 +80,7 @@ export const actions: Actions = {
 
     } catch (error) {
       console.error(error);
-      return returnError(500, "Erro interno do servidor");
+      return returnError(500, m.internal_server_error());
     }
 
     redirect(302, '/dashboard');

@@ -13,7 +13,7 @@
 	import { browser } from '$app/environment';
 	import { env } from '$env/dynamic/public';
 
-	let { children } = $props();
+	let { children, data } = $props();
 
 	$effect(() => {
 		const currentPath = window.location.pathname;
@@ -28,11 +28,7 @@
 
 <svelte:head>
 	{#if browser && env.PUBLIC_ANALYTICS_WEBSITE_ID}
-		<script
-			async
-			src="{env.PUBLIC_ANALYTICS_URL}/script.js"
-			data-website-id={env.PUBLIC_ANALYTICS_WEBSITE_ID}
-		></script>
+		<script async src="{env.PUBLIC_ANALYTICS_URL}/script.js" data-website-id={env.PUBLIC_ANALYTICS_WEBSITE_ID}></script>
 	{/if}
 
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -48,7 +44,7 @@
 
 <!-- <BG /> -->
 
-<Header />
+<Header user={data.user} />
 
 {@render children()}
 

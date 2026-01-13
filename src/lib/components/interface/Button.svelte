@@ -1,35 +1,18 @@
 <script lang="ts">
-	import type {
-		HTMLButtonAttributes,
-		HTMLAnchorAttributes
-	} from 'svelte/elements';
-
-	type Variant = 'primary' | 'outline' | 'invisible';
-	type Size = 'xs' | 'sm' | 'md' | 'lg';
+	import type { HTMLButtonAttributes, HTMLAnchorAttributes } from 'svelte/elements';
+	import type { Snippet } from 'svelte';
 
 	interface Props extends HTMLButtonAttributes {
-		variant?: Variant;
-		size?: Size;
+		variant?: 'primary' | 'outline' | 'invisible';
+		size?: 'xs' | 'sm' | 'md' | 'lg';
 		fullWidth?: boolean;
 		loading?: boolean;
 		href?: string;
-		children?: import('svelte').Snippet;
+		children: Snippet;
 	}
 
-	let {
-		variant = 'primary',
-		size = 'md',
-		fullWidth = false,
-		loading = false,
-		href = undefined,
-		disabled = false,
-		class: className = '',
-		children,
-		onclick,
-		...rest
-	}: Props = $props();
+	let { variant = 'primary', size = 'md', fullWidth = false, loading = false, href, children, class: className = '', disabled = false, onclick, ...rest }: Props = $props();
 
-	// Handler para links se comportarem como botões no teclado (Space + Enter)
 	const handleKeydown = (e: KeyboardEvent) => {
 		if (href && e.key === ' ') {
 			e.preventDefault();
@@ -58,17 +41,7 @@
 		{@render children?.()}
 	</a>
 {:else}
-	<button
-		class:outline={variant === 'outline'}
-		class:invisible={variant === 'invisible'}
-		class:w-100={fullWidth}
-		class:loading
-		class={className}
-		data-size={size}
-		disabled={disabled || loading}
-		{onclick}
-		{...rest}
-	>
+	<button class:outline={variant === 'outline'} class:invisible={variant === 'invisible'} class:w-100={fullWidth} class:loading class={className} data-size={size} disabled={disabled || loading} {onclick} {...rest}>
 		{@render children?.()}
 	</button>
 {/if}

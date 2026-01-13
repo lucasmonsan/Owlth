@@ -8,6 +8,13 @@
       "when": 1768238529784,
       "tag": "0000_cheerful_bloodstorm",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1768261528169,
+      "tag": "0001_gigantic_calypso",
+      "breakpoints": true
     }
   ]
 }

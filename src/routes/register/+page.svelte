@@ -18,19 +18,14 @@
 
 	let isSubmitting = $state(false);
 
-	// Handlers para validação HTML5 traduzida
-	const handleInvalidRequired = (
-		e: Event & { currentTarget: HTMLInputElement }
-	) => {
+	const handleInvalidRequired = (e: Event & { currentTarget: HTMLInputElement }) => {
 		const input = e.currentTarget;
 		if (input.validity.valueMissing) {
 			input.setCustomValidity(m.field_required());
 		}
 	};
 
-	const handleInvalidEmail = (
-		e: Event & { currentTarget: HTMLInputElement }
-	) => {
+	const handleInvalidEmail = (e: Event & { currentTarget: HTMLInputElement }) => {
 		const input = e.currentTarget;
 		if (input.validity.valueMissing) {
 			input.setCustomValidity(m.field_required());
@@ -56,70 +51,24 @@
 	>
 		<Div justify="between" align="center">
 			<Heading level={2}>{m.register_title()}</Heading>
-			<Button
-				variant="invisible"
-				href="/api/auth/google/login"
-				aria-label={m.google_login_aria()}
-			>
+			<Button variant="invisible" href="/api/auth/google/login" aria-label={m.google_login_aria()}>
 				<GoogleIcon height="var(--lg)" />
 			</Button>
 		</Div>
 
-		<Input
-			type="text"
-			name="fullName"
-			id="fullName"
-			value={(form?.data?.fullName as string) ?? ''}
-			error={form?.errors?.fullName?.[0]}
-			required
-			autocomplete="name"
-			placeholder={m.name_label()}
-			oninvalid={handleInvalidRequired}
-			oninput={handleInput}
-		>
+		<Input type="text" name="fullName" id="fullName" value={(form?.data?.fullName as string) ?? ''} error={form?.errors?.fullName?.[0]} required autocomplete="name" placeholder={m.name_label()} oninvalid={handleInvalidRequired} oninput={handleInput}>
 			<ProfileIcon height="var(--lg)" />
 		</Input>
 
-		<Input
-			type="email"
-			name="email"
-			id="email"
-			value={(form?.data?.email as string) ?? ''}
-			error={form?.errors?.email?.[0]}
-			required
-			autocomplete="email"
-			placeholder={m.email_label()}
-			oninvalid={handleInvalidEmail}
-			oninput={handleInput}
-		>
+		<Input type="email" name="email" id="email" value={(form?.data?.email as string) ?? ''} error={form?.errors?.email?.[0]} required autocomplete="email" placeholder={m.email_label()} oninvalid={handleInvalidEmail} oninput={handleInput}>
 			<EmailIcon height="var(--lg)" />
 		</Input>
 
-		<Input
-			type="password"
-			name="password"
-			id="password"
-			error={form?.errors?.password?.[0]}
-			required
-			autocomplete="new-password"
-			placeholder={m.password_label()}
-			oninvalid={handleInvalidRequired}
-			oninput={handleInput}
-		>
+		<Input type="password" name="password" id="password" error={form?.errors?.password?.[0]} required autocomplete="new-password" placeholder={m.password_label()} oninvalid={handleInvalidRequired} oninput={handleInput}>
 			<PasswordIcon height="var(--lg)" />
 		</Input>
 
-		<Input
-			type="password"
-			name="confirmPassword"
-			id="confirmPassword"
-			error={form?.errors?.confirmPassword?.[0]}
-			required
-			autocomplete="new-password"
-			placeholder={m.confirm_password_label()}
-			oninvalid={handleInvalidRequired}
-			oninput={handleInput}
-		>
+		<Input type="password" name="confirmPassword" id="confirmPassword" error={form?.errors?.confirmPassword?.[0]} required autocomplete="new-password" placeholder={m.confirm_password_label()} oninvalid={handleInvalidRequired} oninput={handleInput}>
 			<PasswordIcon height="var(--lg)" />
 		</Input>
 

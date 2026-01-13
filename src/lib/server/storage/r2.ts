@@ -23,16 +23,15 @@ export async function uploadAvatar(
 ): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  // Otimizar imagem com Sharp
   const optimized = await sharp(buffer)
     .resize(200, 200, {
       fit: 'cover',
-      position: 'attention' // Detecta rosto/foco automaticamente
+      position: 'attention'
     })
-    .sharpen() // Melhora nitidez após resize
+    .sharpen()
     .webp({
       quality: 80,
-      effort: 6 // Melhor compressão (0-6)
+      effort: 6
     })
     .toBuffer();
 

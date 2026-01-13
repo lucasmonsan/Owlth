@@ -18,6 +18,7 @@
 		"db:push": "drizzle-kit push",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
+		"db:seed": "bun src/lib/server/db/seed.ts",
 		"db:studio": "drizzle-kit studio",
 		"tunnel": "ssh -o ServerAliveInterval=60 -L 5432:127.0.0.1:5432 vps-oracle -N"
 	},

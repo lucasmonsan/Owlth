@@ -1,23 +1,32 @@
-<script>
+<script lang="ts">
 	import * as m from '$lib/paraglide/messages';
 	import Logo from '$lib/components/icons/Logo.svelte';
-	import LanguageSwitcher from '$lib/components/interface/LanguageSwitcher.svelte';
-	import ThemeToggle from '$lib/components/interface/ThemeToggle.svelte';
 	import Button from '$lib/components/interface/Button.svelte';
 	import Div from '$lib/components/layout/Div.svelte';
+	import HeaderProfile from './HeaderProfile.svelte';
+
+	interface Props {
+		user?: any;
+	}
+
+	let { user }: Props = $props();
 </script>
 
 <header>
-	<Button variant="invisible" class="logo">
-		<Logo height="var(--xl)" />
-		<Div column gap="calc(var(--xxxs) * 0.85)">
-			<strong>monsan.</strong>
-			<h1>{m.app_name()}</h1>
-		</Div>
-	</Button>
+	<div class="logo-container">
+		<Button href="/dashboard" variant="invisible" class="logo">
+			<Logo height="var(--xl)" />
+			<Div column gap="calc(var(--xxxs) * 0.85)">
+				<strong>monsan.</strong>
+				<h1>{m.app_name()}</h1>
+			</Div>
+		</Button>
+	</div>
+
 	<Div gap="var(--xs)">
-		<ThemeToggle />
-		<LanguageSwitcher />
+		{#if user}
+			<HeaderProfile {user} />
+		{/if}
 	</Div>
 </header>
 
@@ -31,9 +40,12 @@
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
+		height: var(--header-height);
 		padding: var(--xxs) var(--xs);
 		border: none;
 		border-bottom: solid 1px var(--border-color);
+		background-color: var(--bg);
+		box-shadow: var(--shadow-sm);
 	}
 
 	header :global(.logo) {

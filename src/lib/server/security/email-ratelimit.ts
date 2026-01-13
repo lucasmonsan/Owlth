@@ -6,18 +6,17 @@ const RATE_LIMIT_SECONDS = 60;
 const MAX_EMAILS_PER_HOUR = 5;
 const ONE_HOUR_MS = 1000 * 60 * 60;
 
-interface RateLimitResult {
+export interface EmailRateLimitResult {
   allowed: boolean;
-  retryAfter?: number; // segundos até poder tentar novamente
+  retryAfter?: number;
   remainingEmails?: number;
 }
 
-export async function checkEmailRateLimit(email: string): Promise<RateLimitResult> {
+export async function checkEmailRateLimit(email: string): Promise<EmailRateLimitResult> {
   const now = new Date();
   const oneHourAgo = new Date(now.getTime() - ONE_HOUR_MS);
   const rateLimitSeconds = new Date(now.getTime() - RATE_LIMIT_SECONDS * 1000);
 
-  // Busca tentativas na última hora
   const attempts = await db
     .select()
     .from(emailAttempt)
@@ -27,7 +26,6 @@ export async function checkEmailRateLimit(email: string): Promise<RateLimitResul
     return { allowed: true, remainingEmails: MAX_EMAILS_PER_HOUR };
   }
 
-  // Checa se ultrapassou limite de emails por hora
   if (attempts.length >= MAX_EMAILS_PER_HOUR) {
     const oldestAttempt = attempts.reduce((oldest, current) =>
       current.sentAt < oldest.sentAt ? current : oldest
@@ -44,7 +42,6 @@ export async function checkEmailRateLimit(email: string): Promise<RateLimitResul
     };
   }
 
-  // Checa se passou tempo mínimo desde último envio
   const lastAttempt = attempts.reduce((latest, current) =>
     current.sentAt > latest.sentAt ? current : latest
   );

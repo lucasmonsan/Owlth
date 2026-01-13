@@ -15,14 +15,12 @@ export const POST: RequestHandler = async ({ request, locals, cookies }) => {
     return json({ error: 'Missing picture URL' }, { status: 400 });
   }
 
-  // Atualizar foto do usuário
   await db
     .update(user)
     .set({ profilePicture: pictureUrl })
     .where(eq(user.id, locals.user.id));
 
-  // Remover cookie de pending sync
-  cookies.delete('pending_picture_sync', { path: '/' });
+  cookies.set('pending_picture_sync', '', { path: '/' });
 
   return json({ success: true });
 };

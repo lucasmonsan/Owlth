@@ -10,24 +10,12 @@
 		children?: import('svelte').Snippet;
 	}
 
-	let {
-		level = 1,
-		align = 'left',
-		class: className = '',
-		children,
-		...rest
-	}: Props = $props();
+	let { level = 1, align = 'left', class: className = '', children, ...rest }: Props = $props();
 
 	const tag = $derived(`h${level}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6');
 </script>
 
-<svelte:element
-	this={tag}
-	class="heading {className}"
-	data-level={level}
-	data-align={align}
-	{...rest}
->
+<svelte:element this={tag} class="heading {className}" data-level={level} data-align={align} {...rest}>
 	{@render children?.()}
 </svelte:element>
 
@@ -42,15 +30,19 @@
 
 	.heading[data-level='1'] {
 		font-size: var(--xxxxl);
+		line-height: var(--xxxxl);
 	}
 	.heading[data-level='2'] {
 		font-size: var(--xxxl);
+		line-height: var(--xxxl);
 	}
 	.heading[data-level='3'] {
 		font-size: var(--xxl);
+		line-height: var(--xxl);
 	}
 	.heading[data-level='4'] {
 		font-size: var(--xl);
+		line-height: var(--lg);
 	}
 	.heading[data-level='5'] {
 		font-size: var(--lg);
