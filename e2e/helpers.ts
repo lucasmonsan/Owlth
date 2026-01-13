@@ -5,6 +5,7 @@ export async function login(page: Page, email: string, password: string) {
   await page.fill('[name="email"]', email);
   await page.fill('[name="password"]', password);
   await page.click('button[type="submit"]');
+  await page.waitForLoadState('networkidle');
 }
 
 export async function register(
@@ -19,8 +20,16 @@ export async function register(
   await page.fill('[name="password"]', password);
   await page.fill('[name="confirmPassword"]', password);
   await page.click('button[type="submit"]');
+  await page.waitForLoadState('networkidle');
 }
 
 export function generateTestEmail(): string {
-  return `test-${Date.now()}-${Math.random().toString(36).slice(2)}@example.com`;
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).slice(2, 9);
+  return `test-${timestamp}-${random}@example.com`;
+}
+
+export async function logout(page: Page) {
+  await page.click('[aria-label="Logout"]');
+  await page.waitForURL('/');
 }

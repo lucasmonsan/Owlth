@@ -7,7 +7,6 @@ test.describe('Registration Flow', () => {
 
     await register(page, 'Test User', email, 'SecurePass123!');
 
-    // Deve redirecionar para verificação de email
     await expect(page).toHaveURL(/verify-email/);
     await expect(page.locator('text=/verify/i')).toBeVisible();
   });

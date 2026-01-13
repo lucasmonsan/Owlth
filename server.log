@@ -1,0 +1,16 @@
+$ concurrently "bun run tunnel" "bun run db:studio" "vite dev --host"
+[0] $ ssh -o ServerAliveInterval=60 -L 5432:127.0.0.1:5432 vps-oracle -N
+[1] $ drizzle-kit studio
+[1] No config path provided, using default 'drizzle.config.ts'
+[1] Reading config file '/home/lucasmonsan/Área de trabalho/Web/Owlth/drizzle.config.ts'
+[1] Using 'postgres' driver for database querying
+[1] 
+[1]  Warning  Drizzle Studio is currently in Beta. If you find anything that is not working as expected or should be improved, feel free to create an issue on GitHub: https://github.com/drizzle-team/drizzle-kit-mirror/issues/new or write to us on Discord: https://discord.gg/WcRKz2FFxN
+[1] 
+[1] Drizzle Studio is up and running on https://local.drizzle.studio
+[2] ✔ [paraglide-js] Compilation complete (locale-modules)
+[2] 
+[2]   VITE v7.3.0  ready in 930 ms
+[2] 
+[2]   ➜  Local:   http://localhost:5173/
+[2]   ➜  Network: http://192.168.1.108:5173/

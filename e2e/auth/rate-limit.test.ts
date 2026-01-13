@@ -9,10 +9,9 @@ test.describe('Rate Limiting', () => {
       await page.fill('[name="email"]', email);
       await page.fill('[name="password"]', 'wrongpassword');
       await page.click('button[type="submit"]');
-      await page.waitForTimeout(500);
+      await page.waitForLoadState('networkidle');
     }
 
-    // 6ª tentativa deve ser bloqueada
     await page.goto('/');
     await page.fill('[name="email"]', email);
     await page.fill('[name="password"]', 'wrongpassword');
